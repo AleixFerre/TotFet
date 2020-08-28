@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
+  Loading(this.msg);
+  final String msg;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +19,7 @@ class Loading extends StatelessWidget {
               child: Container(),
             ),
             Text(
-              "Carregant...",
+              "Carregant $msg...",
               style: TextStyle(
                 fontSize: 30,
               ),

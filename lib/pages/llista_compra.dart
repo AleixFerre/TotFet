@@ -12,11 +12,14 @@ class LlistaCompra extends StatefulWidget {
 }
 
 class _LlistaCompraState extends State<LlistaCompra> {
+  int bottomBarIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> list = widget.llista;
+
     return Scaffold(
-      key: GlobalKey(debugLabel: "llista"),
+      extendBody: true,
       appBar: AppBar(
         title: Center(
           child: Text("Llista de la compra"),
@@ -48,7 +51,7 @@ class _LlistaCompraState extends State<LlistaCompra> {
                     dynamic document = FirebaseFirestore.instance
                         .collection('productes')
                         .doc(key);
-                    await document.update({"comprat": true}).set();
+                    await document.update({"comprat": true});
                     setState(() {
                       print("Producte comprat correctament!");
                     });
@@ -95,6 +98,14 @@ class _LlistaCompraState extends State<LlistaCompra> {
                 );
               },
             ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Colors.blue,
+        child: Container(
+          height: 60,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final result = await Navigator.push(
@@ -107,9 +118,11 @@ class _LlistaCompraState extends State<LlistaCompra> {
             await productes
                 .add({
                   'nom': result.nom,
-                  'tipus': result.tipus
-                      .toString()
-                      .substring(result.tipus.toString().indexOf('.') + 1),
+                  'tipus': result.tipus == null
+                      ? null
+                      : result.tipus
+                          .toString()
+                          .substring(result.tipus.toString().indexOf('.') + 1),
                   'quantitat': result.quantitat.toInt(),
                   'comprat': false,
                 })

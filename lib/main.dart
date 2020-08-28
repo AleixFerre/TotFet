@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
 
         // LOADING
-        return Loading();
+        return Loading("connexions");
       },
     );
   }
@@ -63,8 +63,8 @@ class CarregarBD extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-        future: productes.get(),
+    return StreamBuilder<QuerySnapshot>(
+        stream: productes.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           // SI HI HA HAGUT ALGUN ERROR
           if (snapshot.hasError) {
@@ -74,7 +74,7 @@ class CarregarBD extends StatelessWidget {
           }
 
           // APP CARREGADA CORECTAMENT
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
             List<Map<String, dynamic>> info = snapshot.data.docs.map((doc) {
               Map<String, dynamic> d = doc.data();
               d.putIfAbsent("key", () => doc.id);
@@ -84,7 +84,7 @@ class CarregarBD extends StatelessWidget {
           }
 
           // LOADING
-          return Loading();
+          return Loading("base de dades");
         });
   }
 }

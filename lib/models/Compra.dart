@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:llista_de_la_compra/models/tipus.dart';
 
 class Compra {
   Compra({
-    this.nom,
+    @required this.nom,
     this.tipus,
     this.quantitat,
     this.prioritat,
