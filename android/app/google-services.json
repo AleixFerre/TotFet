@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "506619803149",
+    "firebase_url": "https://llista-de-la-compra.firebaseio.com",
+    "project_id": "llista-de-la-compra",
+    "storage_bucket": "llista-de-la-compra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506619803149:android:0be16b6fe04ae6f0b10744",
+        "android_client_info": {
+          "package_name": "com.aleixferre.llista_de_la_compra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506619803149-02i7uo1m7e0g6gg1giqv6n0cptarf6gu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlOe5nZgsr3vnqlR3HNH9tCWe-WI_1QyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506619803149-02i7uo1m7e0g6gg1giqv6n0cptarf6gu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
