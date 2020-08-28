@@ -1,6 +1,6 @@
-# llista_de_la_compra
+# Llista de la compra
 
-A new Flutter project.
+Flutter App de una llista de la compra online amb Bases de Dades a temps real.
 
 ## Getting Started
 
