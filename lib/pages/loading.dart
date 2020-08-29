@@ -18,10 +18,10 @@ class Loading extends StatelessWidget {
             Expanded(
               child: Container(),
             ),
-            Text(
-              "Carregant $msg...",
-              style: TextStyle(
-                fontSize: 30,
+            Center(
+              child: Text(
+                msg,
+                style: TextStyle(fontSize: 25),
               ),
             ),
             SizedBox(

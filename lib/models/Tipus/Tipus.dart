@@ -1,0 +1,15 @@
+enum Tipus {
+  Menjar,
+  Jardi,
+  Piscina,
+  Roba,
+  Regal,
+  Informatica,
+  Electrodomestic,
+  Neteja,
+  Casa,
+  Salut,
+  Esports,
+  Jocs,
+  Altres,
+}

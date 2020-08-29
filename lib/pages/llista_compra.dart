@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:llista_de_la_compra/models/Prioritat/PrioritatColors.dart';
+import 'package:llista_de_la_compra/models/Tipus/TipusEmojis.dart';
+import 'package:llista_de_la_compra/pages/compra_view.dart';
 import 'package:llista_de_la_compra/pages/create_compra.dart';
 
 class LlistaCompra extends StatefulWidget {
@@ -37,14 +40,21 @@ class _LlistaCompraState extends State<LlistaCompra> {
               itemBuilder: (context, index) {
                 final Map<String, dynamic> compra = list[index];
                 final key = compra['key'];
+                final Icon tipusIcon =
+                    TipusEmojis(tipus: compra['tipus']).toIcon();
+                final Color cardColor =
+                    PrioritatColor(prioritat: compra['prioritat']).toColor();
+                final String prioritatString =
+                    PrioritatColor(prioritat: compra['prioritat']).toString();
 
                 return Dismissible(
                   key: Key("$key"),
                   background: Container(
-                    color: Colors.red,
+                    color: Colors.green,
                     child: Icon(
-                      Icons.delete,
+                      Icons.shopping_cart,
                       color: Colors.white,
+                      size: 60,
                     ),
                   ),
                   onDismissed: (direction) async {
@@ -56,43 +66,55 @@ class _LlistaCompraState extends State<LlistaCompra> {
                       print("Producte comprat correctament!");
                     });
                   },
-                  child: ListTile(
-                    onLongPress: () {
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text("ID: $key"),
-                      ));
-                    },
-                    contentPadding: const EdgeInsets.symmetric(vertical: 30),
-                    isThreeLine: true,
-                    title: Center(
-                      child: Text(
-                        compra['nom'].toUpperCase(),
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ),
-                    subtitle: Center(
-                      child: (compra['tipus'] == null)
-                          ? Text(
-                              "Sense tipus",
-                              style: TextStyle(
-                                fontSize: 20,
+                  child: Card(
+                    color: cardColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          // Icon segons el tipus
+                          leading: tipusIcon,
+                          onLongPress: () {
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text("ID: $key"),
+                            ));
+                          },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CompraView(compra: compra),
                               ),
-                            )
-                          : Text(
-                              "${compra['tipus']}",
+                            );
+                          },
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          isThreeLine: true,
+                          title: Center(
+                            child: Text(
+                              compra['nom'].toUpperCase() +
+                                  " · ${compra['quantitat']}",
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              prioritatString,
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
-                    ),
-                    trailing: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                      child: Text(
-                        "${compra['quantitat']}",
-                        style: TextStyle(
-                          fontSize: 40,
+                          ),
+                          trailing: FlatButton(
+                            onPressed: () {},
+                            child: Icon(Icons.edit),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 );
@@ -119,11 +141,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
                 .add({
                   'nom': result.nom,
                   'tipus': result.tipus == null
-                      ? null
+                      ? "Altres"
                       : result.tipus
                           .toString()
                           .substring(result.tipus.toString().indexOf('.') + 1),
                   'quantitat': result.quantitat.toInt(),
+                  'prioritat': result.prioritat
+                      .toString()
+                      .substring(result.prioritat.toString().indexOf('.') + 1),
+                  'dataPrevista': result.data,
+                  'dataCreacio': DateTime.now(),
+                  'preuEstimat': result.preuEstimat,
                   'comprat': false,
                 })
                 .then(
@@ -138,7 +166,7 @@ class _LlistaCompraState extends State<LlistaCompra> {
           }
         },
         tooltip: 'Afegir un nou element a la llista de la compra',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add_shopping_cart),
       ),
     );
   }

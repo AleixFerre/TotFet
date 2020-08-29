@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Llista de la compra',
+      title: 'Compres',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
 
         // LOADING
-        return Loading("connexions");
+        return Loading("Carregant connexions...");
       },
     );
   }
@@ -84,7 +84,7 @@ class CarregarBD extends StatelessWidget {
           }
 
           // LOADING
-          return Loading("base de dades");
+          return Loading("Connectant-se a la base de dades...");
         });
   }
 }

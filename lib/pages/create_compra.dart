@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:llista_de_la_compra/models/Compra.dart';
-import 'package:llista_de_la_compra/models/tipus.dart';
+import 'package:llista_de_la_compra/models/Prioritat/Prioritat.dart';
+import 'package:llista_de_la_compra/models/Tipus/Tipus.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class CreateCompra extends StatefulWidget {
   @override
@@ -12,6 +14,9 @@ class _CreateCompraState extends State<CreateCompra> {
     nom: "",
     tipus: null,
     quantitat: 1,
+    prioritat: Prioritat.Normal,
+    data: null,
+    preuEstimat: null,
   );
 
   final _formKey = GlobalKey<FormState>();
@@ -51,28 +56,6 @@ class _CreateCompraState extends State<CreateCompra> {
               Container(
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
-                child: DropdownButton<Tipus>(
-                  hint: Text("Escolleix un tipus"),
-                  value: model.tipus,
-                  items:
-                      Tipus.values.map<DropdownMenuItem<Tipus>>((Tipus value) {
-                    return DropdownMenuItem<Tipus>(
-                      value: value,
-                      child: Text(value
-                          .toString()
-                          .substring(value.toString().indexOf('.') + 1)),
-                    );
-                  }).toList(),
-                  onChanged: (Tipus newValue) {
-                    setState(() {
-                      model.tipus = newValue;
-                    });
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
                 child: Column(
                   children: [
                     Text("Quantitat"),
@@ -90,6 +73,149 @@ class _CreateCompraState extends State<CreateCompra> {
                     ),
                   ],
                 ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona un tipus de producte"),
+                    DropdownButton<Tipus>(
+                      hint: Text("Escolleix un tipus"),
+                      value: model.tipus,
+                      items: Tipus.values
+                          .map<DropdownMenuItem<Tipus>>((Tipus value) {
+                        return DropdownMenuItem<Tipus>(
+                          value: value,
+                          child: Text(value
+                              .toString()
+                              .substring(value.toString().indexOf('.') + 1)),
+                        );
+                      }).toList(),
+                      onChanged: (Tipus newValue) {
+                        setState(() {
+                          model.tipus = newValue;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona una prioritat"),
+                    DropdownButton<Prioritat>(
+                      hint: Text("Escolleix una prioritat"),
+                      value: model.prioritat,
+                      items: Prioritat.values
+                          .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
+                        return DropdownMenuItem<Prioritat>(
+                          value: value,
+                          child: Text(value
+                              .toString()
+                              .substring(value.toString().indexOf('.') + 1)),
+                        );
+                      }).toList(),
+                      onChanged: (Prioritat newValue) {
+                        setState(() {
+                          model.prioritat = newValue;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Data prevista de compra"),
+                    RaisedButton(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            model.data == null
+                                ? "Escolleix la data"
+                                : model.data.day.toString().padLeft(2, "0") +
+                                    "/" +
+                                    model.data.month
+                                        .toString()
+                                        .padLeft(2, "0") +
+                                    "/" +
+                                    model.data.year.toString(),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Icon(Icons.calendar_today),
+                        ],
+                      ),
+                      onPressed: () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2100),
+                        );
+                        setState(() {
+                          model.data = picked;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona un preu estimat"),
+                    RaisedButton(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            model.preuEstimat == null
+                                ? "Escolleix el preu estimat"
+                                : model.preuEstimat.toString() + "€",
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Icon(Icons.euro),
+                        ],
+                      ),
+                      onPressed: () async {
+                        final picked = await showDialog<int>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return new NumberPickerDialog.integer(
+                              title: Text("Preu estimat en €"),
+                              minValue: 0,
+                              maxValue: 100,
+                              initialIntegerValue: model.preuEstimat ?? 0,
+                            );
+                          },
+                        );
+
+                        setState(() {
+                          model.preuEstimat = picked;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               RaisedButton(
                 color: Colors.blueAccent,
