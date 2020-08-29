@@ -1,15 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:llista_de_la_compra/models/Prioritat/PrioritatColors.dart';
 import 'package:llista_de_la_compra/models/Tipus/TipusEmojis.dart';
-import 'package:llista_de_la_compra/pages/compra_view.dart';
 import 'package:llista_de_la_compra/pages/create_compra.dart';
-import 'package:llista_de_la_compra/pages/edit_compra.dart';
+import 'compra_card.dart';
 
 class LlistaCompra extends StatefulWidget {
-  LlistaCompra({this.llista});
+  LlistaCompra({this.llista, this.rebuildParent, this.comprat});
 
   final List<Map<String, dynamic>> llista;
+  final Function rebuildParent;
+  final bool comprat;
 
   @override
   _LlistaCompraState createState() => _LlistaCompraState();
@@ -32,15 +35,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
       body: list.isEmpty
           ? Center(
               child: Text(
-                "No hi ha compres per a fer...",
-                style: TextStyle(fontSize: 30),
+                widget.comprat
+                    ? "No hi ha compres fetes recentment..."
+                    : "No hi ha compres per a fer...",
+                style: TextStyle(fontSize: 25),
               ),
             )
           : ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
                 final Map<String, dynamic> compra = list[index];
-                final key = compra['key'];
+                final compraKey = compra['key'];
                 final Icon tipusIcon =
                     TipusEmojis(tipus: compra['tipus']).toIcon();
                 final Color cardColor =
@@ -48,109 +53,51 @@ class _LlistaCompraState extends State<LlistaCompra> {
                 final String prioritatString =
                     PrioritatColor(prioritat: compra['prioritat']).toString();
 
-                return Dismissible(
-                  key: Key("$key"),
-                  background: Container(
-                    color: Colors.green,
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: Colors.white,
-                      size: 60,
-                    ),
-                  ),
-                  onDismissed: (direction) async {
-                    dynamic document = FirebaseFirestore.instance
-                        .collection('productes')
-                        .doc(key);
-                    await document.update({"comprat": true});
-                    setState(() {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Producte comprat correctament!"),
-                          action: SnackBarAction(
-                            label: "Desfer",
-                            onPressed: () {
-                              document.update({"comprat": false});
-                            },
+                return widget.comprat
+                    ? CompraCard(
+                        cardColor: cardColor,
+                        tipusIcon: tipusIcon,
+                        compraKey: compraKey,
+                        compra: compra,
+                        prioritatString: prioritatString)
+                    : Dismissible(
+                        key: Key("$compraKey"),
+                        background: Container(
+                          color: Colors.green,
+                          child: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                            size: 60,
                           ),
                         ),
-                      );
-                    });
-                  },
-                  child: Card(
-                    color: cardColor,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          // Icon segons el tipus
-                          leading: tipusIcon,
-                          onLongPress: () {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text("ID: $key"),
-                            ));
-                          },
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompraView(
-                                  compra: compra,
+                        onDismissed: (direction) async {
+                          dynamic document = FirebaseFirestore.instance
+                              .collection('productes')
+                              .doc(compraKey);
+                          await document.update({"comprat": true});
+                          setState(() {
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Producte comprat correctament!"),
+                                action: SnackBarAction(
+                                  label: "Desfer",
+                                  onPressed: () {
+                                    document.update({"comprat": false});
+                                  },
                                 ),
+                                behavior: SnackBarBehavior.floating,
                               ),
                             );
-                          },
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                          isThreeLine: true,
-                          title: Center(
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Text(
-                                compra['nom'].toUpperCase() +
-                                    " · ${compra['quantitat']}",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          subtitle: prioritatString == ""
-                              ? Container()
-                              : Center(
-                                  child: Text(
-                                    prioritatString,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                          trailing: FlatButton(
-                            onPressed: () async {
-                              dynamic resposta = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditCompra(
-                                    compra: compra,
-                                  ),
-                                ),
-                              );
-                              if (resposta != null) {
-                                DocumentReference doc = FirebaseFirestore
-                                    .instance
-                                    .collection('productes')
-                                    .doc(key);
-                                doc.update(resposta);
-                              }
-                            },
-                            child: Icon(Icons.edit),
-                          ),
+                          });
+                        },
+                        child: CompraCard(
+                          cardColor: cardColor,
+                          tipusIcon: tipusIcon,
+                          compraKey: compraKey,
+                          compra: compra,
+                          prioritatString: prioritatString,
                         ),
-                      ],
-                    ),
-                  ),
-                );
+                      );
               },
             ),
       bottomNavigationBar: BottomAppBar(
@@ -158,6 +105,68 @@ class _LlistaCompraState extends State<LlistaCompra> {
         color: Colors.blue,
         child: Container(
           height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(),
+                flex: 1,
+              ),
+              FlatButton(
+                onPressed: () {
+                  bottomBarIndex = 0;
+                  widget.rebuildParent(false);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      bottomBarIndex == 0
+                          ? Icons.shop_two
+                          : Icons.shop_two_outlined,
+                      color: Colors.white,
+                      size: bottomBarIndex == 0 ? 30 : 20,
+                    ),
+                    Text(
+                      "Per comprar",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(),
+                flex: 3,
+              ),
+              FlatButton(
+                onPressed: () {
+                  bottomBarIndex = 1;
+                  widget.rebuildParent(true);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      bottomBarIndex == 1
+                          ? Icons.monetization_on
+                          : Icons.monetization_on_outlined,
+                      color: Colors.white,
+                      size: bottomBarIndex == 1 ? 30 : 20,
+                    ),
+                    Text(
+                      "Comprats",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(flex: 1, child: Container()),
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

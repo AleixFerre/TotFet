@@ -13,11 +13,12 @@ class TipusEmojis {
     "Informatica": Icons.devices,
     "Electrodomestic": Icons.dashboard,
     "Neteja": Icons.clean_hands,
-    "Casa": Icons.house,
+    "Casa": Icons.home,
     "Salut": Icons.spa,
     "Esports": Icons.sports_soccer,
     "Jocs": Icons.sports_esports,
     "Altres": Icons.device_unknown,
+    null: Icons.device_unknown,
   };
 
   Icon toIcon() {

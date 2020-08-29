@@ -28,7 +28,7 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_core: ^0.5.0
 
-  #Number picker
+  # Number picker
   numberpicker: ^1.2.1
 
   # The following adds the Cupertino Icons font to your application.

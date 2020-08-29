@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 class PrioritatColor {
   String prioritat;
   PrioritatColor({this.prioritat});
-  // Urgent,
-  // Alta,
-  // Normal, // Per defecte
-  // Baixa,
 
   Map<String, Color> referenceColor = {
     'Urgent': Color(0xffd62828),
