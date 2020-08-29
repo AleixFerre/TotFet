@@ -4,6 +4,7 @@ import 'package:llista_de_la_compra/models/Prioritat/PrioritatColors.dart';
 import 'package:llista_de_la_compra/models/Tipus/TipusEmojis.dart';
 import 'package:llista_de_la_compra/pages/compra_view.dart';
 import 'package:llista_de_la_compra/pages/create_compra.dart';
+import 'package:llista_de_la_compra/pages/edit_compra.dart';
 
 class LlistaCompra extends StatefulWidget {
   LlistaCompra({this.llista});
@@ -63,7 +64,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
                         .doc(key);
                     await document.update({"comprat": true});
                     setState(() {
-                      print("Producte comprat correctament!");
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Producte comprat correctament!"),
+                          action: SnackBarAction(
+                            label: "Desfer",
+                            onPressed: () {
+                              document.update({"comprat": false});
+                            },
+                          ),
+                        ),
+                      );
                     });
                   },
                   child: Card(
@@ -83,8 +94,9 @@ class _LlistaCompraState extends State<LlistaCompra> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    CompraView(compra: compra),
+                                builder: (context) => CompraView(
+                                  compra: compra,
+                                ),
                               ),
                             );
                           },
@@ -92,25 +104,46 @@ class _LlistaCompraState extends State<LlistaCompra> {
                               const EdgeInsets.fromLTRB(20, 20, 0, 20),
                           isThreeLine: true,
                           title: Center(
-                            child: Text(
-                              compra['nom'].toUpperCase() +
-                                  " · ${compra['quantitat']}",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                compra['nom'].toUpperCase() +
+                                    " · ${compra['quantitat']}",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          subtitle: Center(
-                            child: Text(
-                              prioritatString,
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
+                          subtitle: prioritatString == ""
+                              ? Container()
+                              : Center(
+                                  child: Text(
+                                    prioritatString,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
                           trailing: FlatButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              dynamic resposta = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditCompra(
+                                    compra: compra,
+                                  ),
+                                ),
+                              );
+                              if (resposta != null) {
+                                DocumentReference doc = FirebaseFirestore
+                                    .instance
+                                    .collection('productes')
+                                    .doc(key);
+                                doc.update(resposta);
+                              }
+                            },
                             child: Icon(Icons.edit),
                           ),
                         ),
@@ -137,32 +170,26 @@ class _LlistaCompraState extends State<LlistaCompra> {
               FirebaseFirestore.instance.collection('productes');
 
           if (result != null) {
-            await productes
-                .add({
-                  'nom': result.nom,
-                  'tipus': result.tipus == null
-                      ? "Altres"
-                      : result.tipus
-                          .toString()
-                          .substring(result.tipus.toString().indexOf('.') + 1),
-                  'quantitat': result.quantitat.toInt(),
-                  'prioritat': result.prioritat
+            await productes.add({
+              'nom': result.nom,
+              'tipus': result.tipus == null
+                  ? "Altres"
+                  : result.tipus
                       .toString()
-                      .substring(result.prioritat.toString().indexOf('.') + 1),
-                  'dataPrevista': result.data,
-                  'dataCreacio': DateTime.now(),
-                  'preuEstimat': result.preuEstimat,
-                  'comprat': false,
-                })
-                .then(
-                  (value) => {
-                    setState(() {
-                      print("Producte afegit correctament");
-                    }),
-                  },
-                )
-                .catchError(
-                    (error) => print("Error a l'afegir producte: $error"));
+                      .substring(result.tipus.toString().indexOf('.') + 1),
+              'quantitat': result.quantitat.toInt(),
+              'prioritat': result.prioritat
+                  .toString()
+                  .substring(result.prioritat.toString().indexOf('.') + 1),
+              'dataPrevista': result.data,
+              'dataCreacio': DateTime.now(),
+              'preuEstimat': result.preuEstimat,
+              'comprat': false,
+            }).catchError(
+              (error) => print("Error a l'afegir producte: $error"),
+            );
+
+            print("Producte afegit correctament!");
           }
         },
         tooltip: 'Afegir un nou element a la llista de la compra',

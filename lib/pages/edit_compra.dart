@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/models/Compra.dart';
 import 'package:llista_de_la_compra/models/Prioritat/Prioritat.dart';
 import 'package:llista_de_la_compra/models/Tipus/Tipus.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-class CreateCompra extends StatefulWidget {
+class EditCompra extends StatefulWidget {
+  final Map<String, dynamic> compra;
+  EditCompra({this.compra});
+
   @override
-  _CreateCompraState createState() => _CreateCompraState();
+  _EditCompraState createState() => _EditCompraState();
 }
 
-class _CreateCompraState extends State<CreateCompra> {
-  Compra model = Compra(
-    nom: "",
-    tipus: null,
-    quantitat: 1,
-    prioritat: Prioritat.Normal,
-    data: null,
-    preuEstimat: null,
-  );
+class _EditCompraState extends State<EditCompra> {
+  Map<String, dynamic> model;
 
   final _formKey = GlobalKey<FormState>();
 
+  String readTimestamp(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+
+    String str = date.day.toString().padLeft(2, "0") +
+        "/" +
+        date.month.toString().padLeft(2, "0") +
+        "/" +
+        date.year.toString();
+
+    return str;
+  }
+
   @override
   Widget build(BuildContext context) {
+    model = widget.compra;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Crear Compra"),
+        title: Text("Editar Compra"),
       ),
       body: Form(
         key: _formKey,
@@ -38,18 +46,18 @@ class _CreateCompraState extends State<CreateCompra> {
                 child: TextFormField(
                   validator: (value) {
                     if (value == "") {
-                      return "Siusplau, posa un nom";
+                      return "Siusplau, posa un nom a la compra.";
                     }
                     return null;
                   },
-                  initialValue: model.nom,
+                  initialValue: model['nom'],
                   onChanged: (str) {
                     setState(() {
-                      model.nom = str;
+                      model['nom'] = str;
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra el nom del producte',
+                    labelText: 'Entra el nom del producte...',
                   ),
                 ),
               ),
@@ -58,16 +66,16 @@ class _CreateCompraState extends State<CreateCompra> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Quantitat: ${model.quantitat}"),
+                    Text("Quantitat: ${model['quantitat'].toInt()}"),
                     Slider(
-                      value: model.quantitat.toDouble(),
+                      value: model['quantitat'].toDouble(),
                       min: 1,
                       max: 30,
                       divisions: 29,
-                      label: "${model.quantitat}",
+                      label: "${model['quantitat'].toInt()}",
                       onChanged: (value) {
                         setState(() {
-                          model.quantitat = value.toInt();
+                          model['quantitat'] = value.toInt();
                         });
                       },
                     ),
@@ -80,21 +88,23 @@ class _CreateCompraState extends State<CreateCompra> {
                 child: Column(
                   children: [
                     Text("Selecciona un tipus de producte"),
-                    DropdownButton<Tipus>(
+                    DropdownButton<String>(
                       hint: Text("Escolleix un tipus"),
-                      value: model.tipus,
+                      value: model['tipus'],
                       items: Tipus.values
-                          .map<DropdownMenuItem<Tipus>>((Tipus value) {
-                        return DropdownMenuItem<Tipus>(
-                          value: value,
+                          .map<DropdownMenuItem<String>>((Tipus value) {
+                        return DropdownMenuItem<String>(
+                          value: value
+                              .toString()
+                              .substring(value.toString().indexOf('.') + 1),
                           child: Text(value
                               .toString()
                               .substring(value.toString().indexOf('.') + 1)),
                         );
                       }).toList(),
-                      onChanged: (Tipus newValue) {
+                      onChanged: (String newValue) {
                         setState(() {
-                          model.tipus = newValue;
+                          model['tipus'] = newValue;
                         });
                       },
                     ),
@@ -107,21 +117,23 @@ class _CreateCompraState extends State<CreateCompra> {
                 child: Column(
                   children: [
                     Text("Selecciona una prioritat"),
-                    DropdownButton<Prioritat>(
+                    DropdownButton<String>(
                       hint: Text("Escolleix una prioritat"),
-                      value: model.prioritat,
+                      value: model['prioritat'],
                       items: Prioritat.values
-                          .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
-                        return DropdownMenuItem<Prioritat>(
-                          value: value,
+                          .map<DropdownMenuItem<String>>((Prioritat value) {
+                        return DropdownMenuItem<String>(
+                          value: value
+                              .toString()
+                              .substring(value.toString().indexOf('.') + 1),
                           child: Text(value
                               .toString()
                               .substring(value.toString().indexOf('.') + 1)),
                         );
                       }).toList(),
-                      onChanged: (Prioritat newValue) {
+                      onChanged: (String newValue) {
                         setState(() {
-                          model.prioritat = newValue;
+                          model['prioritat'] = newValue;
                         });
                       },
                     ),
@@ -140,15 +152,9 @@ class _CreateCompraState extends State<CreateCompra> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.data == null
+                            model['dataPrevista'] == null
                                 ? "Escolleix la data"
-                                : model.data.day.toString().padLeft(2, "0") +
-                                    "/" +
-                                    model.data.month
-                                        .toString()
-                                        .padLeft(2, "0") +
-                                    "/" +
-                                    model.data.year.toString(),
+                                : readTimestamp(model['dataPrevista'].seconds),
                           ),
                           SizedBox(
                             width: 10,
@@ -159,12 +165,13 @@ class _CreateCompraState extends State<CreateCompra> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
+                          initialDate: DateTime.fromMillisecondsSinceEpoch(
+                              model['dataPrevista'].seconds * 1000),
+                          firstDate: DateTime(2020),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
-                          model.data = picked;
+                          model['dataPrevista'] = picked;
                         });
                       },
                     ),
@@ -183,9 +190,9 @@ class _CreateCompraState extends State<CreateCompra> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.preuEstimat == null
+                            model['preuEstimat'] == null
                                 ? "Escolleix el preu estimat"
-                                : model.preuEstimat.toString() + "€",
+                                : model['preuEstimat'].toString() + "€",
                           ),
                           SizedBox(
                             width: 10,
@@ -201,13 +208,13 @@ class _CreateCompraState extends State<CreateCompra> {
                               title: Text("Preu estimat en €"),
                               minValue: 0,
                               maxValue: 100,
-                              initialIntegerValue: model.preuEstimat ?? 0,
+                              initialIntegerValue: model['preuEstimat'] ?? 0,
                             );
                           },
                         );
 
                         setState(() {
-                          model.preuEstimat = picked;
+                          model['preuEstimat'] = picked;
                         });
                       },
                     ),
@@ -229,13 +236,13 @@ class _CreateCompraState extends State<CreateCompra> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        'Afegir',
+                        'Editar',
                         style: TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 5),
                     Icon(
-                      Icons.add_circle,
+                      Icons.edit,
                       size: 40,
                       color: Colors.white,
                     )

@@ -19,9 +19,12 @@ class Loading extends StatelessWidget {
               child: Container(),
             ),
             Center(
-              child: Text(
-                msg,
-                style: TextStyle(fontSize: 25),
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  msg,
+                  style: TextStyle(fontSize: 1000),
+                ),
               ),
             ),
             SizedBox(

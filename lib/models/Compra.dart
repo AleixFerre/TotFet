@@ -14,15 +14,12 @@ class Compra {
 
   String nom;
   Tipus tipus;
-  double quantitat;
+  int quantitat;
   Prioritat prioritat;
   DateTime data;
   int preuEstimat; // En euros
 
-  // ignore: todo
   // TODO: QUI HA CREAT LA COMPRA
-  // ignore: todo
   // TODO: PERSONA ASSIGNADA PER COMPRAR
-  // ignore: todo
   // TODO: PERSONA COMPRADORA QUAN ES TANCA
 }
