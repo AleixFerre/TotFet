@@ -27,6 +27,7 @@ dependencies:
   # Firestore cloud management
   cloud_firestore: ^0.14.0+2
   firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0+1
 
   # Number picker
   numberpicker: ^1.2.1

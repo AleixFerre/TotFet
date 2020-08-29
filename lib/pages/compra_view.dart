@@ -13,7 +13,7 @@ class CompraView extends StatefulWidget {
 }
 
 class _CompraViewState extends State<CompraView> {
-  String readTimestamp(int timestamp) {
+  String readTimestamp(int timestamp, bool showHour) {
     if (timestamp == null) return null;
 
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
@@ -22,11 +22,14 @@ class _CompraViewState extends State<CompraView> {
         "/" +
         date.month.toString().padLeft(2, "0") +
         "/" +
-        date.year.toString() +
-        " " +
-        date.hour.toString().padLeft(2, "0") +
-        ":" +
-        date.minute.toString().padLeft(2, "0");
+        date.year.toString();
+
+    if (showHour) {
+      str += " " +
+          date.hour.toString().padLeft(2, "0") +
+          ":" +
+          date.minute.toString().padLeft(2, "0");
+    }
 
     return str;
   }
@@ -44,12 +47,12 @@ class _CompraViewState extends State<CompraView> {
     String strDataPrevista;
     final Timestamp dataPrevista = widget.compra['dataPrevista'];
     if (dataPrevista != null)
-      strDataPrevista = readTimestamp(dataPrevista.seconds);
+      strDataPrevista = readTimestamp(dataPrevista.seconds, false);
 
     String strDataCreacio;
     final Timestamp dataCreacio = widget.compra['dataCreacio'];
     if (dataCreacio != null)
-      strDataCreacio = readTimestamp(dataCreacio.seconds);
+      strDataCreacio = readTimestamp(dataCreacio.seconds, true);
 
     return Scaffold(
       appBar: AppBar(
@@ -72,6 +75,61 @@ class _CompraViewState extends State<CompraView> {
               setState(() {
                 widget.compra = resposta;
               });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () async {
+              // Show alert box
+              bool esborrar = await showDialog<bool>(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Vols esborrar la compra?'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text(
+                            'Aquesta acció no es pot desfer!',
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text(
+                          'Cancel·lar',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(
+                          'Esborrar',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              print(esborrar);
+
+              // Si esborrar és null o false, llavors no es fa res
+              if (esborrar == true) {
+                DocumentReference doc =
+                    FirebaseFirestore.instance.collection('productes').doc(key);
+                doc.delete();
+
+                Navigator.pop(context);
+              }
             },
           ),
         ],
