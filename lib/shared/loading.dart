@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
   Loading(this.msg);
@@ -32,7 +33,10 @@ class Loading extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              CircularProgressIndicator(),
+              SpinKitCubeGrid(
+                color: Colors.blue,
+                size: 100,
+              ),
               Expanded(
                 child: Container(),
               ),

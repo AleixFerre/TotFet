@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:llista_de_la_compra/services/auth.dart';
+import 'package:llista_de_la_compra/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -14,67 +15,107 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        elevation: 0,
-        title: Text("Inicia la sessió"),
-        actions: [
-          FlatButton.icon(
-            onPressed: () {
-              widget.toggleView();
-            },
-            icon: Icon(Icons.person),
-            label: Text("Registra't"),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 50,
-        ),
-        child: Form(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              TextFormField(
-                // Email
-                onChanged: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
+    return loading
+        ? Loading("Comprovant credencials...")
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.blue,
+              elevation: 0,
+              title: Text("Inicia la sessió"),
+              actions: [
+                FlatButton.icon(
+                  onPressed: () {
+                    widget.toggleView();
+                  },
+                  icon: Icon(Icons.person),
+                  label: Text("Registra't"),
+                ),
+              ],
+            ),
+            body: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 50,
               ),
-              SizedBox(height: 20),
-              TextFormField(
-                // Password
-                obscureText: true,
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-              ),
-              SizedBox(height: 20),
-              RaisedButton(
-                onPressed: () async {},
-                color: Colors.pink[400],
-                child: Text(
-                  "Inicia la sessió",
-                  style: TextStyle(color: Colors.white),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    TextFormField(
+                      // Email
+                      decoration: InputDecoration(
+                        hintText: "Adreça electrònica",
+                      ),
+                      validator: (val) => val.isEmpty
+                          ? "Siusplau, entra un correu electrònic."
+                          : null,
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    TextFormField(
+                      // Password
+                      decoration: InputDecoration(
+                        hintText: "Contrasenya",
+                      ),
+                      validator: (val) => val.length < 6
+                          ? "Siusplau, entra una contrasenya amb 6+ caràcters."
+                          : null,
+                      obscureText: true,
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    RaisedButton(
+                      onPressed: () async {
+                        setState(() => loading = true);
+                        dynamic result = await _auth.signInWithEmailAndPassword(
+                            email, password);
+                        if (_formKey.currentState.validate()) {
+                          if (result['response'] == null) {
+                            setState(() {
+                              error = result['error'];
+                              loading = false;
+                            });
+                          }
+                        }
+                      },
+                      color: Colors.pink[400],
+                      child: Text(
+                        "Inicia la sessió",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      error,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

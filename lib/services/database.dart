@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:llista_de_la_compra/pages/compres/llista_compra.dart';
-import 'package:llista_de_la_compra/pages/generic/loading.dart';
-import 'package:llista_de_la_compra/pages/generic/some_error_page.dart';
+import 'package:llista_de_la_compra/shared/loading.dart';
+import 'package:llista_de_la_compra/shared/some_error_page.dart';
 
 class CarregarBD extends StatefulWidget {
   @override

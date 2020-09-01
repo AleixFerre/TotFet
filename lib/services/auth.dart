@@ -27,6 +27,45 @@ class AuthService {
   }
 
   // sign in email psw
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+      User user = result.user;
+      return {
+        "response": _userFromFirebaseUser(user),
+        "error": null,
+      };
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return {
+          "response": null,
+          "error": "No existeix cap usuari amb aquesta adreça electrònica.\n" +
+              e.toString()
+        };
+      } else if (e.code == 'wrong-password') {
+        return {
+          "response": null,
+          "error": "La contrasenya és incorrecta, torna a intentar-ho.\n" +
+              e.toString()
+        };
+      } else {
+        return {
+          "response": null,
+          "error": "Hi ha hagut un error desconegut, torna a intentar-ho.\n" +
+              e.toString()
+        };
+      }
+    } catch (e) {
+      print(e.toString());
+      return {
+        "response": null,
+        "error": e.toString(),
+      };
+    }
+  }
 
   // register email psw
   Future registerWithEmailAndPassword(String email, String password) async {

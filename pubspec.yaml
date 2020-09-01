@@ -32,6 +32,9 @@ dependencies:
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
 
+  # Flutter spinkit (for loading animations)
+  flutter_spinkit: "^4.1.2"
+
   # Number picker
   numberpicker: ^1.2.1
 
