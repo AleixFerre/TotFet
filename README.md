@@ -1,4 +1,4 @@
-# Llista de la compra
+# Compres
 
 Flutter App d'una llista de la compra online amb Bases de Dades a temps real.
 
