@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/pages/edit_compra.dart';
+import 'package:llista_de_la_compra/pages/compres/edit_compra.dart';
 
 // ignore: must_be_immutable
 class CompraView extends StatefulWidget {

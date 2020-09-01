@@ -16,7 +16,7 @@ class Compra {
   Tipus tipus;
   int quantitat;
   Prioritat prioritat;
-  DateTime data;
+  DateTime data; // prevista
   int preuEstimat; // En euros
 
   // TODO: QUI HA CREAT LA COMPRA

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SomeErrorPage extends StatelessWidget {
-  SomeErrorPage({this.snapshot});
+  SomeErrorPage({this.error});
 
-  final dynamic snapshot;
+  final String error;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class SomeErrorPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "ERROR: ${snapshot.error}",
+              "ERROR: $error",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.red,

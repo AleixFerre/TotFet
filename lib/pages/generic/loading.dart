@@ -9,32 +9,35 @@ class Loading extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text("Llista de la compra"),
+          child: Text("Carregant..."),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(),
-            ),
-            Center(
-              child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                  msg,
-                  style: TextStyle(fontSize: 1000),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(),
+              ),
+              Center(
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    msg,
+                    style: TextStyle(fontSize: 1000),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CircularProgressIndicator(),
-            Expanded(
-              child: Container(),
-            ),
-          ],
+              SizedBox(
+                height: 20,
+              ),
+              CircularProgressIndicator(),
+              Expanded(
+                child: Container(),
+              ),
+            ],
+          ),
         ),
       ),
     );

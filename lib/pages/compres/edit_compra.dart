@@ -31,6 +31,10 @@ class _EditCompraState extends State<EditCompra> {
   @override
   Widget build(BuildContext context) {
     model = widget.compra;
+
+    model['dataPrevista'] = DateTime.fromMillisecondsSinceEpoch(
+        model['dataPrevista'].second * 1000);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Editar Compra"),
@@ -154,7 +158,7 @@ class _EditCompraState extends State<EditCompra> {
                           Text(
                             model['dataPrevista'] == null
                                 ? "Escolleix la data"
-                                : readTimestamp(model['dataPrevista'].seconds),
+                                : readTimestamp(model['dataPrevista'].second),
                           ),
                           SizedBox(
                             width: 10,
@@ -165,8 +169,9 @@ class _EditCompraState extends State<EditCompra> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.fromMillisecondsSinceEpoch(
-                              model['dataPrevista'].seconds * 1000),
+                          initialDate: model['dataPrevista'] == null
+                              ? DateTime.now()
+                              : model['dataPrevista'],
                           firstDate: DateTime(2020),
                           lastDate: DateTime(2100),
                         );

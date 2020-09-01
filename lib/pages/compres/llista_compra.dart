@@ -2,10 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:llista_de_la_compra/models/Prioritat/PrioritatColors.dart';
 import 'package:llista_de_la_compra/models/Tipus/TipusEmojis.dart';
-import 'package:llista_de_la_compra/pages/create_compra.dart';
-import 'compra_card.dart';
+import 'package:llista_de_la_compra/pages/compres/create_compra.dart';
+import 'package:llista_de_la_compra/pages/compres/compra_card.dart';
+import 'package:llista_de_la_compra/services/auth.dart';
 
 class LlistaCompra extends StatefulWidget {
   LlistaCompra({this.llista, this.rebuildParent, this.comprat});
@@ -25,25 +28,48 @@ class _LlistaCompraState extends State<LlistaCompra> {
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> list = widget.llista;
 
+    final AuthService _auth = AuthService();
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
         title: Center(
-          child: Text("Llista de la compra"),
+          child: Text("Compres"),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          ),
+        ],
       ),
       body: list.isEmpty
-          ? Center(
-              child: Text(
-                widget.comprat
-                    ? "No hi ha compres fetes recentment..."
-                    : "No hi ha compres per a fer...",
-                style: TextStyle(fontSize: 25),
-              ),
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 250,
+                  child: SvgPicture.asset(
+                    "images/empty.svg",
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  "Aquí no hi ha res...",
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+              ],
             )
-          : ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (context, index) {
+          : AnimatedList(
+              initialItemCount: list.length,
+              itemBuilder: (context, index, animation) {
                 final Map<String, dynamic> compra = list[index];
                 final compraKey = compra['key'];
                 final Icon tipusIcon =
