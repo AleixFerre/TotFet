@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/services/auth.dart';
-import 'package:llista_de_la_compra/shared/loading.dart';
+import 'package:compres/services/auth.dart';
+import 'package:compres/shared/loading.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -89,12 +89,10 @@ class _RegisterState extends State<Register> {
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
                           if (result['response'] == null) {
-                            setState(() {
-                              error = result['error'];
-                              loading = false;
-                            });
+                            setState(() => error = result['error']);
                           }
                         }
+                        setState(() => loading = false);
                       },
                       color: Colors.pink[400],
                       child: Text(

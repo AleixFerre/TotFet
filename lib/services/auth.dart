@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:llista_de_la_compra/models/Usuari.dart';
+import 'package:compres/models/Usuari.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -9,8 +9,12 @@ class AuthService {
     return user != null ? Usuari(uid: user.uid) : null;
   }
 
+  Usuari get user {
+    return _userFromFirebaseUser(_auth.currentUser);
+  }
+
   // auth change user stream
-  Stream<Usuari> get user {
+  Stream<Usuari> get userStream {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
@@ -42,20 +46,22 @@ class AuthService {
       if (e.code == 'user-not-found') {
         return {
           "response": null,
-          "error": "No existeix cap usuari amb aquesta adreça electrònica.\n" +
-              e.toString()
+          "error": "No existeix cap usuari amb aquesta adreça electrònica.\n"
         };
       } else if (e.code == 'wrong-password') {
         return {
           "response": null,
-          "error": "La contrasenya és incorrecta, torna a intentar-ho.\n" +
-              e.toString()
+          "error": "La contrasenya és incorrecta, torna a intentar-ho.\n"
+        };
+      } else if (e.code == 'invalid-email') {
+        return {
+          "response": null,
+          "error": "L'adreça electrònica no té un format correcte.\n"
         };
       } else {
         return {
           "response": null,
-          "error": "Hi ha hagut un error desconegut, torna a intentar-ho.\n" +
-              e.toString()
+          "error": "Hi ha hagut un error, torna a intentar-ho.\n" + e.toString()
         };
       }
     } catch (e) {

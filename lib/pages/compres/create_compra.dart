@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/models/Compra.dart';
-import 'package:llista_de_la_compra/models/Prioritat/Prioritat.dart';
-import 'package:llista_de_la_compra/models/Tipus/Tipus.dart';
+import 'package:compres/models/Compra.dart';
+import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:compres/models/Tipus/Tipus.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateCompra extends StatefulWidget {
@@ -142,13 +143,19 @@ class _CreateCompraState extends State<CreateCompra> {
                           Text(
                             model.data == null
                                 ? "Escolleix la data"
-                                : model.data.day.toString().padLeft(2, "0") +
-                                    "/" +
-                                    model.data.month
+                                : model.data
+                                        .toDate()
+                                        .day
                                         .toString()
                                         .padLeft(2, "0") +
                                     "/" +
-                                    model.data.year.toString(),
+                                    model.data
+                                        .toDate()
+                                        .month
+                                        .toString()
+                                        .padLeft(2, "0") +
+                                    "/" +
+                                    model.data.toDate().year.toString(),
                           ),
                           SizedBox(
                             width: 10,
@@ -159,12 +166,17 @@ class _CreateCompraState extends State<CreateCompra> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: model.data == null
+                              ? DateTime.now()
+                              : DateTime.fromMillisecondsSinceEpoch(
+                                  model.data.millisecondsSinceEpoch),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
-                          model.data = picked;
+                          model.data = (picked == null)
+                              ? null
+                              : Timestamp.fromDate(picked);
                         });
                       },
                     ),

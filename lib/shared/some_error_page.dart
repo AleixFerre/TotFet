@@ -10,7 +10,7 @@ class SomeErrorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text("Llista de la compra"),
+          child: Text("Error"),
         ),
       ),
       body: Center(
@@ -21,12 +21,25 @@ class SomeErrorPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Oops! Hi ha hagut un error, REINICIA LA APP",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                children: [
+                  Text(
+                    "Oops! Sembla que alguna cosa ha sortit malament...\n",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Envia una captura d'aquesta pàgina a algun administrador explicant quan i com ha passat per poder arregar l'error l'abans possible. " +
+                        "Quan ja ho hagis fet, pots reiniciar la aplicació.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -36,7 +49,6 @@ class SomeErrorPage extends StatelessWidget {
               thickness: 3,
               indent: 20,
               endIndent: 20,
-              color: Colors.blue[200],
             ),
             SizedBox(
               height: 20,

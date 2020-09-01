@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/models/Prioritat/Prioritat.dart';
-import 'package:llista_de_la_compra/models/Tipus/Tipus.dart';
+import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:compres/models/Tipus/Tipus.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class EditCompra extends StatefulWidget {
@@ -32,8 +33,9 @@ class _EditCompraState extends State<EditCompra> {
   Widget build(BuildContext context) {
     model = widget.compra;
 
-    model['dataPrevista'] = DateTime.fromMillisecondsSinceEpoch(
-        model['dataPrevista'].second * 1000);
+    model['dataPrevista'] = model['dataPrevista'] == null
+        ? null
+        : readTimestamp(model['dataPrevista'].seconds);
 
     return Scaffold(
       appBar: AppBar(
@@ -232,8 +234,9 @@ class _EditCompraState extends State<EditCompra> {
               RaisedButton(
                 color: Colors.blueAccent,
                 onPressed: () {
-                  if (_formKey.currentState.validate())
+                  if (_formKey.currentState.validate()) {
                     Navigator.pop(context, model);
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

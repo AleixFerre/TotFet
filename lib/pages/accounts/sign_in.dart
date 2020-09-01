@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/services/auth.dart';
-import 'package:llista_de_la_compra/shared/loading.dart';
+import 'package:compres/services/auth.dart';
+import 'package:compres/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -60,9 +60,7 @@ class _SignInState extends State<SignIn> {
                           ? "Siusplau, entra un correu electrònic."
                           : null,
                       onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
+                        setState(() => email = value);
                       },
                     ),
                     SizedBox(height: 20),
@@ -76,25 +74,21 @@ class _SignInState extends State<SignIn> {
                           : null,
                       obscureText: true,
                       onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
+                        setState(() => password = value);
                       },
                     ),
                     SizedBox(height: 20),
                     RaisedButton(
                       onPressed: () async {
                         setState(() => loading = true);
-                        dynamic result = await _auth.signInWithEmailAndPassword(
-                            email, password);
                         if (_formKey.currentState.validate()) {
+                          dynamic result = await _auth
+                              .signInWithEmailAndPassword(email, password);
                           if (result['response'] == null) {
-                            setState(() {
-                              error = result['error'];
-                              loading = false;
-                            });
+                            setState(() => error = result['error']);
                           }
                         }
+                        setState(() => loading = false);
                       },
                       color: Colors.pink[400],
                       child: Text(

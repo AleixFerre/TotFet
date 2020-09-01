@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/models/Prioritat/Prioritat.dart';
-import 'package:llista_de_la_compra/models/Tipus/Tipus.dart';
+import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:compres/models/Tipus/Tipus.dart';
 
 class Compra {
   Compra({
@@ -16,7 +17,7 @@ class Compra {
   Tipus tipus;
   int quantitat;
   Prioritat prioritat;
-  DateTime data; // prevista
+  Timestamp data; // prevista
   int preuEstimat; // En euros
 
   // TODO: QUI HA CREAT LA COMPRA

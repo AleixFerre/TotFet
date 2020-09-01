@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/pages/compres/edit_compra.dart';
+import 'package:compres/pages/compres/edit_compra.dart';
 
 // ignore: must_be_immutable
 class CompraView extends StatefulWidget {
@@ -59,6 +59,7 @@ class _CompraViewState extends State<CompraView> {
         title: Text('Propietats de la compra'),
         actions: [
           IconButton(
+            tooltip: "Editar compra",
             icon: Icon(Icons.edit),
             onPressed: () async {
               dynamic resposta = await Navigator.push(
@@ -68,13 +69,14 @@ class _CompraViewState extends State<CompraView> {
                 ),
               );
               if (resposta != null) {
+                resposta.remove('key');
                 DocumentReference doc =
                     FirebaseFirestore.instance.collection('productes').doc(key);
-                doc.update(resposta);
+                await doc.update(resposta);
+                setState(() {
+                  widget.compra = resposta;
+                });
               }
-              setState(() {
-                widget.compra = resposta;
-              });
             },
           ),
           IconButton(
@@ -119,8 +121,6 @@ class _CompraViewState extends State<CompraView> {
                   );
                 },
               );
-
-              print(esborrar);
 
               // Si esborrar és null o false, llavors no es fa res
               if (esborrar == true) {

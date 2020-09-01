@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:llista_de_la_compra/pages/accounts/register.dart';
-import 'package:llista_de_la_compra/pages/accounts/sign_in.dart';
+import 'package:compres/pages/accounts/register.dart';
+import 'package:compres/pages/accounts/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   @override

@@ -8,11 +8,6 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text("Carregant..."),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Center(

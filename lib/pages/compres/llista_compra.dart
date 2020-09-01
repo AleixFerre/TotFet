@@ -2,13 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:llista_de_la_compra/models/Prioritat/PrioritatColors.dart';
-import 'package:llista_de_la_compra/models/Tipus/TipusEmojis.dart';
-import 'package:llista_de_la_compra/pages/compres/create_compra.dart';
-import 'package:llista_de_la_compra/pages/compres/compra_card.dart';
-import 'package:llista_de_la_compra/services/auth.dart';
+import 'package:compres/models/Prioritat/PrioritatColors.dart';
+import 'package:compres/models/Tipus/TipusEmojis.dart';
+import 'package:compres/pages/accounts/profile.dart';
+import 'package:compres/pages/compres/create_compra.dart';
+import 'package:compres/pages/compres/compra_card.dart';
+import 'package:compres/services/auth.dart';
 
 class LlistaCompra extends StatefulWidget {
   LlistaCompra({this.llista, this.rebuildParent, this.comprat});
@@ -22,8 +24,6 @@ class LlistaCompra extends StatefulWidget {
 }
 
 class _LlistaCompraState extends State<LlistaCompra> {
-  int bottomBarIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> list = widget.llista;
@@ -38,11 +38,64 @@ class _LlistaCompraState extends State<LlistaCompra> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () async {
-              await _auth.signOut();
+            icon: Icon(Icons.account_circle),
+            tooltip: "Perfil",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => Perfil()),
+              );
             },
           ),
+          IconButton(
+              icon: Icon(Icons.exit_to_app),
+              tooltip: "Sortir de la sessió",
+              onPressed: () async {
+                // Show alert box
+                bool sortir = await showDialog<bool>(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Vols sortir de la sessió?'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text(
+                              'Pots tornar a iniciar sessió quant vulguis!',
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            'Cancel·lar',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'Sortir',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+                // Si esborrar és null o false, llavors no es fa res
+                if (sortir == true) {
+                  await _auth.signOut();
+                }
+              }),
         ],
       ),
       body: list.isEmpty
@@ -54,6 +107,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
                   child: SvgPicture.asset(
                     "images/empty.svg",
                     alignment: Alignment.topCenter,
+                    placeholderBuilder: (context) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SpinKitCubeGrid(
+                            color: Colors.blue,
+                            size: 100,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 SizedBox(
@@ -67,9 +131,9 @@ class _LlistaCompraState extends State<LlistaCompra> {
                 ),
               ],
             )
-          : AnimatedList(
-              initialItemCount: list.length,
-              itemBuilder: (context, index, animation) {
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
                 final Map<String, dynamic> compra = list[index];
                 final compraKey = compra['key'];
                 final Icon tipusIcon =
@@ -102,13 +166,13 @@ class _LlistaCompraState extends State<LlistaCompra> {
                               .doc(compraKey);
                           await document.update({"comprat": true});
                           setState(() {
-                            Scaffold.of(context).showSnackBar(
+                            return Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Producte comprat correctament!"),
                                 action: SnackBarAction(
                                   label: "Desfer",
-                                  onPressed: () {
-                                    document.update({"comprat": false});
+                                  onPressed: () async {
+                                    await document.update({"comprat": false});
                                   },
                                 ),
                                 behavior: SnackBarBehavior.floating,
@@ -140,18 +204,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
               ),
               FlatButton(
                 onPressed: () {
-                  bottomBarIndex = 0;
                   widget.rebuildParent(false);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      bottomBarIndex == 0
+                      !widget.comprat
                           ? Icons.shop_two
                           : Icons.shop_two_outlined,
                       color: Colors.white,
-                      size: bottomBarIndex == 0 ? 30 : 20,
+                      size: !widget.comprat ? 30 : 20,
                     ),
                     Text(
                       "Per comprar",
@@ -168,18 +231,17 @@ class _LlistaCompraState extends State<LlistaCompra> {
               ),
               FlatButton(
                 onPressed: () {
-                  bottomBarIndex = 1;
                   widget.rebuildParent(true);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      bottomBarIndex == 1
+                      widget.comprat
                           ? Icons.monetization_on
                           : Icons.monetization_on_outlined,
                       color: Colors.white,
-                      size: bottomBarIndex == 1 ? 30 : 20,
+                      size: widget.comprat ? 30 : 20,
                     ),
                     Text(
                       "Comprats",
@@ -190,7 +252,10 @@ class _LlistaCompraState extends State<LlistaCompra> {
                   ],
                 ),
               ),
-              Expanded(flex: 1, child: Container()),
+              Expanded(
+                flex: 1,
+                child: Container(),
+              ),
             ],
           ),
         ),

@@ -1,5 +1,5 @@
-name: llista_de_la_compra
-description: A new Flutter project.
+name: compres
+description: Llista de la compra en temps real.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -31,6 +31,10 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_core: ^0.5.0
   firebase_auth: ^0.18.0+1
+  firebase_analytics: ^6.0.0
+
+  # Google Sigin in
+  google_sign_in: ^4.5.3
 
   # Flutter spinkit (for loading animations)
   flutter_spinkit: "^4.1.2"
@@ -46,8 +50,20 @@ dependencies:
   cupertino_icons: ^0.1.3
 
 dev_dependencies:
+ 
+  # Flutter icons
+  flutter_launcher_icons: ^0.7.3
+
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "images/favicon_test.png"
+  android: true
+  ios: true 
+  # image_path_ios: "assets/images/icon-710x599-ios.png"
+  # image_path_android: "images/icon-710x599-android.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -89,3 +105,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

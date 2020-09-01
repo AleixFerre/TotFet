@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:llista_de_la_compra/pages/compres/llista_compra.dart';
-import 'package:llista_de_la_compra/shared/loading.dart';
-import 'package:llista_de_la_compra/shared/some_error_page.dart';
+import 'package:compres/pages/compres/llista_compra.dart';
+import 'package:compres/shared/loading.dart';
+import 'package:compres/shared/some_error_page.dart';
 
 class CarregarBD extends StatefulWidget {
   @override
@@ -39,14 +39,18 @@ class _CarregarBDState extends State<CarregarBD> {
 
         // APP CARREGADA CORECTAMENT
         if (snapshot.hasData) {
-          List<Map<String, dynamic>> info = snapshot.data.docs.map((doc) {
+          List<Map<String, dynamic>> info =
+              snapshot.data.docs.map((QueryDocumentSnapshot doc) {
             Map<String, dynamic> d = doc.data();
             d.putIfAbsent("key", () => doc.id);
             return d;
           }).toList();
 
           return LlistaCompra(
-              llista: info, rebuildParent: rebuildParent, comprat: comprat);
+            llista: info,
+            rebuildParent: rebuildParent,
+            comprat: comprat,
+          );
         }
 
         // LOADING

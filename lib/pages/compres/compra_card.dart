@@ -74,7 +74,7 @@ class CompraCard extends StatelessWidget {
                         ),
                   trailing: FlatButton(
                     onPressed: () async {
-                      dynamic resposta = await Navigator.push(
+                      Map resposta = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditCompra(
@@ -86,7 +86,8 @@ class CompraCard extends StatelessWidget {
                         DocumentReference doc = FirebaseFirestore.instance
                             .collection('productes')
                             .doc(compraKey);
-                        doc.update(resposta);
+                        resposta.remove('key');
+                        await doc.update(resposta);
                       }
                     },
                     child: Icon(Icons.edit),
