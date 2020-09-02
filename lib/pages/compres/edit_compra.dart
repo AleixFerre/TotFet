@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:compres/models/Prioritat/Prioritat.dart';
 import 'package:compres/models/Tipus/Tipus.dart';
+
 import 'package:numberpicker/numberpicker.dart';
 
 class EditCompra extends StatefulWidget {
-  final Map<String, dynamic> compra;
+  final Map compra;
   EditCompra({this.compra});
 
   @override
@@ -16,8 +19,9 @@ class _EditCompraState extends State<EditCompra> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String readTimestamp(int timestamp) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  String readTimestamp(Timestamp timestamp) {
+    DateTime date =
+        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
 
     String str = date.day.toString().padLeft(2, "0") +
         "/" +
@@ -31,10 +35,6 @@ class _EditCompraState extends State<EditCompra> {
   @override
   Widget build(BuildContext context) {
     model = widget.compra;
-
-    model['dataPrevista'] = model['dataPrevista'] == null
-        ? null
-        : readTimestamp(model['dataPrevista'].seconds);
 
     return Scaffold(
       appBar: AppBar(
@@ -159,7 +159,7 @@ class _EditCompraState extends State<EditCompra> {
                           Text(
                             model['dataPrevista'] == null
                                 ? "Escolleix la data"
-                                : readTimestamp(model['dataPrevista'].second),
+                                : readTimestamp(model['dataPrevista']),
                           ),
                           SizedBox(
                             width: 10,
@@ -172,12 +172,15 @@ class _EditCompraState extends State<EditCompra> {
                           context: context,
                           initialDate: model['dataPrevista'] == null
                               ? DateTime.now()
-                              : model['dataPrevista'],
+                              : DateTime.fromMicrosecondsSinceEpoch(
+                                  model['dataPrevista'].microsecondsSinceEpoch),
                           firstDate: DateTime(2020),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
-                          model['dataPrevista'] = picked;
+                          model['dataPrevista'] = picked == null
+                              ? null
+                              : Timestamp.fromDate(picked);
                         });
                       },
                     ),

@@ -14,15 +14,7 @@ class CreateCompra extends StatefulWidget {
 }
 
 class _CreateCompraState extends State<CreateCompra> {
-  Compra model = Compra(
-    nom: "",
-    tipus: null,
-    quantitat: 1,
-    prioritat: Prioritat.Normal,
-    data: null,
-    preuEstimat: null,
-    idCreador: AuthService().userId,
-  );
+  Compra compra = Compra.nova(null, AuthService().userId);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -47,10 +39,10 @@ class _CreateCompraState extends State<CreateCompra> {
                     }
                     return null;
                   },
-                  initialValue: model.nom,
+                  initialValue: compra.nom,
                   onChanged: (str) {
                     setState(() {
-                      model.nom = str;
+                      compra.nom = str;
                     });
                   },
                   decoration: InputDecoration(
@@ -63,16 +55,16 @@ class _CreateCompraState extends State<CreateCompra> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Quantitat: ${model.quantitat}"),
+                    Text("Quantitat: ${compra.quantitat}"),
                     Slider(
-                      value: model.quantitat.toDouble(),
+                      value: compra.quantitat.toDouble(),
                       min: 1,
                       max: 30,
                       divisions: 29,
-                      label: "${model.quantitat}",
+                      label: "${compra.quantitat}",
                       onChanged: (value) {
                         setState(() {
-                          model.quantitat = value.toInt();
+                          compra.quantitat = value.toInt();
                         });
                       },
                     ),
@@ -87,7 +79,7 @@ class _CreateCompraState extends State<CreateCompra> {
                     Text("Selecciona un tipus de producte"),
                     DropdownButton<Tipus>(
                       hint: Text("Escolleix un tipus"),
-                      value: model.tipus,
+                      value: compra.tipus,
                       items: Tipus.values
                           .map<DropdownMenuItem<Tipus>>((Tipus value) {
                         return DropdownMenuItem<Tipus>(
@@ -99,7 +91,7 @@ class _CreateCompraState extends State<CreateCompra> {
                       }).toList(),
                       onChanged: (Tipus newValue) {
                         setState(() {
-                          model.tipus = newValue;
+                          compra.tipus = newValue;
                         });
                       },
                     ),
@@ -114,7 +106,7 @@ class _CreateCompraState extends State<CreateCompra> {
                     Text("Selecciona una prioritat"),
                     DropdownButton<Prioritat>(
                       hint: Text("Escolleix una prioritat"),
-                      value: model.prioritat,
+                      value: compra.prioritat,
                       items: Prioritat.values
                           .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
                         return DropdownMenuItem<Prioritat>(
@@ -126,7 +118,7 @@ class _CreateCompraState extends State<CreateCompra> {
                       }).toList(),
                       onChanged: (Prioritat newValue) {
                         setState(() {
-                          model.prioritat = newValue;
+                          compra.prioritat = newValue;
                         });
                       },
                     ),
@@ -145,21 +137,24 @@ class _CreateCompraState extends State<CreateCompra> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.data == null
+                            compra.dataPrevista == null
                                 ? "Escolleix la data"
-                                : model.data
+                                : compra.dataPrevista
                                         .toDate()
                                         .day
                                         .toString()
                                         .padLeft(2, "0") +
                                     "/" +
-                                    model.data
+                                    compra.dataPrevista
                                         .toDate()
                                         .month
                                         .toString()
                                         .padLeft(2, "0") +
                                     "/" +
-                                    model.data.toDate().year.toString(),
+                                    compra.dataPrevista
+                                        .toDate()
+                                        .year
+                                        .toString(),
                           ),
                           SizedBox(
                             width: 10,
@@ -170,17 +165,19 @@ class _CreateCompraState extends State<CreateCompra> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
-                          initialDate: model.data == null
+                          initialDate: compra.dataPrevista == null
                               ? DateTime.now()
                               : DateTime.fromMillisecondsSinceEpoch(
-                                  model.data.millisecondsSinceEpoch),
+                                  compra.dataPrevista.millisecondsSinceEpoch),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
-                          model.data = (picked == null)
-                              ? null
-                              : Timestamp.fromDate(picked);
+                          if (picked == null) {
+                            compra.dataPrevista = null;
+                          } else {
+                            compra.dataPrevista = Timestamp.fromDate(picked);
+                          }
                         });
                       },
                     ),
@@ -199,9 +196,9 @@ class _CreateCompraState extends State<CreateCompra> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.preuEstimat == null
+                            compra.preuEstimat == null
                                 ? "Escolleix el preu estimat"
-                                : model.preuEstimat.toString() + "€",
+                                : compra.preuEstimat.toString() + "€",
                           ),
                           SizedBox(
                             width: 10,
@@ -217,13 +214,13 @@ class _CreateCompraState extends State<CreateCompra> {
                               title: Text("Preu estimat en €"),
                               minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: model.preuEstimat ?? 1,
+                              initialIntegerValue: compra.preuEstimat ?? 1,
                             );
                           },
                         );
 
                         setState(() {
-                          model.preuEstimat = picked;
+                          compra.preuEstimat = picked;
                         });
                       },
                     ),
@@ -236,8 +233,9 @@ class _CreateCompraState extends State<CreateCompra> {
               RaisedButton(
                 color: Colors.blueAccent,
                 onPressed: () {
-                  if (_formKey.currentState.validate())
-                    Navigator.pop(context, model);
+                  if (_formKey.currentState.validate()) {
+                    Navigator.pop(context, compra);
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

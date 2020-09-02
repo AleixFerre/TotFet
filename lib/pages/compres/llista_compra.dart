@@ -165,7 +165,11 @@ class _LlistaCompraState extends State<LlistaCompra> {
                           dynamic document = FirebaseFirestore.instance
                               .collection('productes')
                               .doc(compraKey);
-                          await document.update({"comprat": true});
+                          await document.update({
+                            "comprat": true,
+                            "idComprador": AuthService().userId,
+                            "dataCompra": Timestamp.now(),
+                          });
                           setState(() {
                             return Scaffold.of(context).showSnackBar(
                               SnackBar(
@@ -173,7 +177,11 @@ class _LlistaCompraState extends State<LlistaCompra> {
                                 action: SnackBarAction(
                                   label: "Desfer",
                                   onPressed: () async {
-                                    await document.update({"comprat": false});
+                                    await document.update({
+                                      "idComprador": null,
+                                      "dataCompra": null,
+                                      "comprat": false,
+                                    });
                                   },
                                 ),
                                 behavior: SnackBarBehavior.floating,
@@ -271,25 +279,13 @@ class _LlistaCompraState extends State<LlistaCompra> {
               FirebaseFirestore.instance.collection('productes');
 
           if (result != null) {
-            await productes.add({
-              'nom': result.nom,
-              'tipus': result.tipus == null
-                  ? "Altres"
-                  : result.tipus
-                      .toString()
-                      .substring(result.tipus.toString().indexOf('.') + 1),
-              'quantitat': result.quantitat.toInt(),
-              'prioritat': result.prioritat
-                  .toString()
-                  .substring(result.prioritat.toString().indexOf('.') + 1),
-              'dataPrevista': result.data,
-              'dataCreacio': DateTime.now(),
-              'preuEstimat': result.preuEstimat,
-              'comprat': false,
-              'idCreador': result.idCreador
-            }).catchError(
-              (error) => print("Error a l'afegir producte: $error"),
-            );
+            await productes
+                .add(
+                  result.toDBMap(),
+                )
+                .catchError(
+                  (error) => print("Error a l'afegir producte: $error"),
+                );
 
             print("Producte afegit correctament!");
           }

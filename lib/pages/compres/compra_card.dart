@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../compres/compra_view.dart';
+import 'package:compres/pages/compres/compra_details.dart';
 import '../compres/edit_compra.dart';
 
 class CompraCard extends StatelessWidget {
@@ -41,8 +41,8 @@ class CompraCard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CompraView(
-                          compra: compra,
+                        builder: (context) => CompraDetails(
+                          id: compraKey,
                         ),
                       ),
                     );

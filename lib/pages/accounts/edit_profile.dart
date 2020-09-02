@@ -49,7 +49,9 @@ class _EditPerfilState extends State<EditPerfil> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context, model);
+                    if (_formKey.currentState.validate()) {
+                      Navigator.pop(context, model);
+                    }
                   },
                   child: Text("Guardar canvis"),
                 ),
