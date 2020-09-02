@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:compres/models/Usuari.dart';
 import 'package:compres/pages/accounts/Authenticate.dart';
-import 'package:compres/services/database.dart';
+import 'package:compres/pages/compres/carregar_BD.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatefulWidget {

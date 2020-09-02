@@ -11,6 +11,9 @@ class Compra {
     this.prioritat,
     this.data,
     this.preuEstimat,
+    @required this.idCreador,
+    this.idAssignat,
+    this.idComprador,
   });
 
   String nom;
@@ -19,8 +22,10 @@ class Compra {
   Prioritat prioritat;
   Timestamp data; // prevista
   int preuEstimat; // En euros
-
-  // TODO: QUI HA CREAT LA COMPRA
-  // TODO: PERSONA ASSIGNADA PER COMPRAR
-  // TODO: PERSONA COMPRADORA QUAN ES TANCA
+  // [idCreador] no pot ser null mai
+  String idCreador; // ID de qui ha creat la compra
+  // [idAssignat] pot ser null si encara no s'ha assignat
+  String idAssignat; // ID de a qui està assignada
+  // [idComprador] es null quan [comprat] és false
+  String idComprador; // ID de qui la ha comprat
 }

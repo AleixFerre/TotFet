@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:compres/models/Usuari.dart';
+import 'package:compres/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -9,8 +10,8 @@ class AuthService {
     return user != null ? Usuari(uid: user.uid) : null;
   }
 
-  Usuari get user {
-    return _userFromFirebaseUser(_auth.currentUser);
+  String get userId {
+    return _auth.currentUser.uid;
   }
 
   // auth change user stream
@@ -81,6 +82,13 @@ class AuthService {
         password: password.trim(),
       );
       User user = result.user;
+
+      // Database register
+      final Usuari defaultUser = Usuari(
+        uid: user.uid,
+        nom: "Nou membre",
+      );
+      await DatabaseService(uid: user.uid).updateUserData(defaultUser);
       return {
         "response": _userFromFirebaseUser(user),
         "error": null,

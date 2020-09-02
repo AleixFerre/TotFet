@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:compres/models/Prioritat/Prioritat.dart';
 import 'package:compres/models/Tipus/Tipus.dart';
@@ -213,9 +212,9 @@ class _EditCompraState extends State<EditCompra> {
                           builder: (BuildContext context) {
                             return new NumberPickerDialog.integer(
                               title: Text("Preu estimat en €"),
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: model['preuEstimat'] ?? 0,
+                              initialIntegerValue: model['preuEstimat'] ?? 1,
                             );
                           },
                         );

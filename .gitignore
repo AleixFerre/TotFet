@@ -45,3 +45,6 @@ app.*.map.json
 
 # Google services
 android\app\google-services.json
+
+# Favicon
+images/favicon.png

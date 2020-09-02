@@ -43,6 +43,7 @@ class _CompraViewState extends State<CompraView> {
     final String prioritat = widget.compra['prioritat'];
     final int quantitat = widget.compra['quantitat'];
     final int preuEstimat = widget.compra['preuEstimat'];
+    final String idCreador = widget.compra['idCreador'];
 
     String strDataPrevista;
     final Timestamp dataPrevista = widget.compra['dataPrevista'];
@@ -126,7 +127,7 @@ class _CompraViewState extends State<CompraView> {
               if (esborrar == true) {
                 DocumentReference doc =
                     FirebaseFirestore.instance.collection('productes').doc(key);
-                doc.delete();
+                await doc.delete();
 
                 Navigator.pop(context);
               }
@@ -176,6 +177,10 @@ class _CompraViewState extends State<CompraView> {
             Divider(),
             Text(
               "Data Creació: ${strDataCreacio ?? "No assignada"}",
+              style: TextStyle(fontSize: 25),
+            ),
+            Text(
+              "Creat per: ${idCreador ?? "No assignada"}",
               style: TextStyle(fontSize: 25),
             ),
             Expanded(

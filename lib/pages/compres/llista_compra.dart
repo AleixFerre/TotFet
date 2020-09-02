@@ -11,6 +11,7 @@ import 'package:compres/pages/accounts/profile.dart';
 import 'package:compres/pages/compres/create_compra.dart';
 import 'package:compres/pages/compres/compra_card.dart';
 import 'package:compres/services/auth.dart';
+import 'package:compres/models/Compra.dart';
 
 class LlistaCompra extends StatefulWidget {
   LlistaCompra({this.llista, this.rebuildParent, this.comprat});
@@ -62,7 +63,7 @@ class _LlistaCompraState extends State<LlistaCompra> {
                         child: ListBody(
                           children: <Widget>[
                             Text(
-                              'Pots tornar a iniciar sessió quant vulguis!',
+                              'Pots tornar a iniciar sessió quan vulguis!',
                             ),
                           ],
                         ),
@@ -263,7 +264,7 @@ class _LlistaCompraState extends State<LlistaCompra> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final result = await Navigator.push(
+          final Compra result = await Navigator.push(
               context, MaterialPageRoute(builder: (context) => CreateCompra()));
 
           CollectionReference productes =
@@ -285,6 +286,7 @@ class _LlistaCompraState extends State<LlistaCompra> {
               'dataCreacio': DateTime.now(),
               'preuEstimat': result.preuEstimat,
               'comprat': false,
+              'idCreador': result.idCreador
             }).catchError(
               (error) => print("Error a l'afegir producte: $error"),
             );

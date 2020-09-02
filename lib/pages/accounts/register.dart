@@ -91,8 +91,8 @@ class _RegisterState extends State<Register> {
                           if (result['response'] == null) {
                             setState(() => error = result['error']);
                           }
+                          if (this.mounted) setState(() => loading = false);
                         }
-                        setState(() => loading = false);
                       },
                       color: Colors.pink[400],
                       child: Text(

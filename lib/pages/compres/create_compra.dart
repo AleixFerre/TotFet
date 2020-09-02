@@ -1,8 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:compres/models/Compra.dart';
 import 'package:compres/models/Prioritat/Prioritat.dart';
 import 'package:compres/models/Tipus/Tipus.dart';
+import 'package:compres/services/auth.dart';
+
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateCompra extends StatefulWidget {
@@ -18,6 +21,7 @@ class _CreateCompraState extends State<CreateCompra> {
     prioritat: Prioritat.Normal,
     data: null,
     preuEstimat: null,
+    idCreador: AuthService().userId,
   );
 
   final _formKey = GlobalKey<FormState>();
@@ -211,9 +215,9 @@ class _CreateCompraState extends State<CreateCompra> {
                           builder: (BuildContext context) {
                             return new NumberPickerDialog.integer(
                               title: Text("Preu estimat en €"),
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: model.preuEstimat ?? 0,
+                              initialIntegerValue: model.preuEstimat ?? 1,
                             );
                           },
                         );
