@@ -21,6 +21,7 @@ class Compra {
     @required this.idCreador,
     this.idAssignat,
     this.idComprador,
+    @required this.idLlista,
   });
 
   // ID de la compra a la base de dades
@@ -47,6 +48,9 @@ class Compra {
   String idAssignat; // ID de a qui està assignada
   // [idComprador] es null quan [comprat] és false
   String idComprador; // ID de qui la ha comprat
+  // ID de la llista a la que està inscrita la compra
+  // [idLlista] no pot ser null
+  String idLlista; // ID de qui la ha comprat
   // Està comprat?
   bool comprat;
 
@@ -65,6 +69,7 @@ class Compra {
       idCreador: data['idCreador'],
       idAssignat: data['idAssignat'],
       idComprador: data['idComprador'],
+      idLlista: data['idLlista'],
       comprat: data['comprat'],
     );
   }
@@ -83,6 +88,7 @@ class Compra {
       'dataCompra': dataCompra,
       'preuEstimat': preuEstimat,
       'idCreador': idCreador,
+      'idLlista': idLlista,
       'comprat': comprat,
     };
   }
@@ -101,6 +107,7 @@ class Compra {
       'idCreador': idCreador,
       'idAssignat': idAssignat,
       'idComprador': idComprador,
+      'idLlista': idLlista,
       'comprat': comprat,
     };
   }
@@ -110,12 +117,12 @@ class Compra {
     return Compra(
       id: _id,
       nom: "",
-      dataCreacio: Timestamp.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch),
+      dataCreacio: Timestamp.fromDate(DateTime.now()),
       idCreador: _idCreador,
       prioritat: Prioritat.Normal,
       quantitat: 1,
       comprat: false,
+      idLlista: null,
     );
   }
 }

@@ -84,7 +84,7 @@ class CompraCard extends StatelessWidget {
                       );
                       if (resposta != null) {
                         DocumentReference doc = FirebaseFirestore.instance
-                            .collection('productes')
+                            .collection('compres')
                             .doc(compraKey);
                         resposta.remove('key');
                         await doc.update(resposta);

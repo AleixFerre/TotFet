@@ -24,11 +24,11 @@ class _CarregarBDState extends State<CarregarBD> {
 
   @override
   Widget build(BuildContext context) {
-    Query productes = FirebaseFirestore.instance
-        .collection('productes')
+    Query compres = FirebaseFirestore.instance
+        .collection('compres')
         .where("comprat", isEqualTo: comprat);
     return StreamBuilder<QuerySnapshot>(
-      stream: productes.snapshots(),
+      stream: compres.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         // SI HI HA HAGUT ALGUN ERROR
         if (snapshot.hasError) {

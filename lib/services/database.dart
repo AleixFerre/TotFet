@@ -7,14 +7,12 @@ class DatabaseService {
   DatabaseService({this.uid, this.id});
 
   final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('usuaris');
   final CollectionReference compresCollection =
-      FirebaseFirestore.instance.collection('productes');
+      FirebaseFirestore.instance.collection('compres');
 
   Future<void> updateUserData(Usuari usuari) async {
-    return await usersCollection.doc(uid).set({
-      "nom": usuari.nom,
-    });
+    return await usersCollection.doc(uid).set(usuari.toDBMap());
   }
 
   Future<DocumentSnapshot> getUserData() async {

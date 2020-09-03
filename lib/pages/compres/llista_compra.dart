@@ -25,6 +25,14 @@ class LlistaCompra extends StatefulWidget {
 }
 
 class _LlistaCompraState extends State<LlistaCompra> {
+  // TODO: fer que la info sigui de la BD
+  final List<Map<String, String>> info = [
+    {"name": "Totes", "key": "key0"},
+    {"name": "a", "key": "key1"},
+    {"name": "b", "key": "key2"},
+  ];
+  int indexFiltre = 0;
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> list = widget.llista;
@@ -34,8 +42,31 @@ class _LlistaCompraState extends State<LlistaCompra> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        leading: PopupMenuButton<int>(
+          icon: Icon(Icons.filter_list),
+          onSelected: (int s) {
+            // TODO: fer que aquesta interaccioni amb el wrapper i que mostri
+            // la info que es necessita en cada moment
+            setState(() {
+              indexFiltre = s;
+            });
+          },
+          initialValue: indexFiltre,
+          itemBuilder: (BuildContext context) {
+            return info
+                .map(
+                  (Map<String, String> e) => PopupMenuItem(
+                    value: info.indexOf(e),
+                    child: Text(e['name']),
+                  ),
+                )
+                .toList();
+          },
+        ),
         title: Center(
-          child: Text("Compres"),
+          child: indexFiltre == 0
+              ? Text("Totes les compres")
+              : Text("Compres de ${info[indexFiltre]['name']}"),
         ),
         actions: [
           IconButton(
@@ -162,8 +193,9 @@ class _LlistaCompraState extends State<LlistaCompra> {
                           ),
                         ),
                         onDismissed: (direction) async {
-                          dynamic document = FirebaseFirestore.instance
-                              .collection('productes')
+                          DocumentReference document = FirebaseFirestore
+                              .instance
+                              .collection('compres')
                               .doc(compraKey);
                           await document.update({
                             "comprat": true,
@@ -275,11 +307,11 @@ class _LlistaCompraState extends State<LlistaCompra> {
           final Compra result = await Navigator.push(
               context, MaterialPageRoute(builder: (context) => CreateCompra()));
 
-          CollectionReference productes =
-              FirebaseFirestore.instance.collection('productes');
+          CollectionReference compres =
+              FirebaseFirestore.instance.collection('compres');
 
           if (result != null) {
-            await productes
+            await compres
                 .add(
                   result.toDBMap(),
                 )

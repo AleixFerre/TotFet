@@ -20,17 +20,19 @@ class _EditPerfilState extends State<EditPerfil> {
       appBar: AppBar(
         title: Text("Editar el perfil"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                TextFormField(
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(8.0),
+                child: TextFormField(
                   validator: (value) {
                     if (value == "") {
                       return "Has de tenir un nom.";
+                    } else if (value.length > 15) {
+                      return "El nom no pot tenir més de 15 lletres";
                     }
                     return null;
                   },
@@ -41,22 +43,46 @@ class _EditPerfilState extends State<EditPerfil> {
                     });
                   },
                   decoration: InputDecoration(
+                    hintText: "Introdueix el teu nom",
                     labelText: 'Introdueix el teu nom...',
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              RaisedButton(
+                color: Colors.lightBlue,
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    Navigator.pop(context, model);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Guardar canvis",
+                        style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.save,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      Navigator.pop(context, model);
-                    }
-                  },
-                  child: Text("Guardar canvis"),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

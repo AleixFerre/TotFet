@@ -75,7 +75,7 @@ class _CompraDetailsState extends State<CompraDetails> {
                       if (resposta != null) {
                         resposta.remove('id');
                         DocumentReference doc = FirebaseFirestore.instance
-                            .collection('productes')
+                            .collection('compres')
                             .doc(widget.id);
                         await doc.update(resposta);
                         // El future builder agafarà les dades més recents de la BD
@@ -130,7 +130,7 @@ class _CompraDetailsState extends State<CompraDetails> {
                       // Si esborrar és null o false, llavors no es fa res
                       if (esborrar == true) {
                         DocumentReference doc = FirebaseFirestore.instance
-                            .collection('productes')
+                            .collection('compres')
                             .doc(compra.id);
                         await doc.delete();
                         // Si no hi ha element, podem sortir d'aquesta pantalla

@@ -29,13 +29,15 @@ class _PerfilState extends State<Perfil> {
           print(snapshot.error);
           return SomeErrorPage(error: snapshot.error);
         }
+
         if (snapshot.hasData) {
           DocumentSnapshot doc = snapshot.data;
-          Usuari usuari = Usuari(
-            uid: _auth.userId,
-            nom: doc.data()['nom'],
-            // Es poden posar més atributs aqui si es cal
+          Usuari usuari = Usuari.fromDB(
+            _auth.userId,
+            _auth.userEmail,
+            doc.data(),
           );
+
           return Scaffold(
             appBar: AppBar(
               title: Text("Perfil"),
@@ -64,14 +66,193 @@ class _PerfilState extends State<Perfil> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "User ID: " + _auth.userId,
-                    style: TextStyle(fontSize: 20),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.account_circle,
+                        size: 150,
+                        color: Colors.blue,
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.fitHeight,
+                                child: Text(
+                                  usuari.nom.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              usuari.isAdmin
+                                  ? Icon(
+                                      Icons.verified,
+                                      color: Colors.indigo[300],
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            usuari.email,
+                            style: TextStyle(),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                    ],
                   ),
                   Divider(),
+                  Center(
+                    child: Text(
+                      "Les meves llistes",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.library_add,
+                                size: 50,
+                              ),
+                              Text("Crear"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.group_add,
+                                size: 50,
+                              ),
+                              Text("Unir-me"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.settings,
+                                size: 50,
+                              ),
+                              Text("Administrar"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    height: 40,
+                  ),
+                  /* Per ara no s'implementa el tema de les vistes
+                  Center(
+                    child: Text(
+                      "Les meves compres",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.add_circle,
+                                size: 50,
+                              ),
+                              Text("Creades"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.attach_money,
+                                size: 50,
+                              ),
+                              Text("Comprades"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        elevation: 3,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.notifications,
+                                size: 50,
+                              ),
+                              Text("Assignades"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),*/
+                  Expanded(
+                    child: Container(),
+                  ),
                   Text(
-                    "Nom: " + usuari.nom,
-                    style: TextStyle(fontSize: 20),
+                    "UID: " + _auth.userId,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ],
               ),

@@ -58,7 +58,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path: "images/favicon_test.png"
+  image_path: "images/favicon.png"
   android: true
   ios: true 
   # image_path_ios: "assets/images/icon-710x599-ios.png"

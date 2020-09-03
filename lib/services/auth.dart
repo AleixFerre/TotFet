@@ -14,6 +14,10 @@ class AuthService {
     return _auth.currentUser.uid;
   }
 
+  String get userEmail {
+    return _auth.currentUser.email;
+  }
+
   // auth change user stream
   Stream<Usuari> get userStream {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
@@ -84,10 +88,7 @@ class AuthService {
       User user = result.user;
 
       // Database register
-      final Usuari defaultUser = Usuari(
-        uid: user.uid,
-        nom: "Nou membre",
-      );
+      final Usuari defaultUser = Usuari.perDefecte(user.uid);
       await DatabaseService(uid: user.uid).updateUserData(defaultUser);
       return {
         "response": _userFromFirebaseUser(user),
