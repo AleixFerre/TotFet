@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -38,59 +39,6 @@ class LlistaCompra extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService();
-
-    IconButton sortirSessio = IconButton(
-      icon: Icon(Icons.exit_to_app),
-      tooltip: "Sortir de la sessió",
-      onPressed: () async {
-        // Show alert box
-        bool sortir = await showDialog<bool>(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Vols sortir de la sessió?'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(
-                      'Pots tornar a iniciar sessió quan vulguis!',
-                    ),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'Cancel·lar',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                ),
-                FlatButton(
-                  child: Text(
-                    'Sortir',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ],
-            );
-          },
-        );
-
-        // Si esborrar és null o false, llavors no es fa res
-        if (sortir == true) {
-          await _auth.signOut();
-        }
-      },
-    );
-
     AppBar appBar = AppBar(
       leading: PopupMenuButton<int>(
         tooltip: "Selecciona una llista",
@@ -124,7 +72,7 @@ class LlistaCompra extends StatelessWidget {
             );
           },
         ),
-        sortirSessio,
+        SortirSessio(),
       ],
     );
 

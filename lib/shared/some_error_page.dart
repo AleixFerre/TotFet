@@ -1,3 +1,4 @@
+import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
 
 class SomeErrorPage extends StatelessWidget {
@@ -12,6 +13,9 @@ class SomeErrorPage extends StatelessWidget {
         title: Center(
           child: Text("Error"),
         ),
+        actions: [
+          SortirSessio(),
+        ],
       ),
       body: Center(
         child: Column(

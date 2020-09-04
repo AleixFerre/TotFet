@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/pages/llistes/menu_llistes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/models/Llista.dart';
@@ -30,6 +31,10 @@ class _CarregarBDState extends State<CarregarBD> {
                 (doc) => doc.data()['llista'].toString(),
               )
               .toList();
+
+          if (llistaDeReferencies.isEmpty) {
+            return MenuLlistes();
+          }
 
           // Agafo la info d'aquestes llistes
           Query getInfoLlistes = FirebaseFirestore.instance

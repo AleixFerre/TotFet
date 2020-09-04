@@ -71,7 +71,7 @@ class _RegisterState extends State<Register> {
                         },
                         onChanged: (value) {
                           setState(() {
-                            email = value;
+                            nomUsuari = value;
                           });
                         },
                       ),
