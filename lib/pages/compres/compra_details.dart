@@ -60,19 +60,46 @@ class CompraDetails extends StatelessWidget {
             return SomeErrorPage(error: snapshotDetails.error);
           }
           if (snapshotDetails.hasData) {
-            Future<DocumentSnapshot> futureNoms =
-                DatabaseService(id: snapshotDetails.data.data()['idCreador'])
-                    .getNom();
-            return FutureBuilder<DocumentSnapshot>(
-                future: futureNoms,
+            Map<String, dynamic> info = snapshotDetails.data.data();
+            List<String> idUsuaris = [
+              info['idCreador'],
+            ];
+
+            if (info['idComprador'] != null) {
+              idUsuaris.add(info['idComprador']);
+            }
+
+            if (info['idAssignat'] != null) {
+              idUsuaris.add(info['idAssignat']);
+            }
+
+            Query futureNoms = FirebaseFirestore.instance
+                .collection('usuaris')
+                .where(FieldPath.documentId, whereIn: idUsuaris);
+
+            return FutureBuilder<QuerySnapshot>(
+                future: futureNoms.get(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    DocumentSnapshot detailsDoc = snapshotDetails.data;
-                    Map<String, dynamic> detailsInfo = detailsDoc.data();
-                    String nomCreador = snapshot.data.data()['nom'];
-                    detailsInfo['nomCreador'] = nomCreador;
-                    Compra compra = Compra.fromDB(detailsInfo);
+                    List<QueryDocumentSnapshot> llistaUsuaris =
+                        snapshot.data.docs;
+
+                    String getNom(String id) {
+                      if (id == null) return null;
+                      for (QueryDocumentSnapshot doc in llistaUsuaris) {
+                        if (doc.id == id) {
+                          return doc.data()['nom'];
+                        }
+                      }
+                      return null;
+                    }
+
+                    info['nomCreador'] = getNom(info['idCreador']);
+                    info['nomAssignat'] = getNom(info['idAssignat']);
+                    info['nomComprador'] = getNom(info['idComprador']);
+
+                    Compra compra = Compra.fromDB(info);
 
                     return Scaffold(
                       appBar: AppBar(
@@ -211,7 +238,7 @@ class CompraDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Assignat a: ${compra.idAssignat ?? "No disponible"}",
+                                "Assignat a: ${compra.nomAssignat ?? "Ningú"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               SizedBox(height: 30),
@@ -239,7 +266,7 @@ class CompraDetails extends StatelessWidget {
                                         ),
                                         Divider(),
                                         Text(
-                                          "Comprat per: ${compra.idComprador ?? "No disponible"}",
+                                          "Comprat per: ${compra.nomComprador ?? "No disponible"}",
                                           style: TextStyle(fontSize: 25),
                                         ),
                                       ],

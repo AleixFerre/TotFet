@@ -250,7 +250,14 @@ class LlistaCompra extends StatelessWidget {
     FloatingActionButton floatingActionButton = FloatingActionButton(
       onPressed: () async {
         final Compra result = await Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CreateCompra()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateCompra(
+              llistesUsuari: llistesUsuari,
+              indexLlista: indexLlista,
+            ),
+          ),
+        );
 
         CollectionReference compres =
             FirebaseFirestore.instance.collection('compres');

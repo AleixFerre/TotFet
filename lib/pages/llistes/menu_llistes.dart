@@ -11,8 +11,6 @@ class MenuLlistes extends StatefulWidget {
 }
 
 class _MenuLlistesState extends State<MenuLlistes> {
-  bool teLlistes = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +55,6 @@ class _MenuLlistesState extends State<MenuLlistes> {
                   elevation: 3,
                   onPressed: () async {
                     // TODO: FER A FUNCIONALITAT DE PASSAR LA LLISTA A LA BD
-                    // També cal marcar teLlistes a true si la llista
-                    // s'ha inserit correctament
                     await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => CrearLlista()),
                     );
@@ -84,8 +80,6 @@ class _MenuLlistesState extends State<MenuLlistes> {
                   elevation: 3,
                   onPressed: () async {
                     // TODO: FER A FUNCIONALITAT DE PASSAR LA RELACIO A LA BD
-                    // També cal marcar teLlistes a true si la relacio
-                    // s'ha inserit correctament
                     await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => UnirseLlista()),
                     );
@@ -105,24 +99,6 @@ class _MenuLlistesState extends State<MenuLlistes> {
                 ),
               ),
             ],
-          ),
-          teLlistes
-              ? Column(
-                  children: [
-                    Divider(
-                      height: 40,
-                    ),
-                    Text("Sembla que ja tens llistes..."),
-                    RaisedButton(
-                      onPressed: () {},
-                      child: Text("Som-hi!"),
-                    )
-                  ],
-                )
-              : Container(),
-          Expanded(
-            flex: 3,
-            child: Container(),
           ),
         ],
       ),

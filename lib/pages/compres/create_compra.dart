@@ -9,14 +9,26 @@ import 'package:compres/services/auth.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateCompra extends StatefulWidget {
+  final List<Map<String, String>> llistesUsuari;
+  final int indexLlista;
+
+  CreateCompra({this.llistesUsuari, this.indexLlista});
   @override
   _CreateCompraState createState() => _CreateCompraState();
 }
 
 class _CreateCompraState extends State<CreateCompra> {
-  Compra compra = Compra.nova(null, AuthService().userId);
+  Compra compra;
+  int index;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    compra = Compra.nova(null, AuthService().userId,
+        widget.llistesUsuari[widget.indexLlista]['id']);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +60,36 @@ class _CreateCompraState extends State<CreateCompra> {
                   decoration: InputDecoration(
                     labelText: 'Entra el nom del producte',
                   ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona una llista"),
+                    DropdownButton<String>(
+                      hint: Text("Escolleix una llista"),
+                      value: widget.llistesUsuari[index ?? widget.indexLlista]
+                          ['id'],
+                      items: widget.llistesUsuari.map<DropdownMenuItem<String>>(
+                        (Map<String, String> value) {
+                          return DropdownMenuItem<String>(
+                            value: value['id'],
+                            child: Text(value['nom']),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          compra.idLlista = newValue;
+                          print(compra.idLlista);
+                          index = widget.llistesUsuari.indexWhere(
+                              (element) => element['id'] == newValue);
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -233,7 +275,9 @@ class _CreateCompraState extends State<CreateCompra> {
               RaisedButton(
                 color: Colors.blueAccent,
                 onPressed: () {
+                  print("Fora ${compra.idLlista}");
                   if (_formKey.currentState.validate()) {
+                    print("Dins ${compra.idLlista}");
                     Navigator.pop(context, compra);
                   }
                 },

@@ -21,7 +21,9 @@ class Compra {
     @required this.idCreador,
     this.nomCreador,
     this.idAssignat,
+    this.nomAssignat,
     this.idComprador,
+    this.nomComprador,
     @required this.idLlista,
   });
 
@@ -48,8 +50,10 @@ class Compra {
   String nomCreador; // Només valid quan es fa la query
   // [idAssignat] pot ser null si encara no s'ha assignat
   String idAssignat; // ID de a qui està assignada
+  String nomAssignat; // Només valid quan es fa la query
   // [idComprador] es null quan [comprat] és false
   String idComprador; // ID de qui la ha comprat
+  String nomComprador; // Només valid quan es fa la query
   // ID de la llista a la que està inscrita la compra
   // [idLlista] no pot ser null
   String idLlista; // ID de qui la ha comprat
@@ -71,7 +75,9 @@ class Compra {
       idCreador: data['idCreador'],
       nomCreador: data['nomCreador'],
       idAssignat: data['idAssignat'],
+      nomAssignat: data['nomAssignat'],
       idComprador: data['idComprador'],
+      nomComprador: data['nomComprador'],
       idLlista: data['idLlista'],
       comprat: data['comprat'],
     );
@@ -115,7 +121,7 @@ class Compra {
     };
   }
 
-  static Compra nova(_id, _idCreador) {
+  static Compra nova(_id, _idCreador, _idLlista) {
     // Retorna una compra nova per defecte
     return Compra(
       id: _id,
@@ -125,7 +131,7 @@ class Compra {
       prioritat: Prioritat.Normal,
       quantitat: 1,
       comprat: false,
-      idLlista: null,
+      idLlista: _idLlista,
     );
   }
 }

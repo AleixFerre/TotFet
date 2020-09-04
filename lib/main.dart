@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:compres/models/Usuari.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
 import 'package:compres/services/auth.dart';
 import 'package:compres/wrapper.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,6 +25,7 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Compres',
       theme: ThemeData(
         primarySwatch: Colors.blue,
