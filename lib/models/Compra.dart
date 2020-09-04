@@ -19,6 +19,7 @@ class Compra {
     this.dataCompra,
     // Ids
     @required this.idCreador,
+    this.nomCreador,
     this.idAssignat,
     this.idComprador,
     @required this.idLlista,
@@ -44,6 +45,7 @@ class Compra {
   int preuEstimat;
   // [idCreador] no pot ser null mai
   String idCreador; // ID de qui ha creat la compra
+  String nomCreador; // Només valid quan es fa la query
   // [idAssignat] pot ser null si encara no s'ha assignat
   String idAssignat; // ID de a qui està assignada
   // [idComprador] es null quan [comprat] és false
@@ -67,6 +69,7 @@ class Compra {
       dataCreacio: data['dataCreacio'],
       dataCompra: data['dataCompra'],
       idCreador: data['idCreador'],
+      nomCreador: data['nomCreador'],
       idAssignat: data['idAssignat'],
       idComprador: data['idComprador'],
       idLlista: data['idLlista'],
@@ -83,11 +86,13 @@ class Compra {
       'quantitat': quantitat,
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
+      'preuEstimat': preuEstimat,
       'dataPrevista': dataPrevista,
       'dataCreacio': dataCreacio,
       'dataCompra': dataCompra,
-      'preuEstimat': preuEstimat,
       'idCreador': idCreador,
+      'idComprador': idComprador,
+      'idAssignat': idAssignat,
       'idLlista': idLlista,
       'comprat': comprat,
     };
@@ -104,9 +109,7 @@ class Compra {
       'dataPrevista': dataPrevista,
       'dataCreacio': dataCreacio,
       'dataCompra': dataCompra,
-      'idCreador': idCreador,
       'idAssignat': idAssignat,
-      'idComprador': idComprador,
       'idLlista': idLlista,
       'comprat': comprat,
     };

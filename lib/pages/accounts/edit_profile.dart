@@ -32,7 +32,7 @@ class _EditPerfilState extends State<EditPerfil> {
                     if (value == "") {
                       return "Has de tenir un nom.";
                     } else if (value.length > 15) {
-                      return "El nom no pot tenir més de 15 lletres";
+                      return "El nom no pot tenir més de 15 lletres.";
                     }
                     return null;
                   },

@@ -43,7 +43,9 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          return Loading("Inicialitzant la aplicació de Firebase...");
+          return Scaffold(
+            body: Loading("Inicialitzant la aplicació de Firebase..."),
+          );
         },
       ),
     );

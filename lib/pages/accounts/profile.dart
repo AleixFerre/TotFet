@@ -261,7 +261,9 @@ class _PerfilState extends State<Perfil> {
         }
 
         // Si encara no hi ha dades
-        return Loading("Carregant les dades del perfil...");
+        return Scaffold(
+          body: Loading("Carregant les dades del perfil..."),
+        );
       },
     );
   }

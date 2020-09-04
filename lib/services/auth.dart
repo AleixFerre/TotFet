@@ -79,7 +79,8 @@ class AuthService {
   }
 
   // register email psw
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String email, String password, String username) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
@@ -88,7 +89,8 @@ class AuthService {
       User user = result.user;
 
       // Database register
-      final Usuari defaultUser = Usuari.perDefecte(user.uid);
+      Usuari defaultUser = Usuari.perDefecte(user.uid);
+      defaultUser.nom = username;
       await DatabaseService(uid: user.uid).updateUserData(defaultUser);
       return {
         "response": _userFromFirebaseUser(user),
