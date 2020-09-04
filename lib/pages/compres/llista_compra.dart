@@ -126,7 +126,9 @@ class LlistaCompra extends StatelessWidget {
                 tipusIcon: tipusIcon,
                 compraKey: compraKey,
                 compra: compra,
-                prioritatString: prioritatString)
+                prioritatString: prioritatString,
+                tipus: llistesUsuari,
+              )
             : Dismissible(
                 key: Key("$compraKey"),
                 background: Container(
@@ -170,6 +172,7 @@ class LlistaCompra extends StatelessWidget {
                   compraKey: compraKey,
                   compra: compra,
                   prioritatString: prioritatString,
+                  tipus: llistesUsuari,
                 ),
               );
       },

@@ -19,9 +19,8 @@ class DatabaseService {
     return await usersCollection.doc(uid).get();
   }
 
-  Future<DocumentSnapshot> getCompresData() async {
-    DocumentSnapshot details = await compresCollection.doc(id).get();
-    return details;
+  Stream<DocumentSnapshot> getCompresData() {
+    return compresCollection.doc(id).snapshots();
   }
 
   Future<DocumentSnapshot> getNom() async {

@@ -7,6 +7,7 @@ import '../compres/edit_compra.dart';
 class CompraCard extends StatelessWidget {
   const CompraCard({
     Key key,
+    @required this.tipus,
     @required this.cardColor,
     @required this.tipusIcon,
     @required this.compraKey,
@@ -18,6 +19,7 @@ class CompraCard extends StatelessWidget {
   final Icon tipusIcon;
   final dynamic compraKey;
   final Map<String, dynamic> compra;
+  final List<Map<String, dynamic>> tipus;
   final String prioritatString;
 
   @override
@@ -43,6 +45,7 @@ class CompraCard extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => CompraDetails(
                           id: compraKey,
+                          tipus: tipus,
                         ),
                       ),
                     );

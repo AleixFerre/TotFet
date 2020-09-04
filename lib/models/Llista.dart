@@ -32,8 +32,6 @@ class Llista {
         "nom": l.nom,
       });
     }
-    // S'ordena de forma alfabètica
-    llistaFinal.sort((a, b) => a['nom'].compareTo(b['nom']));
     return llistaFinal;
   }
 }

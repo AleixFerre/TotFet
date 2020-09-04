@@ -23,39 +23,19 @@ class SomeErrorPage extends StatelessWidget {
             Expanded(
               child: Container(),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                children: [
-                  Text(
-                    "Oops! Sembla que alguna cosa ha sortit malament...\n",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "Envia una captura d'aquesta pàgina a algun administrador explicant quan i com ha passat per poder arregar l'error l'abans possible. " +
-                        "Quan ja ho hagis fet, pots reiniciar la aplicació.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
+            Text(
+              "Oops! Sembla que alguna cosa ha sortit malament...",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
             Divider(
+              height: 50,
               thickness: 3,
               indent: 20,
               endIndent: 20,
-            ),
-            SizedBox(
-              height: 20,
             ),
             Text(
               "ERROR: $error",

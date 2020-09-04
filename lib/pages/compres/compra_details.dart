@@ -11,15 +11,10 @@ import 'package:compres/models/Compra.dart';
 import 'package:compres/models/Tipus/Tipus.dart';
 import 'package:compres/models/Prioritat/Prioritat.dart';
 
-class CompraDetails extends StatefulWidget {
-  CompraDetails({this.id});
+class CompraDetails extends StatelessWidget {
+  CompraDetails({this.id, this.tipus});
   final String id;
-
-  @override
-  _CompraDetailsState createState() => _CompraDetailsState();
-}
-
-class _CompraDetailsState extends State<CompraDetails> {
+  final List<Map<String, String>> tipus;
   String readTimestamp(Timestamp timestamp, bool showHour) {
     if (timestamp == null) return null;
 
@@ -44,11 +39,20 @@ class _CompraDetailsState extends State<CompraDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Future<DocumentSnapshot> futureCompres =
-        DatabaseService(id: widget.id).getCompresData();
+    Stream<DocumentSnapshot> futureCompres =
+        DatabaseService(id: id).getCompresData();
 
-    return FutureBuilder<DocumentSnapshot>(
-        future: futureCompres,
+    String buscarNom(String id) {
+      for (Map<String, String> map in tipus) {
+        if (map['id'] == id) {
+          return map['nom'];
+        }
+      }
+      return null;
+    }
+
+    return StreamBuilder<DocumentSnapshot>(
+        stream: futureCompres,
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot> snapshotDetails) {
           if (snapshotDetails.hasError) {
@@ -91,11 +95,10 @@ class _CompraDetailsState extends State<CompraDetails> {
                                 DocumentReference doc = FirebaseFirestore
                                     .instance
                                     .collection('compres')
-                                    .doc(widget.id);
+                                    .doc(id);
                                 await doc.update(resposta);
                                 // El future builder agafarà les dades més recents de la BD
                                 // En quant es recarregui l'estat
-                                setState(() {});
                               }
                             },
                           ),
@@ -201,6 +204,16 @@ class _CompraDetailsState extends State<CompraDetails> {
                                 "Creat per: ${compra.nomCreador ?? "No disponible"}",
                                 style: TextStyle(fontSize: 25),
                               ),
+                              Divider(),
+                              Text(
+                                "Llista: ${buscarNom(compra.idLlista) ?? "No disponible"}",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                              Divider(),
+                              Text(
+                                "Assignat a: ${compra.idAssignat ?? "No disponible"}",
+                                style: TextStyle(fontSize: 25),
+                              ),
                               SizedBox(height: 30),
                               Text(
                                 "Dades de la compra",
@@ -236,7 +249,7 @@ class _CompraDetailsState extends State<CompraDetails> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "ID: ${widget.id}",
+                                    "ID: $id",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],

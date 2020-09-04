@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compres/pages/llistes/menu_llistes.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +24,8 @@ class _CarregarBDState extends State<CarregarBD> {
         .where("usuari", isEqualTo: AuthService().userId);
 
     // Carregar llistes de l'usuari actiu
-    return FutureBuilder(
-      future: getllistes.get(),
+    return StreamBuilder(
+      stream: getllistes.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           List<String> llistaDeReferencies = snapshot.data.docs
@@ -41,8 +43,8 @@ class _CarregarBDState extends State<CarregarBD> {
               .collection("llistes")
               .where(FieldPath.documentId, whereIn: llistaDeReferencies);
 
-          return FutureBuilder(
-              future: getInfoLlistes.get(),
+          return StreamBuilder(
+              stream: getInfoLlistes.snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot2) {
                 if (snapshot2.hasData) {
@@ -87,6 +89,8 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
 
   void rebuildParentFiltre(int _index) {
     if (index != _index) {
+      // Si per algun casual s'esborra la ultima llista i estem seleccionant
+      // aquesta, l'index de la llista actual és l'anterior
       setState(() {
         index = _index;
       });
@@ -95,6 +99,7 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
 
   @override
   Widget build(BuildContext context) {
+    index = min(index, widget.llistes.length - 1);
     Query compres = FirebaseFirestore.instance
         .collection('compres')
         .where("idLlista", isEqualTo: widget.llistes[index].id)
