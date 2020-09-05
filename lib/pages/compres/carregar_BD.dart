@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compres/pages/llistes/menu_llistes.dart';
+import 'package:compres/services/database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/models/Llista.dart';
-import 'package:compres/services/auth.dart';
 import 'package:compres/pages/compres/llista_compra.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
@@ -18,14 +18,9 @@ class CarregarBD extends StatefulWidget {
 class _CarregarBDState extends State<CarregarBD> {
   @override
   Widget build(BuildContext context) {
-    // Totes les llistes de l'usuari
-    Query getllistes = FirebaseFirestore.instance
-        .collection('llistes_usuaris')
-        .where("usuari", isEqualTo: AuthService().userId);
-
     // Carregar llistes de l'usuari actiu
     return StreamBuilder(
-      stream: getllistes.snapshots(),
+      stream: DatabaseService().getLlistesUsuarisActualData(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           List<String> llistaDeReferencies = snapshot.data.docs
@@ -38,13 +33,8 @@ class _CarregarBDState extends State<CarregarBD> {
             return MenuLlistes();
           }
 
-          // Agafo la info d'aquestes llistes
-          Query getInfoLlistes = FirebaseFirestore.instance
-              .collection("llistes")
-              .where(FieldPath.documentId, whereIn: llistaDeReferencies);
-
           return StreamBuilder(
-              stream: getInfoLlistes.snapshots(),
+              stream: DatabaseService().getInfoLlistesIn(llistaDeReferencies),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot2) {
                 if (snapshot2.hasData) {
@@ -100,13 +90,10 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
   @override
   Widget build(BuildContext context) {
     index = min(index, widget.llistes.length - 1);
-    Query compres = FirebaseFirestore.instance
-        .collection('compres')
-        .where("idLlista", isEqualTo: widget.llistes[index].id)
-        .where("comprat", isEqualTo: comprat);
 
     return StreamBuilder<QuerySnapshot>(
-      stream: compres.snapshots(),
+      stream: DatabaseService()
+          .getCompresInfoWhere(widget.llistes[index].id, comprat),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         // SI HI HA HAGUT ALGUN ERROR
         if (snapshot.hasError) {

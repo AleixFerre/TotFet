@@ -21,6 +21,20 @@ class DatabaseService {
     return await usersCollection.doc(uid).set(usuari.toDBMap());
   }
 
+  Future<void> updateLlista(Llista llista) async {
+    return await llistesCollection.doc(llista.id).set(llista.toDBMap());
+  }
+
+  Future<void> addCompra(Map<String, dynamic> result) async {
+    return await compresCollection
+        .add(
+          result,
+        )
+        .catchError(
+          (error) => print("Error a l'afegir producte: $error"),
+        );
+  }
+
   Future<void> addList(Llista llista) async {
     // Afegim la llista a la taula LLISTES
     DocumentReference llistaCreada =
@@ -34,6 +48,30 @@ class DatabaseService {
       "llista": id,
       "usuari": AuthService().userId,
     });
+  }
+
+  Future<void> editarCompra(String compraKey, Map resposta) async {
+    return await compresCollection.doc(compraKey).update(resposta);
+  }
+
+  Future<void> comprarCompra(String compraKey) async {
+    compresCollection.doc(compraKey).update({
+      "comprat": true,
+      "idComprador": AuthService().userId,
+      "dataCompra": Timestamp.now(),
+    });
+  }
+
+  Future<void> esborrarCompra(String compraKey) async {
+    return await compresCollection.doc(compraKey).delete();
+  }
+
+  Future<void> sortirUsuarideLlista(String llistaID) async {
+    QuerySnapshot info = await llistesUsuarisCollection
+        .where("llista", isEqualTo: llistaID)
+        .where("usuari", isEqualTo: AuthService().userId)
+        .get();
+    return llistesUsuarisCollection.doc(info.docs[0].id).delete();
   }
 
   Future<bool> existeixLlista(String id) async {
@@ -65,6 +103,12 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots();
   }
 
+  Future<QuerySnapshot> getUsersData(List<String> idUsuaris) {
+    return usersCollection
+        .where(FieldPath.documentId, whereIn: idUsuaris)
+        .get();
+  }
+
   Stream<QuerySnapshot> getLlistesData() {
     return llistesCollection.snapshots();
   }
@@ -81,6 +125,25 @@ class DatabaseService {
 
   Stream<DocumentSnapshot> getCompresData() {
     return compresCollection.doc(id).snapshots();
+  }
+
+  Stream<QuerySnapshot> getLlistesUsuarisActualData() {
+    return llistesUsuarisCollection
+        .where("usuari", isEqualTo: AuthService().userId)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getInfoLlistesIn(List<String> llistaDeReferencies) {
+    return llistesCollection
+        .where(FieldPath.documentId, whereIn: llistaDeReferencies)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getCompresInfoWhere(String idLlista, bool comprat) {
+    return compresCollection
+        .where("idLlista", isEqualTo: idLlista)
+        .where("comprat", isEqualTo: comprat)
+        .snapshots();
   }
 
   Future<DocumentSnapshot> getNom() async {

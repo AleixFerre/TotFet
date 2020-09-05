@@ -1,5 +1,5 @@
-import 'package:compres/pages/accounts/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:compres/pages/accounts/welcome.dart';
 import 'package:compres/pages/accounts/register.dart';
 import 'package:compres/pages/accounts/sign_in.dart';
 

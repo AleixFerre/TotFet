@@ -73,12 +73,8 @@ class CompraDetails extends StatelessWidget {
               idUsuaris.add(info['idAssignat']);
             }
 
-            Query futureNoms = FirebaseFirestore.instance
-                .collection('usuaris')
-                .where(FieldPath.documentId, whereIn: idUsuaris);
-
             return FutureBuilder<QuerySnapshot>(
-                future: futureNoms.get(),
+                future: DatabaseService().getUsersData(idUsuaris),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
@@ -119,11 +115,9 @@ class CompraDetails extends StatelessWidget {
                               );
                               if (resposta != null) {
                                 resposta.remove('id');
-                                DocumentReference doc = FirebaseFirestore
-                                    .instance
-                                    .collection('compres')
-                                    .doc(id);
-                                await doc.update(resposta);
+                                await DatabaseService()
+                                    .editarCompra(id, resposta);
+                                print("Compra editada correctament!");
                                 // El future builder agafarà les dades més recents de la BD
                                 // En quant es recarregui l'estat
                               }
@@ -174,11 +168,8 @@ class CompraDetails extends StatelessWidget {
 
                               // Si esborrar és null o false, llavors no es fa res
                               if (esborrar == true) {
-                                DocumentReference doc = FirebaseFirestore
-                                    .instance
-                                    .collection('compres')
-                                    .doc(compra.id);
-                                await doc.delete();
+                                await DatabaseService()
+                                    .esborrarCompra(compra.id);
                                 // Si no hi ha element, podem sortir d'aquesta pantalla
                                 Navigator.pop(context);
                               }

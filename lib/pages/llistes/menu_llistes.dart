@@ -1,9 +1,10 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 
 import 'package:compres/pages/llistes/crear_llista.dart';
 import 'package:compres/pages/llistes/unirse_llista.dart';
+import 'package:compres/services/database.dart';
 import 'package:compres/shared/sortir_sessio.dart';
-import 'package:flutter/material.dart';
 
 class MenuLlistes extends StatefulWidget {
   @override
@@ -79,10 +80,13 @@ class _MenuLlistesState extends State<MenuLlistes> {
                 child: RaisedButton(
                   elevation: 3,
                   onPressed: () async {
-                    // FER A FUNCIONALITAT DE PASSAR LA RELACIO A LA BD
-                    await Navigator.of(context).push(
+                    String id = await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => UnirseLlista()),
                     );
+                    if (id != null) {
+                      await DatabaseService().addUsuariLlista(id);
+                      print("T'has unit a la llista correctament!");
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

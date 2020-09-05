@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/pages/compres/compra_details.dart';
-import '../compres/edit_compra.dart';
+import 'package:compres/services/database.dart';
+import 'package:compres/pages/compres/edit_compra.dart';
 
 class CompraCard extends StatelessWidget {
   const CompraCard({
@@ -77,7 +77,7 @@ class CompraCard extends StatelessWidget {
                         ),
                   trailing: FlatButton(
                     onPressed: () async {
-                      Map resposta = await Navigator.push(
+                      Map<String, dynamic> resposta = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditCompra(
@@ -86,11 +86,10 @@ class CompraCard extends StatelessWidget {
                         ),
                       );
                       if (resposta != null) {
-                        DocumentReference doc = FirebaseFirestore.instance
-                            .collection('compres')
-                            .doc(compraKey);
                         resposta.remove('key');
-                        await doc.update(resposta);
+                        await DatabaseService()
+                            .editarCompra(compraKey, resposta);
+                        print("Compra editada correctament!");
                       }
                     },
                     child: Icon(Icons.edit),

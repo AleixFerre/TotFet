@@ -1,7 +1,7 @@
 import 'dart:ui';
 
+import 'package:compres/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:compres/shared/llista_buida.dart';
 import 'package:compres/shared/sortir_sessio.dart';
@@ -11,7 +11,6 @@ import 'package:compres/models/Compra.dart';
 import 'package:compres/pages/accounts/profile.dart';
 import 'package:compres/pages/compres/create_compra.dart';
 import 'package:compres/pages/compres/compra_card.dart';
-import 'package:compres/services/auth.dart';
 
 class LlistaCompra extends StatelessWidget {
   LlistaCompra({
@@ -109,31 +108,8 @@ class LlistaCompra extends StatelessWidget {
                   ),
                 ),
                 onDismissed: (direction) async {
-                  DocumentReference document = FirebaseFirestore.instance
-                      .collection('compres')
-                      .doc(compraKey);
-                  await document.update({
-                    "comprat": true,
-                    "idComprador": AuthService().userId,
-                    "dataCompra": Timestamp.now(),
-                  });
-                  /*
-                  final SnackBar snackBar = SnackBar(
-                    content: Text("Producte comprat correctament!"),
-                    action: SnackBarAction(
-                      label: "Desfer",
-                      onPressed: () async {
-                        await document.update({
-                          "idComprador": null,
-                          "dataCompra": null,
-                          "comprat": false,
-                        });
-                      },
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                  );
-                  Scaffold.of(context).showSnackBar(snackBar);
-                  */
+                  await DatabaseService().comprarCompra(compraKey);
+                  print("Compra realitzada correctament!");
                 },
                 child: CompraCard(
                   cardColor: cardColor,
@@ -228,18 +204,8 @@ class LlistaCompra extends StatelessWidget {
           ),
         );
 
-        CollectionReference compres =
-            FirebaseFirestore.instance.collection('compres');
-
         if (result != null) {
-          await compres
-              .add(
-                result.toDBMap(),
-              )
-              .catchError(
-                (error) => print("Error a l'afegir producte: $error"),
-              );
-
+          await DatabaseService().addCompra(result.toDBMap());
           print("Producte afegit correctament!");
         }
       },

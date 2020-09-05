@@ -3,6 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LlistaBuida extends StatelessWidget {
+  LlistaBuida({this.missatge});
+  final String missatge;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,7 +33,7 @@ class LlistaBuida extends StatelessWidget {
           height: 40,
         ),
         Text(
-          "Aquí no hi ha res...",
+          missatge ?? "Aquí no hi ha res...",
           style: TextStyle(
             fontSize: 30,
           ),

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:compres/models/Llista.dart';
 
-class CrearLlista extends StatefulWidget {
+class EditarLlista extends StatefulWidget {
+  EditarLlista({this.llista});
+  final Llista llista;
   @override
-  _CrearLlistaState createState() => _CrearLlistaState();
+  _EditarLlistaState createState() => _EditarLlistaState();
 }
 
-class _CrearLlistaState extends State<CrearLlista> {
-  Llista llista = Llista.nova();
+class _EditarLlistaState extends State<EditarLlista> {
+  Llista llista;
+
+  @override
+  void initState() {
+    super.initState();
+    llista = widget.llista;
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -16,7 +24,7 @@ class _CrearLlistaState extends State<CrearLlista> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text("Crear una llista"),
+          child: Text("Editar una llista"),
         ),
       ),
       body: Form(
@@ -91,13 +99,13 @@ class _CrearLlistaState extends State<CrearLlista> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        'Crear',
+                        'Editar',
                         style: TextStyle(color: Colors.white, fontSize: 40),
                       ),
                     ),
                     SizedBox(width: 10),
                     Icon(
-                      Icons.post_add,
+                      Icons.edit,
                       size: 40,
                       color: Colors.white,
                     )

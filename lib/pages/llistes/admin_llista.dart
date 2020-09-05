@@ -1,13 +1,15 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:compres/models/Llista.dart';
+import 'package:compres/pages/llistes/editar_llista.dart';
 import 'package:compres/services/auth.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/llista_buida.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
-import 'package:flutter/material.dart';
 
 class AdminLlistes extends StatelessWidget {
   @override
@@ -55,13 +57,26 @@ class AdminLlistes extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          PopupMenuButton<int> construirDesplegable(bool isOwner) {
+          List<Llista> llistes =
+              snapshot.data.docs.map((e) => Llista.fromDB(e)).toList();
+
+          PopupMenuButton<int> construirDesplegable(
+              bool isOwner, Llista llista) {
             final List<Map<String, dynamic>> opcionsOwner = [
               {
                 "nom": "Editar",
                 "icon": Icon(Icons.edit),
-                "function": () {
-                  return print("Editar");
+                "function": () async {
+                  Llista resultat = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => EditarLlista(llista: llista),
+                    ),
+                  );
+                  // Actualitzar la llista a la BD
+                  if (resultat != null) {
+                    await DatabaseService().updateLlista(resultat);
+                    print("Llista editada correctament!");
+                  }
                 },
               },
               {
@@ -76,8 +91,10 @@ class AdminLlistes extends StatelessWidget {
               {
                 "nom": "Sortir",
                 "icon": Icon(Icons.exit_to_app),
-                "function": () {
-                  return print("Sortir");
+                "function": () async {
+                  // Es podria posar un AlertDialog per confirmar la sortida?
+                  await DatabaseService().sortirUsuarideLlista(llista.id);
+                  return print("L'usuari ha sortit correctament de la llista!");
                 },
               },
             ];
@@ -109,9 +126,6 @@ class AdminLlistes extends StatelessWidget {
               },
             );
           }
-
-          List<Llista> llistes =
-              snapshot.data.docs.map((e) => Llista.fromDB(e)).toList();
 
           return Padding(
             padding: EdgeInsets.all(8),
@@ -150,7 +164,7 @@ class AdminLlistes extends StatelessWidget {
                             child: Text(llista.descripcio),
                           )
                         : null,
-                    trailing: construirDesplegable(isOwner),
+                    trailing: construirDesplegable(isOwner, llista),
                   ),
                 );
               },
