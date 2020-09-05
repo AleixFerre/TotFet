@@ -48,7 +48,7 @@ class _CarregarBDState extends State<CarregarBD> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot2) {
                 if (snapshot2.hasData) {
-                  List<dynamic> llistaInfo = snapshot2.data.docs
+                  List<Llista> llistaInfo = snapshot2.data.docs
                       .map((QueryDocumentSnapshot doc) => Llista.fromDB(doc))
                       .toList();
 

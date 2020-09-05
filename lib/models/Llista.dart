@@ -27,7 +27,8 @@ class Llista {
     return Llista(
       id: doc.id,
       nom: doc.data()['nom'] ?? "No disponible",
-      descripcio: doc.data()['descripcio'],
+      descripcio:
+          doc.data()['descripcio'] == "" ? null : doc.data()['descripcio'],
       idCreador: doc.data()['idCreador'],
     );
   }

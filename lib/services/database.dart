@@ -61,6 +61,10 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots();
   }
 
+  Stream<QuerySnapshot> getLlistesData() {
+    return llistesCollection.snapshots();
+  }
+
   Stream<DocumentSnapshot> getCompresData() {
     return compresCollection.doc(id).snapshots();
   }

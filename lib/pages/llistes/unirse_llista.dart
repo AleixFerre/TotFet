@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +70,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                             });
                           } else {
                             setState(() {
-                              errorMsg = "La llista no existeix";
+                              errorMsg = "No existeix cap llista amb aquest ID";
                             });
                           }
                         }
@@ -98,7 +100,16 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                         ],
                       ),
                     ),
-                    Text(errorMsg),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        (errorMsg == "") ? "" : "Error: $errorMsg.",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compres/models/Llista.dart';
 import 'package:compres/pages/accounts/edit_profile.dart';
+import 'package:compres/pages/llistes/admin_llista.dart';
 import 'package:compres/pages/llistes/crear_llista.dart';
 import 'package:compres/pages/llistes/unirse_llista.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +174,13 @@ class Perfil extends StatelessWidget {
                       ),
                       RaisedButton(
                         elevation: 3,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => AdminLlistes(),
+                            ),
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
