@@ -1,18 +1,17 @@
 import 'dart:ui';
 
-import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 
+import 'package:compres/shared/llista_buida.dart';
+import 'package:compres/shared/sortir_sessio.dart';
 import 'package:compres/models/Prioritat/PrioritatColors.dart';
 import 'package:compres/models/Tipus/TipusEmojis.dart';
+import 'package:compres/models/Compra.dart';
 import 'package:compres/pages/accounts/profile.dart';
 import 'package:compres/pages/compres/create_compra.dart';
 import 'package:compres/pages/compres/compra_card.dart';
 import 'package:compres/services/auth.dart';
-import 'package:compres/models/Compra.dart';
 
 class LlistaCompra extends StatelessWidget {
   LlistaCompra({
@@ -76,39 +75,6 @@ class LlistaCompra extends StatelessWidget {
           },
         ),
         SortirSessio(),
-      ],
-    );
-
-    Column llistaBuida = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 250,
-          child: SvgPicture.asset(
-            "images/empty.svg",
-            alignment: Alignment.topCenter,
-            placeholderBuilder: (context) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SpinKitCubeGrid(
-                    color: Colors.blue,
-                    size: 100,
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        Text(
-          "Aquí no hi ha res...",
-          style: TextStyle(
-            fontSize: 30,
-          ),
-        ),
       ],
     );
 
@@ -284,7 +250,7 @@ class LlistaCompra extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       appBar: appBar,
-      body: llista.isEmpty ? llistaBuida : mostrarLlista,
+      body: llista.isEmpty ? LlistaBuida() : mostrarLlista,
       bottomNavigationBar: bottomAppBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,

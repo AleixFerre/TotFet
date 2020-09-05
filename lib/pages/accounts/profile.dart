@@ -152,12 +152,16 @@ class Perfil extends StatelessWidget {
                       ),
                       RaisedButton(
                         elevation: 3,
-                        onPressed: () {
-                          Navigator.of(context).push(
+                        onPressed: () async {
+                          String id = await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => UnirseLlista(),
                             ),
                           );
+                          if (id != null) {
+                            await DatabaseService().addUsuariLlista(id);
+                            print("T'has unit a la llista correctament!");
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -199,72 +203,6 @@ class Perfil extends StatelessWidget {
                   Divider(
                     height: 40,
                   ),
-                  /* Per ara no s'implementa el tema de les vistes
-                  Center(
-                    child: Text(
-                      "Les meves compres",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.add_circle,
-                                size: 50,
-                              ),
-                              Text("Creades"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.attach_money,
-                                size: 50,
-                              ),
-                              Text("Comprades"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.notifications,
-                                size: 50,
-                              ),
-                              Text("Assignades"),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),*/
                   Expanded(
                     child: Container(),
                   ),

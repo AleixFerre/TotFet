@@ -11,10 +11,6 @@ class _CrearLlistaState extends State<CrearLlista> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // S'ha de posar:
-  // Nom de la llista
-  // Descripcio de la llista
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +19,6 @@ class _CrearLlistaState extends State<CrearLlista> {
           child: Text("Crear una llista"),
         ),
       ),
-      // EL FORMULARI
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(

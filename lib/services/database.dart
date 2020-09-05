@@ -26,9 +26,13 @@ class DatabaseService {
     DocumentReference llistaCreada =
         await llistesCollection.add(llista.toDBMap());
     // Afegim la relacio USUARI - LLISTA a la taula de relacions
+    return await addUsuariLlista(llistaCreada.id);
+  }
+
+  Future<void> addUsuariLlista(String id) async {
     return await llistesUsuarisCollection.add({
-      "llista": llistaCreada.id,
-      "usuari": llista.idCreador,
+      "llista": id,
+      "usuari": AuthService().userId,
     });
   }
 
@@ -63,6 +67,16 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getLlistesData() {
     return llistesCollection.snapshots();
+  }
+
+  Stream<QuerySnapshot> getLlistesInData(List<String> ids) {
+    return llistesCollection
+        .where(FieldPath.documentId, whereIn: ids)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getLlistesUsuarisData(String uid) {
+    return llistesUsuarisCollection.where("usuari", isEqualTo: uid).snapshots();
   }
 
   Stream<DocumentSnapshot> getCompresData() {

@@ -83,7 +83,6 @@ class _CreateCompraState extends State<CreateCompra> {
                       onChanged: (String newValue) {
                         setState(() {
                           compra.idLlista = newValue;
-                          print(compra.idLlista);
                           index = widget.llistesUsuari.indexWhere(
                               (element) => element['id'] == newValue);
                         });
@@ -275,9 +274,7 @@ class _CreateCompraState extends State<CreateCompra> {
               RaisedButton(
                 color: Colors.blueAccent,
                 onPressed: () {
-                  print("Fora ${compra.idLlista}");
                   if (_formKey.currentState.validate()) {
-                    print("Dins ${compra.idLlista}");
                     Navigator.pop(context, compra);
                   }
                 },
