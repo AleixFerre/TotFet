@@ -56,14 +56,7 @@ class AdminLlistes extends StatelessWidget {
 
         if (snapshot.hasData) {
           PopupMenuButton<int> construirDesplegable(bool isOwner) {
-            List<Map<String, dynamic>> opcions = [
-              {
-                "nom": "Esborrar",
-                "icon": Icon(Icons.delete),
-                "function": () {
-                  return print("Esborrar");
-                },
-              },
+            final List<Map<String, dynamic>> opcionsOwner = [
               {
                 "nom": "Editar",
                 "icon": Icon(Icons.edit),
@@ -71,6 +64,15 @@ class AdminLlistes extends StatelessWidget {
                   return print("Editar");
                 },
               },
+              {
+                "nom": "Esborrar",
+                "icon": Icon(Icons.delete),
+                "function": () {
+                  return print("Esborrar");
+                },
+              },
+            ];
+            final List<Map<String, dynamic>> opcionsNormal = [
               {
                 "nom": "Sortir",
                 "icon": Icon(Icons.exit_to_app),
@@ -80,10 +82,8 @@ class AdminLlistes extends StatelessWidget {
               },
             ];
 
-            if (!isOwner) {
-              opcions.removeAt(1);
-              opcions.removeAt(0);
-            }
+            List<Map<String, dynamic>> opcions =
+                isOwner ? opcionsOwner : opcionsNormal;
 
             return PopupMenuButton<int>(
               tooltip: "Opcions de la llista",

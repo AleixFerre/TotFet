@@ -11,7 +11,7 @@ class UnirseLlista extends StatefulWidget {
 
 class _UnirseLlistaState extends State<UnirseLlista> {
   final _formKey = GlobalKey<FormState>();
-  String id;
+  String id = "";
   bool loading = false;
   String errorMsg = "";
 
@@ -34,7 +34,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                       child: TextFormField(
                         validator: (value) {
                           if (value.length != 20) {
-                            return "La ID ha de tenir 20 caràcters. Respecta les majúscules i minuscules.";
+                            return "La ID ha de tenir 20 caràcters.";
                           }
                           return null;
                         },
@@ -45,6 +45,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                           });
                         },
                         decoration: InputDecoration(
+                          counterText: "${id.length}/20",
                           labelText: 'Entra la ID de la llista',
                         ),
                       ),
