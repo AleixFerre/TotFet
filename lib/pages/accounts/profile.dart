@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/models/Llista.dart';
 import 'package:compres/pages/accounts/edit_profile.dart';
+import 'package:compres/pages/llistes/crear_llista.dart';
+import 'package:compres/pages/llistes/unirse_llista.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/services/auth.dart';
@@ -128,7 +131,17 @@ class _PerfilState extends State<Perfil> {
                     children: [
                       RaisedButton(
                         elevation: 3,
-                        onPressed: () {},
+                        onPressed: () async {
+                          Llista result = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CrearLlista(),
+                            ),
+                          );
+                          if (result != null) {
+                            await DatabaseService().addList(result);
+                            print("Llista creada correctament!");
+                          }
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -144,7 +157,13 @@ class _PerfilState extends State<Perfil> {
                       ),
                       RaisedButton(
                         elevation: 3,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => UnirseLlista(),
+                            ),
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(

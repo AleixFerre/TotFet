@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Llista {
@@ -10,9 +11,17 @@ class Llista {
   Llista({
     @required this.id,
     @required this.nom,
-    @required this.idCreador,
+    this.idCreador,
     this.descripcio,
   });
+
+  Map<String, String> toDBMap() {
+    return {
+      "nom": nom,
+      "descripcio": descripcio,
+      "idCreador": idCreador,
+    };
+  }
 
   static Llista fromDB(QueryDocumentSnapshot doc) {
     return Llista(
@@ -33,5 +42,14 @@ class Llista {
       });
     }
     return llistaFinal;
+  }
+
+  static Llista nova() {
+    return Llista(
+      id: null,
+      nom: null,
+      descripcio: null,
+      idCreador: AuthService().userId,
+    );
   }
 }

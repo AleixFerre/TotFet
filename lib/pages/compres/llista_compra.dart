@@ -59,7 +59,10 @@ class LlistaCompra extends StatelessWidget {
         },
       ),
       title: Center(
-        child: Text("Compres de ${llistesUsuari[indexLlista]['nom']}"),
+        child: Text(
+          "Compres de ${llistesUsuari[indexLlista]['nom']}",
+          overflow: TextOverflow.fade,
+        ),
       ),
       actions: [
         IconButton(

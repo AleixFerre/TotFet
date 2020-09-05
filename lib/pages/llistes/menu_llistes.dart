@@ -54,7 +54,7 @@ class _MenuLlistesState extends State<MenuLlistes> {
                 child: RaisedButton(
                   elevation: 3,
                   onPressed: () async {
-                    // TODO: FER A FUNCIONALITAT DE PASSAR LA LLISTA A LA BD
+                    // FER A FUNCIONALITAT DE PASSAR LA LLISTA A LA BD
                     await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => CrearLlista()),
                     );
@@ -79,7 +79,7 @@ class _MenuLlistesState extends State<MenuLlistes> {
                 child: RaisedButton(
                   elevation: 3,
                   onPressed: () async {
-                    // TODO: FER A FUNCIONALITAT DE PASSAR LA RELACIO A LA BD
+                    // FER A FUNCIONALITAT DE PASSAR LA RELACIO A LA BD
                     await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => UnirseLlista()),
                     );
