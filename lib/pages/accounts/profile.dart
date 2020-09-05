@@ -13,20 +13,15 @@ import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
 import 'package:compres/models/Usuari.dart';
 
-class Perfil extends StatefulWidget {
-  @override
-  _PerfilState createState() => _PerfilState();
-}
-
-class _PerfilState extends State<Perfil> {
+class Perfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
-    final Future<DocumentSnapshot> futureSnapshot =
+    final Stream<DocumentSnapshot> futureSnapshot =
         DatabaseService(uid: _auth.userId).getUserData();
 
-    return FutureBuilder(
-      future: futureSnapshot,
+    return StreamBuilder(
+      stream: futureSnapshot,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);
@@ -58,7 +53,6 @@ class _PerfilState extends State<Perfil> {
                       // Instantaniament al fer rebuild s'actualitza la Query
                       await DatabaseService(uid: usuari.uid)
                           .updateUserData(resposta);
-                      setState(() {});
                     }
                   },
                 ),

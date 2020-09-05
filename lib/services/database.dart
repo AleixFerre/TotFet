@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compres/models/Llista.dart';
 import 'package:compres/models/Usuari.dart';
+import 'package:compres/services/auth.dart';
 
 class DatabaseService {
   final String uid;
@@ -31,8 +32,33 @@ class DatabaseService {
     });
   }
 
-  Future<DocumentSnapshot> getUserData() async {
-    return await usersCollection.doc(uid).get();
+  Future<bool> existeixLlista(String id) async {
+    try {
+      DocumentSnapshot document = await llistesCollection.doc(id).get();
+      return document.exists;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> pucEntrarLlista(String id) async {
+    try {
+      // Miro si ja existeix aquesta entrada
+      QuerySnapshot querySnapshot = await llistesUsuarisCollection
+          .where("usuari", isEqualTo: AuthService().userId)
+          .where("llista", isEqualTo: id)
+          .get();
+      print(querySnapshot.docs.length);
+      return querySnapshot.docs.length == 0;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Stream<DocumentSnapshot> getUserData() {
+    return usersCollection.doc(uid).snapshots();
   }
 
   Stream<DocumentSnapshot> getCompresData() {
