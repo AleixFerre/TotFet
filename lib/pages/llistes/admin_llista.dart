@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:compres/pages/llistes/QR/qr_viewer.dart';
+import 'package:compres/pages/llistes/detalls_llista.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -80,10 +82,17 @@ class AdminLlistes extends StatelessWidget {
                 },
               },
               {
-                "nom": "Esborrar",
-                "icon": Icon(Icons.delete),
+                "nom": "Canviar Host",
+                "icon": Icon(Icons.face),
                 "function": () {
-                  return print("Esborrar");
+                  return print("Canviar Host");
+                },
+              },
+              {
+                "nom": "Expulsar",
+                "icon": Icon(Icons.gavel),
+                "function": () {
+                  return print("Expulsar");
                 },
               },
             ];
@@ -92,9 +101,52 @@ class AdminLlistes extends StatelessWidget {
                 "nom": "Sortir",
                 "icon": Icon(Icons.exit_to_app),
                 "function": () async {
-                  // Es podria posar un AlertDialog per confirmar la sortida?
-                  await DatabaseService().sortirUsuarideLlista(llista.id);
-                  return print("L'usuari ha sortit correctament de la llista!");
+                  // Show alert box
+                  bool sortir = await showDialog<bool>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Vols sortir de la llista?'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(
+                                'Pots tornar-te a unir amb el codi',
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              'Cancel·lar',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'Sortir',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  // Si esborrar és null o false, llavors no es fa res
+                  if (sortir == true) {
+                    await DatabaseService().sortirUsuarideLlista(llista.id);
+                    return print(
+                        "L'usuari ha sortit correctament de la llista!");
+                  }
                 },
               },
             ];
@@ -136,16 +188,32 @@ class AdminLlistes extends StatelessWidget {
                 bool isOwner = AuthService().userId == llista.idCreador;
                 return Card(
                   child: ListTile(
-                    leading: isOwner
-                        ? Icon(
-                            Icons.admin_panel_settings,
-                            size: 30,
-                            color: Colors.red[400],
-                          )
-                        : Icon(
-                            Icons.group,
-                            size: 30,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => LlistaDetalls(
+                            llista: llista,
+                            isOwner: isOwner,
                           ),
+                        ),
+                      );
+                    },
+                    leading: IconButton(
+                      tooltip:
+                          "Ensenya el codi QR als teus amics per poder convidar-los!",
+                      icon: Icon(
+                        Icons.qr_code_scanner,
+                        size: 32,
+                        semanticLabel: "Escaneja el codi QR de la llista",
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => QRViewer(id: llista.id),
+                          ),
+                        );
+                      },
+                    ),
                     contentPadding: EdgeInsets.all(3),
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -91,7 +91,6 @@ class DatabaseService {
           .where("usuari", isEqualTo: AuthService().userId)
           .where("llista", isEqualTo: id)
           .get();
-      print(querySnapshot.docs.length);
       return querySnapshot.docs.length == 0;
     } catch (e) {
       print(e);
@@ -101,6 +100,12 @@ class DatabaseService {
 
   Stream<DocumentSnapshot> getUserData() {
     return usersCollection.doc(uid).snapshots();
+  }
+
+  Future<QuerySnapshot> getUsuarisLlista(String id) async {
+    QuerySnapshot refUsuaris =
+        await llistesUsuarisCollection.where("llista", isEqualTo: id).get();
+    return await getUsersData(Usuari.fromRefDB(refUsuaris));
   }
 
   Future<QuerySnapshot> getUsersData(List<String> idUsuaris) {

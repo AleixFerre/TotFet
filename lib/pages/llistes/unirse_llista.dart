@@ -59,16 +59,20 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                         setState(() {
                           loading = true;
                         });
+                        bool mostrarError = true;
                         if (_formKey.currentState.validate()) {
                           // Comprovo si existeix la llista com a tal
                           if (await DatabaseService().existeixLlista(id)) {
                             // Comprovo si no estic ja a dins
                             if (await DatabaseService().pucEntrarLlista(id)) {
+                              mostrarError = false;
                               Navigator.pop(context, id);
                             }
-                            setState(() {
-                              errorMsg = "Ja estas dins d'aquesta llista";
-                            });
+                            if (mostrarError) {
+                              setState(() {
+                                errorMsg = "Ja estas dins d'aquesta llista";
+                              });
+                            }
                           } else {
                             setState(() {
                               errorMsg = "No existeix cap llista amb aquest ID";

@@ -104,6 +104,10 @@ class _MenuLlistesState extends State<MenuLlistes> {
               ),
             ],
           ),
+          Expanded(
+            flex: 3,
+            child: Container(),
+          ),
         ],
       ),
     );

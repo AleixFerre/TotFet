@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Usuari {
@@ -25,6 +26,14 @@ class Usuari {
       "isAdmin": isAdmin,
       // Expandible...
     };
+  }
+
+  static List<String> fromRefDB(QuerySnapshot referencies) {
+    return referencies.docs
+        .map(
+          (e) => e.data()['usuari'].toString(),
+        )
+        .toList();
   }
 
   static Usuari perDefecte(String _uid) {
