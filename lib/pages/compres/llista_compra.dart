@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:compres/pages/others/about_us.dart';
 import 'package:compres/services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -38,24 +39,6 @@ class LlistaCompra extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
-      leading: PopupMenuButton<int>(
-        tooltip: "Selecciona una llista",
-        icon: Icon(Icons.filter_list),
-        onSelected: (int index) {
-          rebuildParentFiltre(index);
-        },
-        initialValue: indexLlista,
-        itemBuilder: (BuildContext context) {
-          return llistesUsuari
-              .map(
-                (Map<String, String> llista) => PopupMenuItem(
-                  value: llistesUsuari.indexOf(llista),
-                  child: Text(llista['nom'] + " - " + llista['id']),
-                ),
-              )
-              .toList();
-        },
-      ),
       title: Center(
         child: Text(
           "Compres de ${llistesUsuari[indexLlista]['nom']}",
@@ -63,17 +46,24 @@ class LlistaCompra extends StatelessWidget {
         ),
       ),
       actions: [
-        IconButton(
-          icon: Icon(Icons.account_circle),
-          tooltip: "Perfil",
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (ctx) => Perfil()),
-            );
+        PopupMenuButton<int>(
+          tooltip: "Selecciona una llista",
+          icon: Icon(Icons.filter_list),
+          onSelected: (int index) {
+            rebuildParentFiltre(index);
+          },
+          initialValue: indexLlista,
+          itemBuilder: (BuildContext context) {
+            return llistesUsuari
+                .map(
+                  (Map<String, String> llista) => PopupMenuItem(
+                    value: llistesUsuari.indexOf(llista),
+                    child: Text(llista['nom'] + " - " + llista['id']),
+                  ),
+                )
+                .toList();
           },
         ),
-        SortirSessio(),
       ],
     );
 
@@ -213,6 +203,97 @@ class LlistaCompra extends StatelessWidget {
       child: Icon(Icons.add_shopping_cart),
     );
 
+    Drawer drawer = Drawer(
+      semanticLabel: "Calaix on es guarden totes les opcions importants.",
+      child: ListView(
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.purple],
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Icon(
+                  Icons.shopping_bag,
+                  color: Colors.white,
+                  size: 100,
+                ),
+                Text(
+                  "Llista de la compra",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30.0),
+                child: RaisedButton(
+                  elevation: 3,
+                  color: Colors.grey[100],
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => Perfil()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.account_circle),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Perfil"),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Icon(Icons.arrow_right),
+                    ],
+                  ),
+                ),
+              ),
+              SortirSessio(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30.0),
+                child: RaisedButton(
+                  elevation: 3,
+                  color: Colors.grey[100],
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => AboutUs()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.help),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Sobre nosaltres"),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Icon(Icons.arrow_right),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text("Versió 0.0.1"),
+            ],
+          ),
+        ],
+      ),
+    );
+
     return Scaffold(
       extendBody: true,
       appBar: appBar,
@@ -220,6 +301,7 @@ class LlistaCompra extends StatelessWidget {
       bottomNavigationBar: bottomAppBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,
+      drawer: drawer,
     );
   }
 }
