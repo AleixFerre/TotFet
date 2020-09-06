@@ -1,19 +1,26 @@
 import 'dart:ui';
 
-import 'package:compres/pages/llistes/QR/qr_viewer.dart';
-import 'package:compres/pages/llistes/detalls_llista.dart';
+import 'package:compres/pages/llistes/administracio/expulsar_llista.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:compres/pages/llistes/administracio/QR/qr_viewer.dart';
+import 'package:compres/pages/llistes/administracio/canvar_host.dart';
+import 'package:compres/pages/llistes/administracio/detalls_llista.dart';
 import 'package:compres/models/Llista.dart';
-import 'package:compres/pages/llistes/editar_llista.dart';
+import 'package:compres/pages/llistes/administracio/editar_llista.dart';
 import 'package:compres/services/auth.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/llista_buida.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
 
-class AdminLlistes extends StatelessWidget {
+class AdminLlistes extends StatefulWidget {
+  @override
+  _AdminLlistesState createState() => _AdminLlistesState();
+}
+
+class _AdminLlistesState extends State<AdminLlistes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,15 +91,36 @@ class AdminLlistes extends StatelessWidget {
               {
                 "nom": "Canviar Host",
                 "icon": Icon(Icons.face),
-                "function": () {
-                  return print("Canviar Host");
+                "function": () async {
+                  String resultat = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CanviarHost(
+                        idLlista: llista.id,
+                      ),
+                    ),
+                  );
+                  if (resultat != null) {
+                    await DatabaseService().setHost(llista.id, resultat);
+                    print("S'ha canviat de host correctament!");
+                  }
                 },
               },
               {
                 "nom": "Expulsar",
                 "icon": Icon(Icons.gavel),
-                "function": () {
-                  return print("Expulsar");
+                "function": () async {
+                  String resultat = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ExpulsarDeLlista(
+                        idLlista: llista.id,
+                      ),
+                    ),
+                  );
+                  if (resultat != null) {
+                    await DatabaseService()
+                        .sortirUsuarideLlista(llista.id, resultat);
+                    print("Usuari Expulsat correctament");
+                  }
                 },
               },
             ];
@@ -143,7 +171,8 @@ class AdminLlistes extends StatelessWidget {
 
                   // Si esborrar és null o false, llavors no es fa res
                   if (sortir == true) {
-                    await DatabaseService().sortirUsuarideLlista(llista.id);
+                    await DatabaseService()
+                        .sortirUsuarideLlista(llista.id, AuthService().userId);
                     return print(
                         "L'usuari ha sortit correctament de la llista!");
                   }

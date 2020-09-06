@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:compres/models/Llista.dart';
 import 'package:compres/pages/accounts/edit_profile.dart';
-import 'package:compres/pages/llistes/admin_llista.dart';
+import 'package:compres/pages/llistes/administracio/admin_llista.dart';
 import 'package:compres/pages/llistes/crear_llista.dart';
 import 'package:compres/pages/llistes/unirse_llista.dart';
 import 'package:compres/services/auth.dart';

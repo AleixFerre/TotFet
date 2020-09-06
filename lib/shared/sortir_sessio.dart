@@ -16,14 +16,8 @@ class SortirSessio extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Vols sortir de la sessió?'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(
-                      'Pots tornar a iniciar sessió quan vulguis!',
-                    ),
-                  ],
-                ),
+              content: Text(
+                'Pots tornar a iniciar sessió quan vulguis!',
               ),
               actions: <Widget>[
                 FlatButton(

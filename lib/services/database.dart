@@ -66,10 +66,16 @@ class DatabaseService {
     return await compresCollection.doc(compraKey).delete();
   }
 
-  Future<void> sortirUsuarideLlista(String llistaID) async {
+  Future<void> setHost(String llistaID, String uid) async {
+    await llistesCollection.doc(llistaID).update({
+      "idCreador": uid,
+    });
+  }
+
+  Future<void> sortirUsuarideLlista(String llistaID, String uid) async {
     QuerySnapshot info = await llistesUsuarisCollection
         .where("llista", isEqualTo: llistaID)
-        .where("usuari", isEqualTo: AuthService().userId)
+        .where("usuari", isEqualTo: uid)
         .get();
     return llistesUsuarisCollection.doc(info.docs[0].id).delete();
   }

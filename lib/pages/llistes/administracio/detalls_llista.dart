@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compres/models/Llista.dart';
 import 'package:compres/models/Usuari.dart';
-import 'package:compres/pages/llistes/QR/qr_viewer.dart';
+import 'package:compres/pages/llistes/administracio/QR/qr_viewer.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
