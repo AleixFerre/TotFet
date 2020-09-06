@@ -66,11 +66,7 @@ class Perfil extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.account_circle,
-                        size: 150,
-                        color: Colors.blue,
-                      ),
+                      usuari.avatar,
                       Expanded(
                         child: Container(),
                       ),

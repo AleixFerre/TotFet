@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,7 @@ class Usuari {
 
   Map<String, dynamic> toDBMap() {
     return {
-      "nom": nom,
+      "nom": nom.trim(),
       "isAdmin": isAdmin,
       // Expandible...
     };
@@ -41,6 +43,26 @@ class Usuari {
       uid: _uid,
       nom: "Nou membre",
       isAdmin: false,
+    );
+  }
+
+  String _inicials(String s) {
+    List<String> paraules = s.split(" ");
+    String fi = paraules[0].substring(0, 1).toUpperCase();
+    if (paraules.length > 1) {
+      fi += paraules[1].substring(0, 1).toUpperCase();
+    }
+    return fi;
+  }
+
+  CircleAvatar get avatar {
+    return CircleAvatar(
+      backgroundColor: Colors.blue,
+      child: Text(
+        _inicials(this.nom),
+        style: TextStyle(fontSize: 60),
+      ),
+      radius: 60,
     );
   }
 }
