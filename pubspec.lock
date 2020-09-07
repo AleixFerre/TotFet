@@ -22,13 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety"
-  barcode_scan:
-    dependency: "direct main"
-    description:
-      name: barcode_scan
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -183,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.11"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -344,7 +330,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.2"
   petitparser:
     dependency: transitive
     description:
@@ -359,20 +345,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  protobuf:
-    dependency: transitive
-    description:
-      name: protobuf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   provider:
     dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2+1"
+    version: "4.3.2+2"
   qr:
     dependency: transitive
     description:
@@ -387,6 +366,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0"
+  qrscan:
+    dependency: "direct main"
+    description:
+      name: qrscan
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.17"
   quiver:
     dependency: transitive
     description:
@@ -461,7 +447,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.1"
+    version: "4.5.0"
   yaml:
     dependency: transitive
     description:
