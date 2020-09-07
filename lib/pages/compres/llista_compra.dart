@@ -1,9 +1,7 @@
 import 'dart:ui';
-
-import 'package:compres/pages/others/about_us.dart';
-import 'package:compres/services/database.dart';
 import 'package:flutter/material.dart';
 
+import 'package:compres/services/database.dart';
 import 'package:compres/shared/llista_buida.dart';
 import 'package:compres/shared/sortir_sessio.dart';
 import 'package:compres/models/Prioritat/PrioritatColors.dart';
@@ -266,9 +264,12 @@ class LlistaCompra extends StatelessWidget {
                   elevation: 3,
                   color: Colors.grey[100],
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (ctx) => AboutUs()),
+                    showAboutDialog(
+                      context: context,
+                      applicationIcon: FlutterLogo(),
+                      applicationName: "Compres",
+                      applicationVersion: '0.0.1',
+                      applicationLegalese: 'Desenvolupat per Aleix Ferré',
                     );
                   },
                   child: Row(
@@ -277,7 +278,7 @@ class LlistaCompra extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      Text("Sobre nosaltres"),
+                      Text("Més info"),
                       Expanded(
                         child: Container(),
                       ),

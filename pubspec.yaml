@@ -45,6 +45,10 @@ dependencies:
   # SVG import
   flutter_svg: ^0.18.1
 
+  # QR system
+  barcode_scan: ^3.0.1
+  qr_flutter: ^3.2.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3

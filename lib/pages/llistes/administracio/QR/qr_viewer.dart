@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class QRViewer extends StatefulWidget {
   final String id;
@@ -25,7 +26,17 @@ class _QRViewerState extends State<QRViewer> {
       body: Builder(
         builder: (context) => Column(
           children: [
-            // TODO: Fer el visualitzador de QR per la ID entrada
+            // Visualitzador de QR per la ID entrada
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: QrImage(
+                  data: widget.id,
+                  size: 300,
+                ),
+              ),
+            ),
+            Text("o copia el codi"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -48,6 +59,10 @@ class _QRViewerState extends State<QRViewer> {
                   },
                 )
               ],
+            ),
+            Expanded(
+              child: Container(),
+              flex: 1,
             ),
           ],
         ),
