@@ -19,6 +19,10 @@ class MyDrawer extends StatelessWidget {
                 Colors.blue[900],
                 Colors.blue[400],
               ]),
+              borderRadius: BorderRadius.only(
+                bottomLeft: const Radius.circular(40.0),
+                bottomRight: const Radius.circular(40.0),
+              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -29,7 +33,7 @@ class MyDrawer extends StatelessWidget {
                   color: Colors.white,
                 ),
                 Text(
-                  "Llista de la compra",
+                  "$appName",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -165,6 +169,7 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
+              Text("$appName © Aleix Ferré"),
               Text("Versió $versionNumber"),
             ],
           ),

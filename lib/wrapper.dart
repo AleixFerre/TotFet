@@ -18,14 +18,11 @@ class _WrapperState extends State<Wrapper> {
   Finestra finestra = Finestra.Menu;
 
   void canviarFinestra(Finestra nova) {
-    print("Canviem finestra");
     if (nova != finestra) {
-      print("Finestra diferent");
       // Si cliquem el botó de la mateixa finestra,
       // No fem res (més optimitzat)
       setState(() {
         finestra = nova;
-        print(finestra);
       });
     }
   }
