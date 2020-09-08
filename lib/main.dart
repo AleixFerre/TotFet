@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Compres',
+      title: 'Agenda',
       theme: ThemeData(
         primaryColor: Colors.blue,
         buttonTheme: ButtonThemeData(

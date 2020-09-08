@@ -1,4 +1,4 @@
 // Metadata de la app
 
-String versionNumber = "0.1.0";
-String appName = "Compres";
+const String versionNumber = "0.1.0";
+const String appName = "Agenda";

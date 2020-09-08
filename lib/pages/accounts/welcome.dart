@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:compres/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget {
@@ -28,7 +29,7 @@ class Welcome extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "Benvingut/da a Compres!",
+                  "Benvingut/da a $appName!",
                   style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,

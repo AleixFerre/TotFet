@@ -11,7 +11,8 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       semanticLabel: "Calaix on es guarden totes les opcions importants.",
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
@@ -77,11 +78,11 @@ class MyDrawer extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.list),
+                      Icon(Icons.shopping_bag),
                       SizedBox(
                         width: 20,
                       ),
-                      Text("Llistes de la compra"),
+                      Text("Les meves Compres"),
                       Expanded(
                         child: Container(),
                       ),

@@ -1,6 +1,6 @@
-# Compres
+# Agenda
 
-Flutter App d'una llista de la compra online amb Bases de Dades a temps real.
+Flutter App d'una llista de la compra i tasques online amb Bases de Dades a temps real.
 
 ## Getting Started
 
@@ -21,4 +21,4 @@ Iconos diseñados por [Freepik]("https://www.flaticon.es/autores/freepik) from [
 
 Code provided by **Aleix Ferré**.
 
-See license at [MIT](https://github.com/CatalaHD/Compres/blob/master/LICENSE)
+See license at [MIT](https://github.com/CatalaHD/Agenda/blob/master/LICENSE)
