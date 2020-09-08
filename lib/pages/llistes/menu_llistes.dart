@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/pages/llistes/crear_llista.dart';
@@ -7,6 +8,9 @@ import 'package:compres/services/database.dart';
 import 'package:compres/shared/sortir_sessio.dart';
 
 class MenuLlistes extends StatefulWidget {
+  final Function canviarFinestra;
+  MenuLlistes({this.canviarFinestra});
+
   @override
   _MenuLlistesState createState() => _MenuLlistesState();
 }
@@ -15,6 +19,9 @@ class _MenuLlistesState extends State<MenuLlistes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(
+        canviarFinestra: widget.canviarFinestra,
+      ),
       appBar: AppBar(
         title: Center(
           child: Text("Menu de llistes"),

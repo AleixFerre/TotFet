@@ -11,6 +11,9 @@ import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
 
 class CarregarBD extends StatefulWidget {
+  final Function canviarFinestra;
+  CarregarBD({this.canviarFinestra});
+
   @override
   _CarregarBDState createState() => _CarregarBDState();
 }
@@ -30,7 +33,7 @@ class _CarregarBDState extends State<CarregarBD> {
               .toList();
 
           if (llistaDeReferencies.isEmpty) {
-            return MenuLlistes();
+            return MenuLlistes(canviarFinestra: widget.canviarFinestra);
           }
 
           return StreamBuilder(
@@ -42,7 +45,10 @@ class _CarregarBDState extends State<CarregarBD> {
                       .map((QueryDocumentSnapshot doc) => Llista.fromDB(doc))
                       .toList();
 
-                  return BuildStreamCompres(llistes: llistaInfo);
+                  return BuildStreamCompres(
+                    llistes: llistaInfo,
+                    canviarFinestra: widget.canviarFinestra,
+                  );
                 }
                 return Scaffold(
                   body: Loading("Carregant informacio de les llistes..."),
@@ -60,7 +66,8 @@ class _CarregarBDState extends State<CarregarBD> {
 
 class BuildStreamCompres extends StatefulWidget {
   final List<Llista> llistes;
-  BuildStreamCompres({this.llistes});
+  final Function canviarFinestra;
+  BuildStreamCompres({this.llistes, this.canviarFinestra});
   @override
   _BuildStreamCompresState createState() => _BuildStreamCompresState();
 }
@@ -118,6 +125,7 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
             rebuildParentFiltre: rebuildParentFiltre,
             comprat: comprat,
             llistesUsuari: Llista.llistaPairs(widget.llistes),
+            canviarFinestra: widget.canviarFinestra,
           );
         }
 

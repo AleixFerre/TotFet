@@ -24,6 +24,8 @@ class LlistaCompra extends StatelessWidget {
     this.rebuildParentComprat,
     // Bool per si s'esta mostrant les elements comprats o no
     this.comprat,
+    // Funció a passar al drawer per poder canviar d'escenes
+    this.canviarFinestra,
   });
 
   final List<Map<String, dynamic>> llista;
@@ -32,6 +34,7 @@ class LlistaCompra extends StatelessWidget {
   final Function rebuildParentComprat;
   final Function rebuildParentFiltre;
   final bool comprat;
+  final Function canviarFinestra;
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +212,7 @@ class LlistaCompra extends StatelessWidget {
       bottomNavigationBar: bottomAppBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,
-      drawer: MyDrawer(),
+      drawer: MyDrawer(canviarFinestra: canviarFinestra),
     );
   }
 }

@@ -1,11 +1,12 @@
-import 'package:compres/pages/accounts/profile.dart';
-import 'package:compres/pages/compres/carregar_BD.dart';
-import 'package:compres/pages/menu_principal.dart';
+import 'package:compres/models/Finestra.dart';
 import 'package:compres/shared/constants.dart';
 import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
+  final Function canviarFinestra;
+  MyDrawer({this.canviarFinestra});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -45,10 +46,7 @@ class MyDrawer extends StatelessWidget {
                   elevation: 1,
                   color: Colors.grey[100],
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (ctx) => MenuPrincipal()),
-                    );
+                    canviarFinestra(Finestra.Menu);
                   },
                   child: Row(
                     children: [
@@ -56,7 +54,7 @@ class MyDrawer extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      Text("Menu"),
+                      Text("Menu Principal"),
                       Expanded(
                         child: Container(),
                       ),
@@ -71,10 +69,7 @@ class MyDrawer extends StatelessWidget {
                   elevation: 1,
                   color: Colors.grey[100],
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (ctx) => CarregarBD()),
-                    );
+                    canviarFinestra(Finestra.Llista);
                   },
                   child: Row(
                     children: [
@@ -82,7 +77,7 @@ class MyDrawer extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      Text("Llistes"),
+                      Text("Llistes de la compra"),
                       Expanded(
                         child: Container(),
                       ),
@@ -97,10 +92,30 @@ class MyDrawer extends StatelessWidget {
                   elevation: 1,
                   color: Colors.grey[100],
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (ctx) => Perfil()),
-                    );
+                    canviarFinestra(Finestra.Tasques);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.assignment),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Les meves Tasques"),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Icon(Icons.arrow_right),
+                    ],
+                  ),
+                ),
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30.0),
+                child: RaisedButton(
+                  elevation: 1,
+                  color: Colors.grey[100],
+                  onPressed: () {
+                    canviarFinestra(Finestra.Perfil);
                   },
                   child: Row(
                     children: [
@@ -108,7 +123,7 @@ class MyDrawer extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      Text("Perfil"),
+                      Text("El meu Perfil"),
                       Expanded(
                         child: Container(),
                       ),

@@ -16,6 +16,9 @@ import 'package:compres/shared/some_error_page.dart';
 import 'package:compres/models/Usuari.dart';
 
 class Perfil extends StatelessWidget {
+  final Function canviarFinestra;
+  Perfil({this.canviarFinestra});
+
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -39,7 +42,7 @@ class Perfil extends StatelessWidget {
           );
 
           return Scaffold(
-            drawer: MyDrawer(),
+            drawer: MyDrawer(canviarFinestra: canviarFinestra),
             appBar: AppBar(
               title: Text("Perfil"),
               actions: [
