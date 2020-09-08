@@ -65,7 +65,7 @@ class Perfil extends StatelessWidget {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -145,8 +145,12 @@ class Perfil extends StatelessWidget {
                               Icon(
                                 Icons.library_add,
                                 size: 50,
+                                color: Colors.grey[100],
                               ),
-                              Text("Crear"),
+                              Text(
+                                "Crear",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         ),
@@ -171,8 +175,12 @@ class Perfil extends StatelessWidget {
                               Icon(
                                 Icons.group_add,
                                 size: 50,
+                                color: Colors.grey[100],
                               ),
-                              Text("Unir-me"),
+                              Text(
+                                "Unir-me",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         ),
@@ -193,8 +201,12 @@ class Perfil extends StatelessWidget {
                               Icon(
                                 Icons.settings,
                                 size: 50,
+                                color: Colors.grey[100],
                               ),
-                              Text("Administrar"),
+                              Text(
+                                "Administrar",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         ),
@@ -203,6 +215,24 @@ class Perfil extends StatelessWidget {
                   ),
                   Divider(
                     height: 40,
+                  ),
+                  Center(
+                    child: Text(
+                      "Les meves tasques",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 100,
+                    child: Placeholder(
+                      color: Colors.blue,
+                    ),
                   ),
                   Expanded(
                     child: Container(),
