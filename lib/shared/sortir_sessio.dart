@@ -8,7 +8,7 @@ class SortirSessio extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30.0),
       child: RaisedButton(
-        elevation: 3,
+        elevation: 1,
         color: Colors.grey[100],
         onPressed: () async {
           // Show alert box

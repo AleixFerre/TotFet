@@ -23,35 +23,46 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Compres',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blue[300],
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return SomeErrorPage(
-              error: snapshot.error.toString(),
-            );
-          }
+      home: BuildApp(),
+    );
+  }
+}
 
-          if (snapshot.hasData) {
-            return StreamProvider<Usuari>.value(
-              value: AuthService().userStream,
-              child: Wrapper(),
-            );
-          }
-
-          return Scaffold(
-            body: Loading("Inicialitzant la aplicació de Firebase..."),
+class BuildApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SomeErrorPage(
+            error: snapshot.error.toString(),
           );
-        },
-      ),
+        }
+
+        if (snapshot.hasData) {
+          return StreamProvider<Usuari>.value(
+            value: AuthService().userStream,
+            child: Wrapper(),
+          );
+        }
+
+        return Scaffold(
+          body: Loading("Inicialitzant la aplicació de Firebase..."),
+        );
+      },
     );
   }
 }

@@ -30,16 +30,24 @@ class _SignInState extends State<SignIn> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.blue,
-              elevation: 0,
-              title: Text("Inicia la sessió"),
+              elevation: 10,
+              title: Text(
+                "Inicia la sessió",
+                style: TextStyle(color: Colors.white),
+              ),
               actions: [
                 FlatButton.icon(
                   onPressed: () {
                     widget.toggleView();
                   },
-                  icon: Icon(Icons.person),
-                  label: Text("Registra't"),
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    "Registra't",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -80,7 +88,7 @@ class _SignInState extends State<SignIn> {
                           setState(() => password = value);
                         },
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
                       RaisedButton(
                         onPressed: () async {
                           setState(() => loading = true);
@@ -93,10 +101,12 @@ class _SignInState extends State<SignIn> {
                           }
                           if (this.mounted) setState(() => loading = false);
                         },
-                        color: Colors.pink[400],
-                        child: Text(
-                          "Inicia la sessió",
-                          style: TextStyle(color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Inicia la sessió",
+                            style: TextStyle(color: Colors.white, fontSize: 30),
+                          ),
                         ),
                       ),
                       SizedBox(

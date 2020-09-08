@@ -14,3 +14,11 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## License
+
+Iconos diseñados por [Freepik]("https://www.flaticon.es/autores/freepik) from [Flaticon]("https://www.flaticon.es/").
+
+Code provided by **Aleix Ferré**.
+
+See license at [MIT](https://github.com/CatalaHD/Compres/blob/master/LICENSE)

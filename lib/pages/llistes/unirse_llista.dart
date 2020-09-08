@@ -24,7 +24,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
       _textController.text = id;
       await comprovarLlista();
     } catch (e) {
-      setState(() => errorMsg = 'Unknown error: $e');
+      setState(() => errorMsg = e.toString());
     }
   }
 
@@ -101,7 +101,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                                   width: 20,
                                 ),
                                 Icon(
-                                  Icons.qr_code,
+                                  Icons.qr_code_scanner,
                                   size: 50,
                                 ),
                               ],

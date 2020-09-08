@@ -231,7 +231,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                       tooltip:
                           "Ensenya el codi QR als teus amics per poder convidar-los!",
                       icon: Icon(
-                        Icons.qr_code_scanner,
+                        Icons.qr_code,
                         size: 32,
                         semanticLabel: "Escaneja el codi QR de la llista",
                       ),

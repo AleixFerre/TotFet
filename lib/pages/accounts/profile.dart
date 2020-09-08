@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/models/Llista.dart';
@@ -38,6 +39,7 @@ class Perfil extends StatelessWidget {
           );
 
           return Scaffold(
+            drawer: MyDrawer(),
             appBar: AppBar(
               title: Text("Perfil"),
               actions: [
