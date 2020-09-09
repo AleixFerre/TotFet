@@ -93,30 +93,31 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: RaisedButton(
-                          onPressed: scan,
-                          color: Colors.blue[100],
-                          child: SizedBox(
-                            width: 350,
-                            height: 100,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Escanejar Codi QR",
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Icon(
-                                  Icons.qr_code_scanner,
-                                  size: 50,
-                                ),
-                              ],
-                            ),
+                      child: RaisedButton(
+                        onPressed: scan,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        color: Colors.white,
+                        elevation: 5,
+                        child: SizedBox(
+                          width: 350,
+                          height: 100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Escanejar Codi QR",
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(
+                                Icons.qr_code_scanner,
+                                size: 50,
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -76,6 +76,9 @@ class LlistaDetalls extends StatelessWidget {
                     itemCount: llistaUsuaris.length,
                     itemBuilder: (BuildContext context, int index) => Card(
                       elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
                       child: ListTile(
                         title: Text(
                           llistaUsuaris[index].nom,

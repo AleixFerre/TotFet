@@ -9,7 +9,7 @@ class MyDrawer extends StatelessWidget {
   MyDrawer({this.canviarFinestra, this.actual});
 
   bool escenaActual(Finestra finestra) {
-    return finestra == actual;
+    return finestra != actual;
   }
 
   @override
@@ -54,6 +54,8 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledTextColor: Colors.blue[400],
+                  disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
                   onPressed: escenaActual(Finestra.Menu)
                       ? () {
@@ -79,6 +81,8 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledTextColor: Colors.blue[400],
+                  disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
                   onPressed: escenaActual(Finestra.Llista)
                       ? () {
@@ -104,6 +108,8 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledTextColor: Colors.blue[400],
+                  disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
                   onPressed: escenaActual(Finestra.Tasques)
                       ? () {
@@ -130,6 +136,7 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledTextColor: Colors.blue[400],
                   disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
                   onPressed: escenaActual(Finestra.Perfil)
@@ -158,6 +165,8 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledTextColor: Colors.blue[400],
+                  disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
                   onPressed: () {
                     showAboutDialog(
