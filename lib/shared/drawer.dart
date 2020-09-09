@@ -12,6 +12,15 @@ class MyDrawer extends StatelessWidget {
     return finestra != actual;
   }
 
+  final Color color = Colors.grey[100];
+  final Color disabledColor = Colors.grey[200];
+  final Color disabledTextColor = Colors.blue[400];
+
+  final LinearGradient gradient = LinearGradient(colors: [
+    Colors.blue[900],
+    Colors.blue[400],
+  ]);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -21,10 +30,7 @@ class MyDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors.blue[900],
-                Colors.blue[400],
-              ]),
+              gradient: gradient,
               borderRadius: BorderRadius.only(
                 //bottomLeft: const Radius.circular(18.0),
                 bottomRight: const Radius.circular(18.0),
@@ -39,7 +45,7 @@ class MyDrawer extends StatelessWidget {
                   color: Colors.white,
                 ),
                 Text(
-                  "$appName",
+                  appName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 40,
@@ -54,9 +60,9 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
-                  disabledTextColor: Colors.blue[400],
-                  disabledColor: Colors.grey[200],
-                  color: Colors.grey[100],
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: escenaActual(Finestra.Menu)
                       ? () {
                           canviarFinestra(Finestra.Menu);
@@ -81,9 +87,9 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
-                  disabledTextColor: Colors.blue[400],
-                  disabledColor: Colors.grey[200],
-                  color: Colors.grey[100],
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: escenaActual(Finestra.Llista)
                       ? () {
                           canviarFinestra(Finestra.Llista);
@@ -108,9 +114,9 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
-                  disabledTextColor: Colors.blue[400],
-                  disabledColor: Colors.grey[200],
-                  color: Colors.grey[100],
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: escenaActual(Finestra.Tasques)
                       ? () {
                           canviarFinestra(Finestra.Tasques);
@@ -136,9 +142,9 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
-                  disabledTextColor: Colors.blue[400],
-                  disabledColor: Colors.grey[200],
-                  color: Colors.grey[100],
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: escenaActual(Finestra.Perfil)
                       ? () {
                           canviarFinestra(Finestra.Perfil);
@@ -165,9 +171,9 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
-                  disabledTextColor: Colors.blue[400],
-                  disabledColor: Colors.grey[200],
-                  color: Colors.grey[100],
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: () {
                     showAboutDialog(
                       context: context,
