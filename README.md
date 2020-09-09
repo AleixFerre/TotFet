@@ -1,6 +1,6 @@
-# Agenda
+# TotFet
 
-Flutter App d'una llista de la compra i tasques online amb Bases de Dades a temps real.
+TotFet és una aplicació feta en Flutter d'una llista de la compra i gestor de tasques online amb Bases de Dades a temps real.
 
 ## Getting Started
 
