@@ -5,6 +5,7 @@ import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/models/Llista.dart';
+import 'package:compres/models/Usuari.dart';
 import 'package:compres/pages/accounts/edit_profile.dart';
 import 'package:compres/pages/llistes/administracio/admin_llista.dart';
 import 'package:compres/pages/llistes/crear_llista.dart';
@@ -13,7 +14,7 @@ import 'package:compres/services/auth.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
-import 'package:compres/models/Usuari.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Perfil extends StatelessWidget {
   final Function canviarFinestra;
@@ -45,6 +46,19 @@ class Perfil extends StatelessWidget {
             drawer: MyDrawer(canviarFinestra: canviarFinestra),
             appBar: AppBar(
               title: Text("Perfil"),
+              centerTitle: true,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
+                  ),
+                ),
+              ),
               actions: [
                 IconButton(
                   icon: Icon(Icons.edit),
@@ -64,186 +78,198 @@ class Perfil extends StatelessWidget {
                 ),
               ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      usuari.avatar,
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              FittedBox(
-                                fit: BoxFit.fitHeight,
-                                child: Text(
-                                  usuari.nom.toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        usuari.avatar,
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.fitHeight,
+                                  child: Text(
+                                    usuari.nom.toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              usuari.isAdmin
-                                  ? Icon(
-                                      Icons.verified,
-                                      color: Colors.indigo[300],
-                                    )
-                                  : Container(),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            usuari.email,
-                            style: TextStyle(),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  Center(
-                    child: Text(
-                      "Les meves llistes",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () async {
-                          Llista result = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => CrearLlista(),
+                                usuari.isAdmin
+                                    ? Icon(
+                                        Icons.verified,
+                                        color: Colors.indigo[300],
+                                      )
+                                    : Container(),
+                              ],
                             ),
-                          );
-                          if (result != null) {
-                            await DatabaseService().addList(result);
-                            print("Llista creada correctament!");
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.library_add,
-                                size: 50,
-                                color: Colors.grey[100],
-                              ),
-                              Text(
-                                "Crear",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
+                            SizedBox(height: 10),
+                            Text(
+                              usuari.email,
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    Center(
+                      child: Text(
+                        "Les meves llistes",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () async {
-                          String id = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => UnirseLlista(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        RaisedButton(
+                          elevation: 3,
+                          onPressed: () async {
+                            Llista result = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CrearLlista(),
+                              ),
+                            );
+                            if (result != null) {
+                              await DatabaseService().addList(result);
+                              print("Llista creada correctament!");
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  "images/create.svg",
+                                  height: 100,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Crear",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
                             ),
-                          );
-                          if (id != null) {
-                            await DatabaseService().addUsuariLlista(id);
-                            print("T'has unit a la llista correctament!");
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.group_add,
-                                size: 50,
-                                color: Colors.grey[100],
-                              ),
-                              Text(
-                                "Unir-me",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                      RaisedButton(
-                        elevation: 3,
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => AdminLlistes(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        RaisedButton(
+                          elevation: 3,
+                          onPressed: () async {
+                            String id = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UnirseLlista(),
+                              ),
+                            );
+                            if (id != null) {
+                              await DatabaseService().addUsuariLlista(id);
+                              print("T'has unit a la llista correctament!");
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  "images/join.svg",
+                                  height: 100,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Unir-me",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.settings,
-                                size: 50,
-                                color: Colors.grey[100],
-                              ),
-                              Text(
-                                "Administrar",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RaisedButton(
+                      elevation: 3,
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AdminLlistes(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              "images/settings.svg",
+                              height: 100,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Administrar",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.w300),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  Divider(
-                    height: 40,
-                  ),
-                  Center(
-                    child: Text(
-                      "Les meves tasques",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                    ),
+                    Divider(
+                      height: 40,
+                    ),
+                    Center(
+                      child: Text(
+                        "Les meves tasques",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 100,
-                    child: Placeholder(
-                      color: Colors.blue,
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Text(
-                    "UID: " + _auth.userId,
-                    style: TextStyle(
-                      fontSize: 20,
+                    SizedBox(
+                      height: 100,
+                      child: Placeholder(
+                        color: Colors.blue,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

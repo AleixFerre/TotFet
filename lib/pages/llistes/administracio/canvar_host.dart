@@ -55,8 +55,19 @@ class _CanviarHostState extends State<CanviarHost> {
           idSeleccionat = llistaUsuaris[0].uid;
           return Scaffold(
             appBar: AppBar(
-              title: Center(
-                child: Text("Canviar de host"),
+              title: Text("Canviar de host"),
+              centerTitle: true,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
+                  ),
+                ),
               ),
             ),
             body: Column(

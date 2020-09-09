@@ -19,6 +19,19 @@ class _EditPerfilState extends State<EditPerfil> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Editar el perfil"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,

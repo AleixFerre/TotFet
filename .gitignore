@@ -45,8 +45,3 @@ app.*.map.json
 
 # Google services
 android\app\google-services.json
-
-# Images
-images/*.zip
-images/png/
-images/svg/

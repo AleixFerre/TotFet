@@ -25,8 +25,19 @@ class _AdminLlistesState extends State<AdminLlistes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text("Administrador de llistes"),
+        title: Text("Administrador de llistes"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
         ),
       ),
       body: StreamBuilder(

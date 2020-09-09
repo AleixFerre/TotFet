@@ -55,8 +55,19 @@ class _ExpulsarDeLlistaState extends State<ExpulsarDeLlista> {
           idSeleccionat = llistaUsuaris[0].uid;
           return Scaffold(
             appBar: AppBar(
-              title: Center(
-                child: Text("Expulsar un membre"),
+              title: Text("Expulsar un membre"),
+              centerTitle: true,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
+                  ),
+                ),
               ),
             ),
             body: Column(

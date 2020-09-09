@@ -9,7 +9,22 @@ class Tasques extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Tasques"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
+        ),
+      ),
       drawer: MyDrawer(canviarFinestra: canviarFinestra),
       body: Loading("Tasques en desenvolupament"),
     );

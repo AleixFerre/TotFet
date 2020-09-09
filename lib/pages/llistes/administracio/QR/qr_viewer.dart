@@ -19,8 +19,19 @@ class _QRViewerState extends State<QRViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text("Codi QR"),
+        title: Text("Codi QR"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
         ),
       ),
       body: Builder(

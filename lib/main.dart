@@ -29,9 +29,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Agenda',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: 5,
+          centerTitle: true,
+        ),
         primaryColor: Colors.blue,
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blue[300],
+          buttonColor: Colors.white,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

@@ -40,10 +40,21 @@ class LlistaCompra extends StatelessWidget {
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
       elevation: 10,
-      title: Center(
-        child: Text(
-          "Compres de ${llistesUsuari[indexLlista]['nom']}",
-          overflow: TextOverflow.fade,
+      title: Text(
+        "Compres de ${llistesUsuari[indexLlista]['nom']}",
+        overflow: TextOverflow.fade,
+      ),
+      centerTitle: true,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Colors.blue[400],
+              Colors.blue[900],
+            ],
+          ),
         ),
       ),
       actions: [

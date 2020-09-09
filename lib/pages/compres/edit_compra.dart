@@ -39,6 +39,19 @@ class _EditCompraState extends State<EditCompra> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Editar Compra"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,

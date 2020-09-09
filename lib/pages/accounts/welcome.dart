@@ -15,7 +15,14 @@ class Welcome extends StatelessWidget {
             Container(
               height: 150.0,
               decoration: BoxDecoration(
-                color: Colors.blue[300],
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.blue[400],
+                    Colors.blue[900],
+                  ],
+                ),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 10.0,
@@ -86,8 +93,7 @@ class Welcome extends StatelessWidget {
                       "Login",
                       style: TextStyle(
                         fontSize: 40,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     Expanded(
@@ -96,7 +102,6 @@ class Welcome extends StatelessWidget {
                     ),
                     Icon(
                       Icons.login,
-                      color: Colors.white,
                       size: 50,
                     ),
                   ],
@@ -126,8 +131,7 @@ class Welcome extends StatelessWidget {
                       "Register",
                       style: TextStyle(
                         fontSize: 40,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     Expanded(
@@ -136,7 +140,6 @@ class Welcome extends StatelessWidget {
                     ),
                     Icon(
                       Icons.person_add,
-                      color: Colors.white,
                       size: 50,
                     ),
                   ],

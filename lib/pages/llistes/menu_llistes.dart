@@ -23,8 +23,19 @@ class _MenuLlistesState extends State<MenuLlistes> {
         canviarFinestra: widget.canviarFinestra,
       ),
       appBar: AppBar(
-        title: Center(
-          child: Text("Menu de llistes"),
+        title: Text("Menu de llistes"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
         ),
         actions: [
           SortirSessio(),

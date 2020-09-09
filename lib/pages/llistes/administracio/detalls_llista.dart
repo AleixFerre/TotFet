@@ -16,8 +16,19 @@ class LlistaDetalls extends StatelessWidget {
     Scaffold buildDetalls(List<Usuari> llistaUsuaris) {
       return Scaffold(
         appBar: AppBar(
-          title: Center(
-            child: Text("Detalls de la llista"),
+          title: Text("Detalls de la llista"),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.blue[400],
+                  Colors.blue[900],
+                ],
+              ),
+            ),
           ),
           actions: [
             IconButton(

@@ -36,6 +36,19 @@ class _RegisterState extends State<Register> {
                 "Registra't",
                 style: TextStyle(color: Colors.white),
               ),
+              centerTitle: false,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
+                  ),
+                ),
+              ),
               actions: [
                 FlatButton.icon(
                   onPressed: () {
@@ -132,7 +145,7 @@ class _RegisterState extends State<Register> {
                           child: Text(
                             "Registrar-se",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 30,
                             ),
                           ),

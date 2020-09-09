@@ -100,6 +100,19 @@ class CompraDetails extends StatelessWidget {
                     return Scaffold(
                       appBar: AppBar(
                         title: Text('Propietats de la compra'),
+                        centerTitle: true,
+                        flexibleSpace: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: <Color>[
+                                Colors.blue[400],
+                                Colors.blue[900],
+                              ],
+                            ),
+                          ),
+                        ),
                         actions: [
                           IconButton(
                             tooltip: "Editar compra",

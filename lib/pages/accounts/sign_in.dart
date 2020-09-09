@@ -35,6 +35,19 @@ class _SignInState extends State<SignIn> {
                 "Inicia la sessió",
                 style: TextStyle(color: Colors.white),
               ),
+              centerTitle: false,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
+                  ),
+                ),
+              ),
               actions: [
                 FlatButton.icon(
                   onPressed: () {
@@ -105,7 +118,7 @@ class _SignInState extends State<SignIn> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Inicia la sessió",
-                            style: TextStyle(color: Colors.white, fontSize: 30),
+                            style: TextStyle(color: Colors.black, fontSize: 30),
                           ),
                         ),
                       ),

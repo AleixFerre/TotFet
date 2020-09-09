@@ -25,11 +25,11 @@ class MyDrawer extends StatelessWidget {
                 bottomRight: const Radius.circular(40.0),
               ),
             ),
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Icon(
-                  Icons.shopping_cart,
+                  Icons.dynamic_feed,
                   size: 60,
                   color: Colors.white,
                 ),
@@ -37,7 +37,7 @@ class MyDrawer extends StatelessWidget {
                   "$appName",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 40,
                   ),
                 ),
               ],
@@ -78,7 +78,7 @@ class MyDrawer extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.shopping_bag),
+                      Icon(Icons.shopping_cart),
                       SizedBox(
                         width: 20,
                       ),
@@ -114,6 +114,7 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
               ),
+              Divider(),
               ClipRRect(
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
@@ -137,8 +138,8 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(),
               SortirSessio(),
+              Divider(),
               ClipRRect(
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
