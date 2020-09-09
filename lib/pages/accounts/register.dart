@@ -83,6 +83,7 @@ class _RegisterState extends State<Register> {
                           hintText: "Introdueix el teu nom d'usuari",
                         ),
                         validator: (value) {
+                          value = value.trim();
                           if (value == "") {
                             return "Has de tenir un nom.";
                           } else if (value.length > 15) {

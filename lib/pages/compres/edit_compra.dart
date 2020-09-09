@@ -63,6 +63,7 @@ class _EditCompraState extends State<EditCompra> {
                 alignment: Alignment.topCenter,
                 child: TextFormField(
                   validator: (value) {
+                    value = value.trim();
                     if (value == "") {
                       return "Siusplau, posa un nom a la compra.";
                     }
@@ -71,7 +72,7 @@ class _EditCompraState extends State<EditCompra> {
                   initialValue: model['nom'],
                   onChanged: (str) {
                     setState(() {
-                      model['nom'] = str;
+                      model['nom'] = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(

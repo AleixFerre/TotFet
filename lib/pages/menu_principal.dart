@@ -57,7 +57,10 @@ class MenuPrincipal extends StatelessWidget {
                     ),
                     Text(
                       "El meu Perfil",
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -85,7 +88,10 @@ class MenuPrincipal extends StatelessWidget {
                     ),
                     Text(
                       "Les meves Compres",
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -113,7 +119,10 @@ class MenuPrincipal extends StatelessWidget {
                     ),
                     Text(
                       "Les meves Tasques",
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     SizedBox(
                       height: 20,

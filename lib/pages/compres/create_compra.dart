@@ -34,19 +34,20 @@ class _CreateCompraState extends State<CreateCompra> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Crear Compra"),centerTitle: true,
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Colors.blue[400],
-                      Colors.blue[900],
-                    ],
-                  ),
-                ),
-              ),
+        title: Text("Crear Compra"),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,
@@ -58,6 +59,7 @@ class _CreateCompraState extends State<CreateCompra> {
                 alignment: Alignment.topCenter,
                 child: TextFormField(
                   validator: (value) {
+                    value = value.trim();
                     if (value == "") {
                       return "Siusplau, posa un nom";
                     }
@@ -66,7 +68,7 @@ class _CreateCompraState extends State<CreateCompra> {
                   initialValue: compra.nom,
                   onChanged: (str) {
                     setState(() {
-                      compra.nom = str;
+                      compra.nom = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(

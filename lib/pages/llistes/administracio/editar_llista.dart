@@ -48,6 +48,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                 alignment: Alignment.topCenter,
                 child: TextFormField(
                   validator: (value) {
+                    value = value.trim();
                     if (value == "") {
                       return "La llista ha de tenir un nom.";
                     } else if (value.length > 15) {
@@ -58,7 +59,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                   initialValue: llista.nom ?? "",
                   onChanged: (str) {
                     setState(() {
-                      llista.nom = str;
+                      llista.nom = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(
@@ -73,6 +74,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                 alignment: Alignment.topCenter,
                 child: TextFormField(
                   validator: (String value) {
+                    value = value.trim();
                     if (value.length > 255)
                       return "La descripció és massa llarga (>255 caràcters)";
                     return null;
@@ -84,7 +86,8 @@ class _EditarLlistaState extends State<EditarLlista> {
                     setState(() {
                       // Si el contingut es "" llavors sera null
                       // Sino, sera el contingut del string
-                      llista.descripcio = (str == "") ? null : str;
+                      llista.descripcio =
+                          (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(

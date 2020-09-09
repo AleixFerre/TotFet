@@ -42,6 +42,7 @@ class _EditPerfilState extends State<EditPerfil> {
                 padding: EdgeInsets.all(8.0),
                 child: TextFormField(
                   validator: (value) {
+                    value = value.trim();
                     if (value == "") {
                       return "Has de tenir un nom.";
                     } else if (value.length > 15) {
