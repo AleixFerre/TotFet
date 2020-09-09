@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:compres/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Welcome extends StatelessWidget {
   Welcome({this.setWelcome});
@@ -49,25 +50,9 @@ class Welcome extends StatelessWidget {
               flex: 1,
               child: Container(),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.all(
-                  Radius.elliptical(110, 120),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Image.asset(
-                "images/favicon.png",
-                height: 300,
-              ),
+            SvgPicture.asset(
+              "images/welcome.svg",
+              height: 200,
             ),
             Expanded(
               flex: 1,
@@ -75,7 +60,7 @@ class Welcome extends StatelessWidget {
             ),
             RaisedButton(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(18.0),
               ),
               onPressed: () {
                 setWelcome(true);
@@ -113,7 +98,7 @@ class Welcome extends StatelessWidget {
             ),
             RaisedButton(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(18.0),
               ),
               onPressed: () {
                 setWelcome(false);

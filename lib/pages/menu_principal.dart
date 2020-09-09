@@ -12,7 +12,10 @@ class MenuPrincipal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyDrawer(canviarFinestra: canviarFinestra),
+      drawer: MyDrawer(
+        canviarFinestra: canviarFinestra,
+        actual: Finestra.Menu,
+      ),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Menu Principal"),
@@ -36,6 +39,9 @@ class MenuPrincipal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
                 onPressed: () {
                   canviarFinestra(Finestra.Perfil);
                 },
@@ -61,6 +67,9 @@ class MenuPrincipal extends StatelessWidget {
               ),
               Divider(),
               RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
                 onPressed: () {
                   canviarFinestra(Finestra.Llista);
                 },
@@ -86,6 +95,9 @@ class MenuPrincipal extends StatelessWidget {
               ),
               Divider(),
               RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
                 onPressed: () {
                   canviarFinestra(Finestra.Tasques);
                 },

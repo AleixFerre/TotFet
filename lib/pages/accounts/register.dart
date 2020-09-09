@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:compres/services/auth.dart';
 import 'package:compres/shared/loading.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -64,14 +65,16 @@ class _RegisterState extends State<Register> {
             ),
             body: Container(
               padding: EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 50,
+                horizontal: 10,
+                vertical: 0,
               ),
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 20),
+                      SvgPicture.asset("images/register.svg", height: 200),
                       SizedBox(height: 20),
                       TextFormField(
                         // Email
@@ -128,6 +131,10 @@ class _RegisterState extends State<Register> {
                       ),
                       SizedBox(height: 40),
                       RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        padding: EdgeInsets.all(8),
                         onPressed: () async {
                           setState(() => loading = true);
                           if (_formKey.currentState.validate()) {

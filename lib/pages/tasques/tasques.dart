@@ -1,3 +1,4 @@
+import 'package:compres/models/Finestra.dart';
 import 'package:compres/shared/drawer.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,10 @@ class Tasques extends StatelessWidget {
           ),
         ),
       ),
-      drawer: MyDrawer(canviarFinestra: canviarFinestra),
+      drawer: MyDrawer(
+        canviarFinestra: canviarFinestra,
+        actual: Finestra.Tasques,
+      ),
       body: Loading("Tasques en desenvolupament"),
     );
   }

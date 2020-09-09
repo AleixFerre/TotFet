@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/models/Finestra.dart';
 import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,10 @@ class Perfil extends StatelessWidget {
           );
 
           return Scaffold(
-            drawer: MyDrawer(canviarFinestra: canviarFinestra),
+            drawer: MyDrawer(
+              canviarFinestra: canviarFinestra,
+              actual: Finestra.Perfil,
+            ),
             appBar: AppBar(
               title: Text("Perfil"),
               centerTitle: true,
@@ -140,6 +144,9 @@ class Perfil extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
                           elevation: 3,
                           onPressed: () async {
                             Llista result = await Navigator.of(context).push(
@@ -177,6 +184,9 @@ class Perfil extends StatelessWidget {
                           height: 10,
                         ),
                         RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
                           elevation: 3,
                           onPressed: () async {
                             String id = await Navigator.of(context).push(
@@ -219,6 +229,9 @@ class Perfil extends StatelessWidget {
                       height: 10,
                     ),
                     RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
                       elevation: 3,
                       onPressed: () {
                         Navigator.of(context).push(
@@ -249,24 +262,6 @@ class Perfil extends StatelessWidget {
                     ),
                     Divider(
                       height: 40,
-                    ),
-                    Center(
-                      child: Text(
-                        "Les meves tasques",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 100,
-                      child: Placeholder(
-                        color: Colors.blue,
-                      ),
                     ),
                   ],
                 ),

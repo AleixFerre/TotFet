@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
   final Function canviarFinestra;
-  MyDrawer({this.canviarFinestra});
+  final Finestra actual;
+  MyDrawer({this.canviarFinestra, this.actual});
+
+  bool escenaActual(Finestra finestra) {
+    return finestra == actual;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +55,11 @@ class MyDrawer extends StatelessWidget {
                 child: RaisedButton(
                   elevation: 1,
                   color: Colors.grey[100],
-                  onPressed: () {
-                    canviarFinestra(Finestra.Menu);
-                  },
+                  onPressed: escenaActual(Finestra.Menu)
+                      ? () {
+                          canviarFinestra(Finestra.Menu);
+                        }
+                      : null,
                   child: Row(
                     children: [
                       Icon(Icons.apps),
@@ -73,9 +80,11 @@ class MyDrawer extends StatelessWidget {
                 child: RaisedButton(
                   elevation: 1,
                   color: Colors.grey[100],
-                  onPressed: () {
-                    canviarFinestra(Finestra.Llista);
-                  },
+                  onPressed: escenaActual(Finestra.Llista)
+                      ? () {
+                          canviarFinestra(Finestra.Llista);
+                        }
+                      : null,
                   child: Row(
                     children: [
                       Icon(Icons.shopping_cart),
@@ -96,9 +105,11 @@ class MyDrawer extends StatelessWidget {
                 child: RaisedButton(
                   elevation: 1,
                   color: Colors.grey[100],
-                  onPressed: () {
-                    canviarFinestra(Finestra.Tasques);
-                  },
+                  onPressed: escenaActual(Finestra.Tasques)
+                      ? () {
+                          canviarFinestra(Finestra.Tasques);
+                        }
+                      : null,
                   child: Row(
                     children: [
                       Icon(Icons.assignment),
@@ -119,10 +130,13 @@ class MyDrawer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
                 child: RaisedButton(
                   elevation: 1,
+                  disabledColor: Colors.grey[200],
                   color: Colors.grey[100],
-                  onPressed: () {
-                    canviarFinestra(Finestra.Perfil);
-                  },
+                  onPressed: escenaActual(Finestra.Perfil)
+                      ? () {
+                          canviarFinestra(Finestra.Perfil);
+                        }
+                      : null,
                   child: Row(
                     children: [
                       Icon(Icons.account_circle),
@@ -152,7 +166,7 @@ class MyDrawer extends StatelessWidget {
                           Image.asset("images/favicon.png", height: 50),
                       applicationName: appName,
                       applicationVersion: versionNumber,
-                      applicationLegalese: 'Desenvolupat per Aleix Ferré',
+                      applicationLegalese: 'Desenvolupat per $appCreator',
                     );
                   },
                   child: Row(
@@ -171,7 +185,7 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Text("$appName © Aleix Ferré"),
+              Text("$appName © ${DateTime.now().year} $appCreator"),
               Text("Versió $versionNumber"),
             ],
           ),

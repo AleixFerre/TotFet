@@ -26,6 +26,9 @@ class CompraCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return compra.isNotEmpty // En quant es pugui mostrar
         ? Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
             color: cardColor,
             child: Column(
               mainAxisSize: MainAxisSize.min,

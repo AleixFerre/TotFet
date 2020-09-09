@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:compres/models/Finestra.dart';
 import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -223,7 +224,10 @@ class LlistaCompra extends StatelessWidget {
       bottomNavigationBar: bottomAppBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,
-      drawer: MyDrawer(canviarFinestra: canviarFinestra),
+      drawer: MyDrawer(
+        canviarFinestra: canviarFinestra,
+        actual: Finestra.Llista,
+      ),
     );
   }
 }

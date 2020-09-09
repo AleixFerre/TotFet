@@ -2,3 +2,4 @@
 
 const String versionNumber = "0.1.0";
 const String appName = "TotFet";
+const String appCreator = "Aleix Ferré";
