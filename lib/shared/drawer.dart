@@ -26,8 +26,8 @@ class MyDrawer extends StatelessWidget {
                 Colors.blue[400],
               ]),
               borderRadius: BorderRadius.only(
-                bottomLeft: const Radius.circular(40.0),
-                bottomRight: const Radius.circular(40.0),
+                //bottomLeft: const Radius.circular(18.0),
+                bottomRight: const Radius.circular(18.0),
               ),
             ),
             child: Row(

@@ -129,7 +129,7 @@ class LlistaCompra extends StatelessWidget {
     BottomAppBar bottomAppBar = BottomAppBar(
       elevation: 10,
       shape: CircularNotchedRectangle(),
-      color: Colors.blue,
+      color: Colors.blue[800],
       child: Container(
         height: 60,
         child: Row(
@@ -197,6 +197,7 @@ class LlistaCompra extends StatelessWidget {
     );
 
     FloatingActionButton floatingActionButton = FloatingActionButton(
+      backgroundColor: Colors.blue[700],
       onPressed: () async {
         final Compra result = await Navigator.push(
           context,
