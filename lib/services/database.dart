@@ -98,10 +98,13 @@ class DatabaseService {
 
   Future<void> sortirUsuarideLlista(String llistaID, String uid) async {
     // Mirar totes les compres i tasques a les que està assignat
+    // Només d'aquella llista
     // I posar el camp idAssignat a null
 
-    QuerySnapshot compres =
-        await compresCollection.where("idAssignat", isEqualTo: uid).get();
+    QuerySnapshot compres = await compresCollection
+        .where("idAssignat", isEqualTo: uid)
+        .where("idLlista", isEqualTo: llistaID)
+        .get();
 
     for (QueryDocumentSnapshot compra in compres.docs) {
       Map<String, dynamic> actualitzada = compra.data();
@@ -110,8 +113,11 @@ class DatabaseService {
     }
 
     // El mateix per les tasques
-    QuerySnapshot tasques =
-        await tasquesCollection.where("idAssignat", isEqualTo: uid).get();
+    // Només d'aquella llista
+    QuerySnapshot tasques = await tasquesCollection
+        .where("idAssignat", isEqualTo: uid)
+        .where("idLlista", isEqualTo: llistaID)
+        .get();
 
     for (QueryDocumentSnapshot tasca in tasques.docs) {
       Map<String, dynamic> actualitzada = tasca.data();
