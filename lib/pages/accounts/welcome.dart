@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:compres/models/Finestra_auth.dart';
 import 'package:compres/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Welcome extends StatelessWidget {
-  Welcome({this.setWelcome});
-  final Function setWelcome;
+  Welcome({this.canviarFinestra});
+  final Function canviarFinestra;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +64,7 @@ class Welcome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ),
               onPressed: () {
-                setWelcome(true);
+                canviarFinestra(FinestraAuth.SignIn);
               },
               child: SizedBox(
                 width: 300,
@@ -101,7 +102,7 @@ class Welcome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ),
               onPressed: () {
-                setWelcome(false);
+                canviarFinestra(FinestraAuth.Register);
               },
               child: SizedBox(
                 width: 300,

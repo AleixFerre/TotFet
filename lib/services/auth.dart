@@ -132,6 +132,27 @@ class AuthService {
     }
   }
 
+  Future<dynamic> sendPasswordResetEmail(String email) async {
+    try {
+      return await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print("No s'ha trobat cap usuari amb aquesta adreça");
+        return "No s'ha trobat cap usuari amb aquesta adreça. Pot ser que la conta s'hagi esborrat.";
+      } else if (e.code == 'invalid-email') {
+        print(
+          "L'adreça electrònica no és correcta. Sembla que no té un format adient.",
+        );
+        return "L'adreça electrònica no és correcta. Sembla que no té un format adient.";
+      } else {
+        return e.toString();
+      }
+    } catch (e) {
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
   // sign out
   Future signOut() async {
     try {

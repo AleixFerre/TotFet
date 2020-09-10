@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:compres/models/Finestra_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/services/auth.dart';
@@ -6,9 +7,9 @@ import 'package:compres/shared/loading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
+  final Function canviarFinestra;
 
-  Register({this.toggleView});
+  Register({this.canviarFinestra});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -53,7 +54,7 @@ class _RegisterState extends State<Register> {
               actions: [
                 FlatButton.icon(
                   onPressed: () {
-                    widget.toggleView();
+                    widget.canviarFinestra(FinestraAuth.SignIn);
                   },
                   icon: Icon(Icons.person, color: Colors.white),
                   label: Text(

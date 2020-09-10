@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:compres/models/Finestra_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/services/auth.dart';
@@ -6,9 +7,9 @@ import 'package:compres/shared/loading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
+  final Function canviarFinestra;
 
-  SignIn({this.toggleView});
+  SignIn({this.canviarFinestra});
 
   @override
   _SignInState createState() => _SignInState();
@@ -52,7 +53,7 @@ class _SignInState extends State<SignIn> {
               actions: [
                 FlatButton.icon(
                   onPressed: () {
-                    widget.toggleView();
+                    widget.canviarFinestra(FinestraAuth.Register);
                   },
                   icon: Icon(
                     Icons.person,
@@ -135,6 +136,15 @@ class _SignInState extends State<SignIn> {
                             ),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      FlatButton(
+                        child: Text("Has oblidat la contrasenya?"),
+                        onPressed: () {
+                          widget.canviarFinestra(FinestraAuth.ForgotPassword);
+                        },
                       ),
                       SizedBox(
                         height: 12,
