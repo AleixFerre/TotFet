@@ -12,6 +12,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('usuaris');
   final CollectionReference compresCollection =
       FirebaseFirestore.instance.collection('compres');
+  final CollectionReference tasquesCollection =
+      FirebaseFirestore.instance.collection('tasques');
   final CollectionReference llistesCollection =
       FirebaseFirestore.instance.collection('llistes');
   final CollectionReference llistesUsuarisCollection =
@@ -73,6 +75,29 @@ class DatabaseService {
   }
 
   Future<void> sortirUsuarideLlista(String llistaID, String uid) async {
+    // Mirar totes les compres i tasques a les que està assignat
+    // I posar el camp idAssignat a null
+
+    QuerySnapshot compres =
+        await compresCollection.where("idAssignat", isEqualTo: uid).get();
+
+    for (QueryDocumentSnapshot compra in compres.docs) {
+      Map<String, dynamic> actualitzada = compra.data();
+      actualitzada['idAssignat'] = null;
+      await compresCollection.doc(compra.id).update(actualitzada);
+    }
+
+    // El mateix per les tasques
+    QuerySnapshot tasques =
+        await tasquesCollection.where("idAssignat", isEqualTo: uid).get();
+
+    for (QueryDocumentSnapshot tasca in tasques.docs) {
+      Map<String, dynamic> actualitzada = tasca.data();
+      actualitzada['idAssignat'] = null;
+      await tasquesCollection.doc(tasca.id).update(actualitzada);
+    }
+
+    // Esborrar la relacio Llistes - Usuaris
     QuerySnapshot info = await llistesUsuarisCollection
         .where("llista", isEqualTo: llistaID)
         .where("usuari", isEqualTo: uid)
