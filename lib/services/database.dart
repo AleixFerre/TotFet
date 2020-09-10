@@ -74,6 +74,28 @@ class DatabaseService {
     });
   }
 
+  Future<void> esborrarLlista(String llistaID) async {
+    // S'ESBORREN TOTS ELS USUARIS DE LLISTES-USUARIS VINCULATS A AQUESTA LLISTA
+    QuerySnapshot usuaris = await llistesUsuarisCollection
+        .where("llista", isEqualTo: llistaID)
+        .get();
+
+    for (QueryDocumentSnapshot usuari in usuaris.docs) {
+      llistesUsuarisCollection.doc(usuari.id).delete();
+    }
+
+    // S'ESBORREN TOTES LES COMPRES AMB AQUESTA LLISTA ASSIGNADA
+    QuerySnapshot compres =
+        await compresCollection.where("idLlista", isEqualTo: llistaID).get();
+
+    for (QueryDocumentSnapshot compra in compres.docs) {
+      compresCollection.doc(compra.id).delete();
+    }
+
+    // S'esborra la llista en si de la taula Llistes
+    await llistesCollection.doc(llistaID).delete();
+  }
+
   Future<void> sortirUsuarideLlista(String llistaID, String uid) async {
     // Mirar totes les compres i tasques a les que està assignat
     // I posar el camp idAssignat a null

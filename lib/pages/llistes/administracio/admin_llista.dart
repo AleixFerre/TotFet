@@ -134,6 +134,55 @@ class _AdminLlistesState extends State<AdminLlistes> {
                   }
                 },
               },
+              {
+                "nom": "Esborrar",
+                "icon": Icon(Icons.delete_forever),
+                "function": () async {
+                  bool esborrar = await showDialog<bool>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Vols esborrar la llista DEFINITIVAMENT?'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(
+                                'Aquesta acció esborrarà totes les compres assignades a aquesta llista, farà fora a tothom i finalment, esborrarà la informació de la llista.\nAQUESTA ACCIÓ NO ES POT DESFER!',
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              'Cancel·lar',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'ESBORRAR DEFINITIVAMENT',
+                              style: TextStyle(fontSize: 20, color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (esborrar == true) {
+                    await DatabaseService().esborrarLlista(llista.id);
+                    print("Llista esborrada correctament");
+                  }
+                },
+              },
             ];
             final List<Map<String, dynamic>> opcionsNormal = [
               {
@@ -228,6 +277,11 @@ class _AdminLlistesState extends State<AdminLlistes> {
                 bool isOwner = AuthService().userId == llista.idCreador;
                 return Card(
                   child: ListTile(
+                    onLongPress: () => Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("ID: ${llista.id}"),
+                      ),
+                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
