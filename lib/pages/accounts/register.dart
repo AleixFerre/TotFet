@@ -155,6 +155,7 @@ class _RegisterState extends State<Register> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 30,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ),

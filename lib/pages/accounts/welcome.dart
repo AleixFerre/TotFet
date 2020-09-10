@@ -75,9 +75,9 @@ class Welcome extends StatelessWidget {
                       child: Container(),
                     ),
                     Text(
-                      "Login",
+                      "Inicia la sessió",
                       style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 37,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -113,7 +113,7 @@ class Welcome extends StatelessWidget {
                       child: Container(),
                     ),
                     Text(
-                      "Register",
+                      "Registrar-se",
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w300,

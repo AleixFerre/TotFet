@@ -61,6 +61,12 @@ class CompraDetails extends StatelessWidget {
           }
           if (snapshotDetails.hasData) {
             Map<String, dynamic> info = snapshotDetails.data.data();
+            if (info == null) {
+              return Scaffold(
+                body: Loading("Esborrant compra..."),
+              );
+            }
+
             List<String> idUsuaris = [
               info['idCreador'],
             ];
@@ -137,6 +143,7 @@ class CompraDetails extends StatelessWidget {
                             },
                           ),
                           IconButton(
+                            tooltip: "Esborrar compra",
                             icon: Icon(Icons.delete),
                             onPressed: () async {
                               // Show alert box
@@ -181,8 +188,7 @@ class CompraDetails extends StatelessWidget {
 
                               // Si esborrar és null o false, llavors no es fa res
                               if (esborrar == true) {
-                                await DatabaseService()
-                                    .esborrarCompra(compra.id);
+                                DatabaseService().esborrarCompra(id);
                                 // Si no hi ha element, podem sortir d'aquesta pantalla
                                 Navigator.pop(context);
                               }

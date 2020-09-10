@@ -1,4 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/models/Usuari.dart';
+import 'package:compres/services/database.dart';
+import 'package:compres/shared/loading.dart';
+import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/models/Prioritat/Prioritat.dart';
@@ -6,15 +10,54 @@ import 'package:compres/models/Tipus/Tipus.dart';
 
 import 'package:numberpicker/numberpicker.dart';
 
-class EditCompra extends StatefulWidget {
+class EditCompra extends StatelessWidget {
   final Map compra;
   EditCompra({this.compra});
 
   @override
-  _EditCompraState createState() => _EditCompraState();
+  Widget build(BuildContext context) {
+    String idLlista = compra['idLlista'];
+
+    return FutureBuilder<QuerySnapshot>(
+      future: DatabaseService().getUsuarisLlista(idLlista),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SomeErrorPage(
+            error: snapshot.error,
+          );
+        }
+
+        if (snapshot.hasData) {
+          return LlistarCompraEdit(
+            compra: compra,
+            usuaris: snapshot.data.docs
+                .map((e) => Usuari.fromDB(
+                      e.id,
+                      null,
+                      e.data(),
+                    ))
+                .toList(),
+          );
+        }
+
+        return Scaffold(
+          body: Loading("Carregant usuaris de la llista..."),
+        );
+      },
+    );
+  }
 }
 
-class _EditCompraState extends State<EditCompra> {
+class LlistarCompraEdit extends StatefulWidget {
+  final Map compra;
+  final List<Usuari> usuaris;
+  LlistarCompraEdit({this.compra, this.usuaris});
+
+  @override
+  _LlistarCompraEditState createState() => _LlistarCompraEditState();
+}
+
+class _LlistarCompraEditState extends State<LlistarCompraEdit> {
   Map<String, dynamic> model;
 
   final _formKey = GlobalKey<FormState>();
@@ -33,9 +76,13 @@ class _EditCompraState extends State<EditCompra> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     model = widget.compra;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Editar Compra"),
@@ -78,6 +125,44 @@ class _EditCompraState extends State<EditCompra> {
                   decoration: InputDecoration(
                     labelText: 'Entra el nom del producte...',
                   ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona un usuari de la llista"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DropdownButton<String>(
+                          hint: Text("Assigna un usuari"),
+                          value: model['idAssignat'],
+                          items: widget.usuaris
+                              .map<DropdownMenuItem<String>>((Usuari value) {
+                            return DropdownMenuItem<String>(
+                              value: value.uid,
+                              child: Text(value.nom),
+                            );
+                          }).toList(),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              model['idAssignat'] = newValue;
+                            });
+                          },
+                        ),
+                        IconButton(
+                            tooltip: "Desseleccionar assignat",
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                model['idAssignat'] = null;
+                              });
+                            })
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Container(

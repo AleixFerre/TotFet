@@ -65,6 +65,7 @@ class Perfil extends StatelessWidget {
               ),
               actions: [
                 IconButton(
+                  tooltip: "Editar perfil",
                   icon: Icon(Icons.edit),
                   onPressed: () async {
                     Usuari resposta = await Navigator.push(
@@ -143,80 +144,86 @@ class Perfil extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          elevation: 3,
-                          onPressed: () async {
-                            Llista result = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => CrearLlista(),
+                        Tooltip(
+                          message: "Crear una nova llista.",
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            elevation: 3,
+                            onPressed: () async {
+                              Llista result = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => CrearLlista(),
+                                ),
+                              );
+                              if (result != null) {
+                                await DatabaseService().addList(result);
+                                print("Llista creada correctament!");
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    "images/create.svg",
+                                    height: 100,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Crear",
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                ],
                               ),
-                            );
-                            if (result != null) {
-                              await DatabaseService().addList(result);
-                              print("Llista creada correctament!");
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "images/create.svg",
-                                  height: 100,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Crear",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ],
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          elevation: 3,
-                          onPressed: () async {
-                            String id = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => UnirseLlista(),
+                        Tooltip(
+                          message: "Unir-me a una llista.",
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            elevation: 3,
+                            onPressed: () async {
+                              String id = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => UnirseLlista(),
+                                ),
+                              );
+                              if (id != null) {
+                                await DatabaseService().addUsuariLlista(id);
+                                print("T'has unit a la llista correctament!");
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    "images/join.svg",
+                                    height: 100,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Unir-me",
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                ],
                               ),
-                            );
-                            if (id != null) {
-                              await DatabaseService().addUsuariLlista(id);
-                              print("T'has unit a la llista correctament!");
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "images/join.svg",
-                                  height: 100,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Unir-me",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -228,35 +235,39 @@ class Perfil extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      elevation: 3,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AdminLlistes(),
+                    Tooltip(
+                      message:
+                          "Administrar les llistes a les que estic inscrit.",
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        elevation: 3,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => AdminLlistes(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                "images/settings.svg",
+                                height: 100,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Administrar",
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.w300),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset(
-                              "images/settings.svg",
-                              height: 100,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Administrar",
-                              style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.w300),
-                            ),
-                          ],
                         ),
                       ),
                     ),

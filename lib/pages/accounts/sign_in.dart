@@ -76,7 +76,10 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     children: [
                       SizedBox(height: 20),
-                      SvgPicture.asset("images/signin.svg", height: 200),
+                      SvgPicture.asset(
+                        "images/signin.svg",
+                        height: 200,
+                      ),
                       SizedBox(height: 20),
                       TextFormField(
                         // Email
@@ -125,7 +128,11 @@ class _SignInState extends State<SignIn> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Inicia la sessió",
-                            style: TextStyle(color: Colors.black, fontSize: 30),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w300,
+                            ),
                           ),
                         ),
                       ),

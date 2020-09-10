@@ -1,3 +1,7 @@
+import 'package:compres/models/Usuari.dart';
+import 'package:compres/services/database.dart';
+import 'package:compres/shared/loading.dart';
+import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,20 +15,87 @@ import 'package:numberpicker/numberpicker.dart';
 class CreateCompra extends StatefulWidget {
   final List<Map<String, String>> llistesUsuari;
   final int indexLlista;
-
   CreateCompra({this.llistesUsuari, this.indexLlista});
+
   @override
   _CreateCompraState createState() => _CreateCompraState();
 }
 
 class _CreateCompraState extends State<CreateCompra> {
+  int indexLlista;
+
+  @override
+  void initState() {
+    indexLlista = widget.indexLlista;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String llistaID = widget.llistesUsuari[indexLlista]['id'];
+
+    void updateParent(int index) {
+      if (index != indexLlista) {
+        setState(() {
+          indexLlista = index;
+        });
+      }
+    }
+
+    return FutureBuilder<QuerySnapshot>(
+      future: DatabaseService().getUsuarisLlista(llistaID),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SomeErrorPage(
+            error: snapshot.error,
+          );
+        }
+
+        if (snapshot.hasData) {
+          return LlistarCompraCrear(
+            llistesUsuari: widget.llistesUsuari,
+            indexLlista: indexLlista,
+            usuaris: snapshot.data.docs
+                .map((e) => Usuari.fromDB(
+                      e.id,
+                      null,
+                      e.data(),
+                    ))
+                .toList(),
+            updateParent: updateParent,
+          );
+        }
+
+        return Scaffold(
+          body: Loading("Carregant usuaris de la llista..."),
+        );
+      },
+    );
+  }
+}
+
+class LlistarCompraCrear extends StatefulWidget {
+  final List<Map<String, String>> llistesUsuari;
+  final int indexLlista;
+  final List<Usuari> usuaris;
+  final Function updateParent;
+
+  LlistarCompraCrear(
+      {this.llistesUsuari, this.indexLlista, this.usuaris, this.updateParent});
+  @override
+  _LlistarCompraCrearState createState() => _LlistarCompraCrearState();
+}
+
+class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
   Compra compra;
-  int index;
+  int indexLlista;
+  int indexUsuari;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    print("init state");
     super.initState();
     compra = Compra.nova(null, AuthService().userId,
         widget.llistesUsuari[widget.indexLlista]['id']);
@@ -84,7 +155,8 @@ class _CreateCompraState extends State<CreateCompra> {
                     Text("Selecciona una llista"),
                     DropdownButton<String>(
                       hint: Text("Escolleix una llista"),
-                      value: widget.llistesUsuari[index ?? widget.indexLlista]
+                      value: widget
+                              .llistesUsuari[indexLlista ?? widget.indexLlista]
                           ['id'],
                       items: widget.llistesUsuari.map<DropdownMenuItem<String>>(
                         (Map<String, String> value) {
@@ -95,10 +167,35 @@ class _CreateCompraState extends State<CreateCompra> {
                         },
                       ).toList(),
                       onChanged: (String newValue) {
+                        indexLlista = widget.llistesUsuari.indexWhere(
+                          (element) => element['id'] == newValue,
+                        );
+                        compra.idAssignat = null;
+                        widget.updateParent(indexLlista);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Text("Selecciona un usuari de la llista"),
+                    DropdownButton<String>(
+                      hint: Text("Assigna un usuari"),
+                      value: compra.idAssignat,
+                      items: widget.usuaris
+                          .map<DropdownMenuItem<String>>((Usuari value) {
+                        return DropdownMenuItem<String>(
+                          value: value.uid,
+                          child: Text(value.nom),
+                        );
+                      }).toList(),
+                      onChanged: (String newValue) {
                         setState(() {
-                          compra.idLlista = newValue;
-                          index = widget.llistesUsuari.indexWhere(
-                              (element) => element['id'] == newValue);
+                          compra.idAssignat = newValue;
                         });
                       },
                     ),

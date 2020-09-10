@@ -56,147 +56,147 @@ class MyDrawer extends StatelessWidget {
           ),
           Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: RaisedButton(
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: escenaActual(Finestra.Menu)
-                      ? () {
-                          canviarFinestra(Finestra.Menu);
-                        }
-                      : null,
-                  child: Row(
-                    children: [
-                      Icon(Icons.apps),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Menu Principal"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: escenaActual(Finestra.Menu)
+                    ? () {
+                        canviarFinestra(Finestra.Menu);
+                      }
+                    : null,
+                child: Row(
+                  children: [
+                    Icon(Icons.apps),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Menu Principal"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
                 ),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: RaisedButton(
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: escenaActual(Finestra.Llista)
-                      ? () {
-                          canviarFinestra(Finestra.Llista);
-                        }
-                      : null,
-                  child: Row(
-                    children: [
-                      Icon(Icons.shopping_cart),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Les meves Compres"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: escenaActual(Finestra.Llista)
+                    ? () {
+                        canviarFinestra(Finestra.Llista);
+                      }
+                    : null,
+                child: Row(
+                  children: [
+                    Icon(Icons.shopping_cart),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Les meves Compres"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
                 ),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: RaisedButton(
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: escenaActual(Finestra.Tasques)
-                      ? () {
-                          canviarFinestra(Finestra.Tasques);
-                        }
-                      : null,
-                  child: Row(
-                    children: [
-                      Icon(Icons.assignment),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Les meves Tasques"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
+              RaisedButton(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: escenaActual(Finestra.Tasques)
+                    ? () {
+                        canviarFinestra(Finestra.Tasques);
+                      }
+                    : null,
+                child: Row(
+                  children: [
+                    Icon(Icons.assignment),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Les meves Tasques"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
                 ),
               ),
               Divider(),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: RaisedButton(
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: escenaActual(Finestra.Perfil)
-                      ? () {
-                          canviarFinestra(Finestra.Perfil);
-                        }
-                      : null,
-                  child: Row(
-                    children: [
-                      Icon(Icons.account_circle),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("El meu Perfil"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: escenaActual(Finestra.Perfil)
+                    ? () {
+                        canviarFinestra(Finestra.Perfil);
+                      }
+                    : null,
+                child: Row(
+                  children: [
+                    Icon(Icons.account_circle),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("El meu Perfil"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
                 ),
               ),
               SortirSessio(),
               Divider(),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: RaisedButton(
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: () {
-                    showAboutDialog(
-                      context: context,
-                      applicationIcon:
-                          Image.asset("images/favicon.png", height: 50),
-                      applicationName: appName,
-                      applicationVersion: versionNumber,
-                      applicationLegalese: 'Desenvolupat per $appCreator',
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.help),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Més info"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: () {
+                  showAboutDialog(
+                    context: context,
+                    applicationIcon:
+                        Image.asset("images/favicon.png", height: 50),
+                    applicationName: appName,
+                    applicationVersion: versionNumber,
+                    applicationLegalese: 'Desenvolupat per $appCreator',
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.help),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Més info"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
                 ),
               ),
               SizedBox(height: 20),
