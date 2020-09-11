@@ -153,13 +153,14 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           },
                         ),
                         IconButton(
-                            tooltip: "Desseleccionar assignat",
-                            icon: Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                model['idAssignat'] = null;
-                              });
-                            })
+                          tooltip: "Desseleccionar assignat",
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              model['idAssignat'] = null;
+                            });
+                          },
+                        )
                       ],
                     ),
                   ],

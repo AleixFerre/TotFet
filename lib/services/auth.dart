@@ -1,3 +1,4 @@
+import 'package:compres/services/messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:compres/models/Usuari.dart';
@@ -92,6 +93,7 @@ class AuthService {
       // Database register
       Usuari defaultUser = Usuari.perDefecte(user.uid);
       defaultUser.nom = username;
+      defaultUser.token = await MessagingService().getToken();
       await DatabaseService(uid: user.uid).updateUserData(defaultUser);
       return {
         "response": _userFromFirebaseUser(user),

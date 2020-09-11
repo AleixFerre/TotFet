@@ -8,9 +8,16 @@ class Usuari {
   String nom;
   String email;
   String urlImg;
+  String token;
   bool isAdmin;
 
-  Usuari({@required this.uid, this.nom, this.email, this.urlImg, this.isAdmin});
+  Usuari(
+      {@required this.uid,
+      this.nom,
+      this.email,
+      this.urlImg,
+      this.isAdmin,
+      this.token});
 
   static Usuari fromDB(String id, String _email, Map<String, dynamic> data) {
     return Usuari(
@@ -19,6 +26,7 @@ class Usuari {
       nom: data['nom'],
       urlImg: data['urlImg'],
       isAdmin: data['isAdmin'],
+      token: data['token'],
     );
   }
 
@@ -26,6 +34,7 @@ class Usuari {
     return {
       "nom": nom.trim(),
       "isAdmin": isAdmin,
+      "token": token,
       // Expandible...
     };
   }
@@ -42,6 +51,7 @@ class Usuari {
     return Usuari(
       uid: _uid,
       nom: "Nou membre",
+      token: "",
       isAdmin: false,
     );
   }

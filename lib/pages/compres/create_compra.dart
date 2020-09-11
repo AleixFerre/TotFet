@@ -95,7 +95,6 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
 
   @override
   void initState() {
-    print("init state");
     super.initState();
     compra = Compra.nova(null, AuthService().userId,
         widget.llistesUsuari[widget.indexLlista]['id']);
@@ -182,22 +181,36 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un usuari de la llista"),
-                    DropdownButton<String>(
-                      hint: Text("Assigna un usuari"),
-                      value: compra.idAssignat,
-                      items: widget.usuaris
-                          .map<DropdownMenuItem<String>>((Usuari value) {
-                        return DropdownMenuItem<String>(
-                          value: value.uid,
-                          child: Text(value.nom),
-                        );
-                      }).toList(),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          compra.idAssignat = newValue;
-                        });
-                      },
+                    Text("Assigna un usuari de la llista"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DropdownButton<String>(
+                          hint: Text("Selecciona un usuari"),
+                          value: compra.idAssignat,
+                          items: widget.usuaris
+                              .map<DropdownMenuItem<String>>((Usuari value) {
+                            return DropdownMenuItem<String>(
+                              value: value.uid,
+                              child: Text(value.nom),
+                            );
+                          }).toList(),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              compra.idAssignat = newValue;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          tooltip: "Desseleccionar assignat",
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              compra.idAssignat = null;
+                            });
+                          },
+                        )
+                      ],
                     ),
                   ],
                 ),

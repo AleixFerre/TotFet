@@ -28,11 +28,7 @@ class DatabaseService {
   }
 
   Future<void> addCompra(Map<String, dynamic> result) async {
-    return await compresCollection
-        .add(
-          result,
-        )
-        .catchError(
+    return await compresCollection.add(result).catchError(
           (error) => print("Error a l'afegir producte: $error"),
         );
   }
@@ -208,10 +204,5 @@ class DatabaseService {
         .where("idLlista", isEqualTo: idLlista)
         .where("comprat", isEqualTo: comprat)
         .snapshots();
-  }
-
-  Future<DocumentSnapshot> getNom() async {
-    DocumentSnapshot details = await usersCollection.doc(id).get();
-    return details;
   }
 }
