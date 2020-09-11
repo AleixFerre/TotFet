@@ -1,3 +1,4 @@
+import 'package:compres/services/messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Agenda',
+      title: 'TotFet',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           elevation: 5,
@@ -45,6 +46,13 @@ class MyApp extends StatelessWidget {
 }
 
 class BuildApp extends StatelessWidget {
+  Future initFirebase() async {
+    // Initialize Firebase App
+    await Firebase.initializeApp();
+    // Initialize Firebase Push Notifications Service
+    await MessagingService().initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

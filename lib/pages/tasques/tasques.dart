@@ -1,6 +1,5 @@
 import 'package:compres/models/Finestra.dart';
 import 'package:compres/shared/drawer.dart';
-import 'package:compres/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class Tasques extends StatelessWidget {
@@ -30,7 +29,13 @@ class Tasques extends StatelessWidget {
         canviarFinestra: canviarFinestra,
         actual: Finestra.Tasques,
       ),
-      body: Loading("Tasques en desenvolupament"),
+      body: Center(
+        child: Text(
+          "La funcionalitat de Tasques està en desenvolupament fins la propera gran actualització.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
     );
   }
 }
