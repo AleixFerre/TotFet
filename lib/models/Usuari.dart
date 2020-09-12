@@ -35,6 +35,7 @@ class Usuari {
       "nom": nom.trim(),
       "isAdmin": isAdmin,
       "token": token,
+      "dataCreacio": DateTime.now(),
       // Expandible...
     };
   }

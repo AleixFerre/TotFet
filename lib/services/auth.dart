@@ -44,7 +44,14 @@ class AuthService {
         email: email.trim(),
         password: password.trim(),
       );
+
+      // Actualitzem el valor del token cada cop que entrem a la sessió.
+      // Si el valor es el mateix no es fa res, perque es canvia per un
+      // valor exactament igual.
+      String token = await MessagingService().getToken();
       User user = result.user;
+      await DatabaseService().actualitzarToken(user.uid, token);
+
       return {
         "response": _userFromFirebaseUser(user),
         "error": null,

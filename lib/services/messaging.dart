@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MessagingService {
@@ -32,13 +31,24 @@ class MessagingService {
   }
 
   void _serializeAndNavigate(Map<String, dynamic> message) {
-    var notificationData = message['data'];
-    var view = message['view'];
+    dynamic notificationData = message['data'];
+    dynamic view = notificationData['view'];
 
     if (view != null) {
       // Navigate to the view
       if (view == 'detalls_compra') {
         // TODO: Fer que vagi cap a la pestanya que toca.
+        // String compraID = notificationData['compraID'];
+
+        // Navigator.push(
+        //   context, //! falta el context
+        //   MaterialPageRoute(
+        //     builder: (context) => CompraDetails(
+        //       id: compraID,
+        //       tipus: null,
+        //     ),
+        //   ),
+        // );
       }
     }
   }

@@ -70,6 +70,12 @@ class DatabaseService {
     });
   }
 
+  Future<void> actualitzarToken(String uid, String token) async {
+    await usersCollection.doc(uid).update({
+      "token": token,
+    });
+  }
+
   Future<void> esborrarLlista(String llistaID) async {
     // S'ESBORREN TOTS ELS USUARIS DE LLISTES-USUARIS VINCULATS A AQUESTA LLISTA
     QuerySnapshot usuaris = await llistesUsuarisCollection
