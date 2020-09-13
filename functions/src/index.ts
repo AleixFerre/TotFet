@@ -6,44 +6,63 @@ admin.initializeApp();
 const db = admin.firestore();
 const fcm = admin.messaging();
 
+async function enviarNotificacioCompra(snapshot: functions.firestore.QueryDocumentSnapshot) {
+  if (!snapshot.exists) {
+    console.log("No devices connected.");
+    return;
+  }
 
-export const sendToDevice = functions.firestore
+  const tokens = [];
+
+  const compra = snapshot.data();
+
+  if (compra?.idAssignat === null) {
+    console.log("No s'ha assignat a ningu!");
+    return;
+  }
+
+  const usuari = await db.collection('usuaris').doc(compra.idAssignat).get();
+
+  tokens.push(usuari.data()?.token);
+
+  const payload: admin.messaging.MessagingPayload = {
+    notification: {
+      title: "T'han assignat una compra!",
+      body: `Has de comprar ${compra.quantitat} de ${compra.nom}.`,
+    },
+    data: {
+      clickAction: "FLUTTER_NOTIFICATION_CLICK",
+      view: "detalls_compra",
+      compraID: snapshot.id,
+    }
+  }
+
+  try {
+    await fcm.sendToDevice(tokens, payload);
+  } catch (e) {
+    console.log(e.toString());
+  }
+
+}
+
+// Retorna si hi ha hagut un canvi al camp idAssignat
+function comprovarCanviAssignat(snapshot: functions.Change<functions.firestore.QueryDocumentSnapshot>): boolean {
+  return (snapshot.before.data()?.idAssignat !== snapshot.after.data()?.idAssignat);
+}
+
+export const alCrearCompra = functions.firestore
   .document('compres/{idAssignat}')
-  .onCreate(async snapshot => {
+  .onCreate(async snapshot => await enviarNotificacioCompra(snapshot));
 
-    if (!snapshot.exists) {
-      console.log("No devices connected.");
-      return;
-    }
-
-    const tokens = [];
-
-    const compra = snapshot.data();
-
-    if (compra.idAssignat === null) {
-      console.log("No s'ha assignat a ningu!");
-      return;
-    }
-
-    const usuari = await db.collection('usuaris').doc(compra.idAssignat).get();
-
-    tokens.push(usuari.data()?.token);
-
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: "T'han assignat una compra!",
-        body: `Has de comprar ${compra.quantitat} de ${compra.nom}.`,
-      },
-      data: {
-        clickAction: "FLUTTER_NOTIFICATION_CLICK",
-        view: "detalls_compra",
-        compraID: snapshot.id,
-      }
-    }
-
-    try {
-      await fcm.sendToDevice(tokens, payload);
-    } catch (e) {
-      console.log(e.toString());
-    }
+export const alActualitzarCompra = functions.firestore
+  .document('compres/{idAssignat}')
+  .onUpdate(async snapshot => {
+    if (comprovarCanviAssignat(snapshot))
+      await enviarNotificacioCompra(snapshot.after);
   });
+
+
+// TODO: TASQUES
+// export const alActualitzarTasca = functions.firestore
+//   .document('tasques/{idAssignat}')
+//   .onWrite(async snapshot => enviarNotificacioTasca(snapshot));
