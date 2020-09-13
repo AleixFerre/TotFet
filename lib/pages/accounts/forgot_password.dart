@@ -1,9 +1,9 @@
 import 'dart:ui';
-import 'package:compres/models/Finestra_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:compres/services/auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:totfet/models/Finestra_auth.dart';
+import 'package:totfet/services/auth.dart';
 
 class ForgotPassword extends StatefulWidget {
   final Function canviarFinestra;

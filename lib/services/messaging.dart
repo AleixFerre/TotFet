@@ -33,18 +33,7 @@ class MessagingService {
       // Navigate to the view
       if (view == 'detalls_compra') {
         // Fer que vagi cap a la pestanya que toca.
-        // String compraID = notificationData['compraID'];
-        // print(compraID);
 
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => CompraDetails(
-        //       id: compraID,
-        //       tipus: null,
-        //     ),
-        //   ),
-        // );
       }
     }
   }

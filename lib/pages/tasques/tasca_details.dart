@@ -2,12 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:compres/models/Tasca.dart';
-import 'package:compres/pages/tasques/edit_tasca.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/some_error_page.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Tasca.dart';
+import 'package:totfet/pages/tasques/edit_tasca.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/shared/some_error_page.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/models/Prioritat/Prioritat.dart';
 
 class TascaDetails extends StatelessWidget {
   TascaDetails({this.id, this.tipus});
@@ -101,6 +102,14 @@ class TascaDetails extends StatelessWidget {
 
                     Tasca tasca = Tasca.fromDB(info);
 
+                    String etsTu(String id) {
+                      if (id == AuthService().userId) {
+                        return "(Tu)";
+                      } else {
+                        return "";
+                      }
+                    }
+
                     return Scaffold(
                       appBar: AppBar(
                         title: Text('Propietats de la tasca'),
@@ -133,7 +142,7 @@ class TascaDetails extends StatelessWidget {
                               if (resposta != null) {
                                 resposta.remove('id');
                                 await DatabaseService()
-                                    .editarCompra(id, resposta);
+                                    .editarTasca(id, resposta);
                                 print("Tasca editada correctament!");
                                 // El future builder agafarà les dades més recents de la BD
                                 // En quant es recarregui l'estat
@@ -231,7 +240,7 @@ class TascaDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Creat per: ${tasca.nomCreador ?? "No disponible"}",
+                                "Creat per: ${tasca.nomCreador ?? "No disponible"} ${etsTu(tasca.idCreador)}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
@@ -241,12 +250,12 @@ class TascaDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Assignat a: ${tasca.nomAssignat ?? "Ningú"}",
+                                "Assignat a: ${tasca.nomAssignat ?? "Ningú"} ${etsTu(tasca.idAssignat)}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               SizedBox(height: 30),
                               Text(
-                                "Dades de la compra",
+                                "Dades de la tasca",
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
@@ -275,6 +284,7 @@ class TascaDetails extends StatelessWidget {
                                       ],
                                     )
                                   : Container(),
+                              Divider(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -291,14 +301,14 @@ class TascaDetails extends StatelessWidget {
                     );
                   }
                   return Scaffold(
-                    body: Loading("Carregant les dades de la compra (2/2)..."),
+                    body: Loading("Carregant les dades de la tasca (2/2)..."),
                   );
                 });
           }
 
           // Si encara no hi ha dades
           return Scaffold(
-            body: Loading("Carregant les dades de la compra (1/2)..."),
+            body: Loading("Carregant les dades de la tasca (1/2)..."),
           );
         });
   }

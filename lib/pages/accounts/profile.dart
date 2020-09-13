@@ -1,21 +1,21 @@
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
-
-import 'package:compres/models/Llista.dart';
-import 'package:compres/models/Usuari.dart';
-import 'package:compres/pages/accounts/edit_profile.dart';
-import 'package:compres/pages/llistes/administracio/admin_llista.dart';
-import 'package:compres/pages/llistes/crear_llista.dart';
-import 'package:compres/pages/llistes/unirse_llista.dart';
-import 'package:compres/services/auth.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/shared/some_error_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/shared/drawer.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/pages/accounts/edit_profile.dart';
+import 'package:totfet/pages/llistes/administracio/admin_llista.dart';
+import 'package:totfet/pages/llistes/crear_llista.dart';
+import 'package:totfet/pages/llistes/unirse_llista.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/shared/some_error_page.dart';
 
 class Perfil extends StatelessWidget {
   final Function canviarFinestra;

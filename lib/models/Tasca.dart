@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat/Prioritat.dart';
 
 class Tasca {
   Tasca({
@@ -89,6 +89,7 @@ class Tasca {
       'dataCreacio': dataCreacio,
       'dataTancament': dataTancament,
       'idCreador': idCreador,
+      'idAssignat': idAssignat,
       'idUsuariFet': idUsuariFet,
       'nomUsuariFet': nomUsuariFet,
       'idLlista': idLlista,

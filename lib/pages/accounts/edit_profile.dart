@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:compres/models/Usuari.dart';
+import 'package:totfet/models/Usuari.dart';
 
 class EditPerfil extends StatefulWidget {
   final Usuari usuari;

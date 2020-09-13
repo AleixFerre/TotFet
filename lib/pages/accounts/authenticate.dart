@@ -1,10 +1,10 @@
-import 'package:compres/models/Finestra_auth.dart';
-import 'package:compres/pages/accounts/forgot_password.dart';
-import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
-import 'package:compres/pages/accounts/welcome.dart';
-import 'package:compres/pages/accounts/register.dart';
-import 'package:compres/pages/accounts/sign_in.dart';
+import 'package:totfet/models/Finestra_auth.dart';
+import 'package:totfet/pages/accounts/forgot_password.dart';
+import 'package:totfet/shared/some_error_page.dart';
+import 'package:totfet/pages/accounts/welcome.dart';
+import 'package:totfet/pages/accounts/register.dart';
+import 'package:totfet/pages/accounts/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   @override

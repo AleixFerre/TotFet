@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/models/Llista.dart';
-import 'package:compres/models/Usuari.dart';
-import 'package:compres/services/auth.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/services/auth.dart';
 
 class DatabaseService {
   final String uid;

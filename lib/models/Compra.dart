@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/models/Prioritat/Prioritat.dart';
-import 'package:compres/models/Tipus/Tipus.dart';
+import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Tipus/Tipus.dart';
 
 class Compra {
   Compra({

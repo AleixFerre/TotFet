@@ -1,5 +1,5 @@
-name: compres
-description: Llista de la compra en temps real.
+name: totfet
+description: Llista de la compra i de tasques compartida en temps real.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

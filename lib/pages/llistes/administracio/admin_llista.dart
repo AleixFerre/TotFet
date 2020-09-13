@@ -1,19 +1,19 @@
 import 'dart:ui';
 
-import 'package:compres/pages/llistes/administracio/expulsar_llista.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:compres/pages/llistes/administracio/QR/qr_viewer.dart';
-import 'package:compres/pages/llistes/administracio/canvar_host.dart';
-import 'package:compres/pages/llistes/administracio/detalls_llista.dart';
-import 'package:compres/models/Llista.dart';
-import 'package:compres/pages/llistes/administracio/editar_llista.dart';
-import 'package:compres/services/auth.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/llista_buida.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/shared/some_error_page.dart';
+import 'package:totfet/pages/llistes/administracio/expulsar_llista.dart';
+import 'package:totfet/pages/llistes/administracio/QR/qr_viewer.dart';
+import 'package:totfet/pages/llistes/administracio/canvar_host.dart';
+import 'package:totfet/pages/llistes/administracio/detalls_llista.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/pages/llistes/administracio/editar_llista.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/llista_buida.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/shared/some_error_page.dart';
 
 class AdminLlistes extends StatefulWidget {
   @override

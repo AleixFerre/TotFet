@@ -1,8 +1,8 @@
-import 'package:compres/services/messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:compres/models/Usuari.dart';
-import 'package:compres/services/database.dart';
+import 'package:totfet/services/messaging.dart';
+import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

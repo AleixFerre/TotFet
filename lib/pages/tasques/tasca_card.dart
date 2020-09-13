@@ -1,8 +1,8 @@
-import 'package:compres/pages/tasques/tasca_details.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compres/services/database.dart';
-import 'package:compres/pages/tasques/edit_tasca.dart';
+import 'package:totfet/pages/tasques/tasca_details.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/pages/tasques/edit_tasca.dart';
 
 class TascaCard extends StatelessWidget {
   const TascaCard({

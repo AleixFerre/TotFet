@@ -1,13 +1,13 @@
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/pages/accounts/profile.dart';
-import 'package:compres/pages/menu_principal.dart';
-import 'package:compres/pages/tasques/carregar_BD_tasques.dart';
-import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
-import 'package:compres/models/Usuari.dart';
-import 'package:compres/pages/accounts/Authenticate.dart';
-import 'package:compres/pages/compres/carregar_BD.dart';
 import 'package:provider/provider.dart';
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/pages/accounts/profile.dart';
+import 'package:totfet/pages/menu_principal.dart';
+import 'package:totfet/pages/tasques/carregar_BD_tasques.dart';
+import 'package:totfet/shared/some_error_page.dart';
+import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/pages/accounts/Authenticate.dart';
+import 'package:totfet/pages/compres/carregar_BD.dart';
 
 class Wrapper extends StatefulWidget {
   @override

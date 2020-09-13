@@ -1,9 +1,10 @@
 import 'dart:ui';
 
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/shared/drawer.dart';
 
 class MenuPrincipal extends StatelessWidget {
   final Function canviarFinestra;

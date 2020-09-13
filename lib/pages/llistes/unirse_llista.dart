@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/loading.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/loading.dart';
 
 class UnirseLlista extends StatefulWidget {
   @override

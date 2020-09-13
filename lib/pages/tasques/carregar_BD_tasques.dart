@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/pages/llistes/menu_llistes.dart';
-import 'package:compres/pages/tasques/llista_tasques.dart';
-import 'package:compres/services/database.dart';
+import 'package:totfet/pages/llistes/menu_llistes.dart';
+import 'package:totfet/pages/tasques/llista_tasques.dart';
+import 'package:totfet/services/database.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compres/models/Llista.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/shared/some_error_page.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/shared/some_error_page.dart';
 
 class Tasques extends StatefulWidget {
   final Function canviarFinestra;

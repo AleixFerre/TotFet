@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:compres/pages/compres/compra_details.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/pages/compres/edit_compra.dart';
+import 'package:totfet/pages/compres/compra_details.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/pages/compres/edit_compra.dart';
 
 class CompraCard extends StatelessWidget {
   const CompraCard({

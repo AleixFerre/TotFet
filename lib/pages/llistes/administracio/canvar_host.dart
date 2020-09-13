@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:compres/models/Usuari.dart';
-import 'package:compres/services/auth.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/llista_buida.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/shared/some_error_page.dart';
+import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/llista_buida.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
 
 class CanviarHost extends StatefulWidget {

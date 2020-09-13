@@ -1,15 +1,15 @@
 import 'dart:ui';
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/models/Tasca.dart';
-import 'package:compres/pages/tasques/create_tasca.dart';
-import 'package:compres/pages/tasques/tasca_card.dart';
-import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/llista_buida.dart';
-import 'package:compres/models/Prioritat/PrioritatColors.dart';
-import 'package:compres/models/Tipus/TipusEmojis.dart';
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/models/Tasca.dart';
+import 'package:totfet/pages/tasques/create_tasca.dart';
+import 'package:totfet/pages/tasques/tasca_card.dart';
+import 'package:totfet/shared/drawer.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/llista_buida.dart';
+import 'package:totfet/models/Prioritat/PrioritatColors.dart';
+import 'package:totfet/models/Tipus/TipusEmojis.dart';
 
 class LlistaTasques extends StatelessWidget {
   LlistaTasques({

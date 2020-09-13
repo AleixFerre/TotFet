@@ -1,9 +1,9 @@
 import 'dart:ui';
-
-import 'package:compres/models/Finestra_auth.dart';
-import 'package:compres/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:totfet/models/Finestra_auth.dart';
+import 'package:totfet/shared/constants.dart';
 
 class Welcome extends StatelessWidget {
   Welcome({this.canviarFinestra});

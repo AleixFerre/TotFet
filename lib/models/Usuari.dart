@@ -57,7 +57,7 @@ class Usuari {
     );
   }
 
-  String _inicials(String s) {
+  static String _inicials(String s) {
     List<String> paraules = s.split(" ");
     String fi = paraules[0].substring(0, 1).toUpperCase();
     if (paraules.length > 1) {
@@ -74,6 +74,17 @@ class Usuari {
         style: TextStyle(fontSize: 60),
       ),
       radius: 60,
+    );
+  }
+
+  static CircleAvatar getAvatar(String nom) {
+    return CircleAvatar(
+      backgroundColor: Colors.blue,
+      child: Text(
+        _inicials(nom),
+        style: TextStyle(fontSize: 20),
+      ),
+      radius: 20,
     );
   }
 }

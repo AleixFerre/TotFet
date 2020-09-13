@@ -1,13 +1,13 @@
 import 'dart:ui';
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/models/Llista.dart';
-import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
-
-import 'package:compres/pages/llistes/crear_llista.dart';
-import 'package:compres/pages/llistes/unirse_llista.dart';
-import 'package:compres/services/database.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/shared/drawer.dart';
+import 'package:totfet/pages/llistes/crear_llista.dart';
+import 'package:totfet/pages/llistes/unirse_llista.dart';
+import 'package:totfet/services/database.dart';
 
 class MenuLlistes extends StatefulWidget {
   final Function canviarFinestra;

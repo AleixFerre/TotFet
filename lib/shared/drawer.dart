@@ -1,7 +1,8 @@
-import 'package:compres/models/Finestra.dart';
-import 'package:compres/shared/constants.dart';
-import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
+
+import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/shared/constants.dart';
+import 'package:totfet/shared/sortir_sessio.dart';
 
 class MyDrawer extends StatelessWidget {
   final Function canviarFinestra;

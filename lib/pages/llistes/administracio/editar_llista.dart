@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:compres/models/Llista.dart';
+import 'package:totfet/models/Llista.dart';
 
 class EditarLlista extends StatefulWidget {
   EditarLlista({this.llista});

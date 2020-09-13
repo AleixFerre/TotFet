@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compres/pages/compres/edit_compra.dart';
-import 'package:compres/services/database.dart';
-import 'package:compres/shared/some_error_page.dart';
-import 'package:compres/shared/loading.dart';
-import 'package:compres/models/Compra.dart';
-import 'package:compres/models/Tipus/Tipus.dart';
-import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/pages/compres/edit_compra.dart';
+import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/some_error_page.dart';
+import 'package:totfet/shared/loading.dart';
+import 'package:totfet/models/Compra.dart';
+import 'package:totfet/models/Tipus/Tipus.dart';
+import 'package:totfet/models/Prioritat/Prioritat.dart';
 
 class CompraDetails extends StatelessWidget {
   CompraDetails({this.id, this.tipus});
@@ -102,6 +103,14 @@ class CompraDetails extends StatelessWidget {
                     info['nomComprador'] = getNom(info['idComprador']);
 
                     Compra compra = Compra.fromDB(info);
+
+                    String etsTu(String id) {
+                      if (id == AuthService().userId) {
+                        return "(Tu)";
+                      } else {
+                        return "";
+                      }
+                    }
 
                     return Scaffold(
                       appBar: AppBar(
@@ -238,7 +247,7 @@ class CompraDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Creat per: ${compra.nomCreador ?? "No disponible"}",
+                                "Creat per: ${compra.nomCreador ?? "No disponible"} ${etsTu(compra.idCreador)}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
@@ -248,7 +257,7 @@ class CompraDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Assignat a: ${compra.nomAssignat ?? "Ningú"}",
+                                "Assignat a: ${compra.nomAssignat ?? "Ningú"} ${etsTu(compra.idAssignat)}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               SizedBox(height: 30),
@@ -276,12 +285,13 @@ class CompraDetails extends StatelessWidget {
                                         ),
                                         Divider(),
                                         Text(
-                                          "Comprat per: ${compra.nomComprador ?? "No disponible"}",
+                                          "Comprat per: ${compra.nomComprador ?? "No disponible"} ${etsTu(compra.idComprador)}",
                                           style: TextStyle(fontSize: 25),
                                         ),
                                       ],
                                     )
                                   : Container(),
+                              Divider(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [

@@ -1,5 +1,5 @@
-import 'package:compres/shared/sortir_sessio.dart';
 import 'package:flutter/material.dart';
+import 'package:totfet/shared/sortir_sessio.dart';
 
 class SomeErrorPage extends StatelessWidget {
   SomeErrorPage({this.error});
