@@ -171,56 +171,6 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Quantitat: ${model['quantitat'].toInt()}"),
-                    Slider(
-                      value: model['quantitat'].toDouble(),
-                      min: 1,
-                      max: 30,
-                      divisions: 29,
-                      label: "${model['quantitat'].toInt()}",
-                      onChanged: (value) {
-                        setState(() {
-                          model['quantitat'] = value.toInt();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona un tipus de producte"),
-                    DropdownButton<String>(
-                      hint: Text("Escolleix un tipus"),
-                      value: model['tipus'],
-                      items: Tipus.values
-                          .map<DropdownMenuItem<String>>((Tipus value) {
-                        return DropdownMenuItem<String>(
-                          value: value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1),
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
-                        );
-                      }).toList(),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          model['tipus'] = newValue;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
                     Text("Selecciona una prioritat"),
                     DropdownButton<String>(
                       hint: Text("Escolleix una prioritat"),
@@ -250,7 +200,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona una data prevista de compra"),
+                    Text("Selecciona una data prevista de tasca"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -292,21 +242,21 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un preu estimat"),
+                    Text("Selecciona un temps estimat"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model['preuEstimat'] == null
-                                ? "Escolleix el preu estimat"
-                                : model['preuEstimat'].toString() + "€",
+                            model['tempsEstimat'] == null
+                                ? "Escolleix el temps estimat"
+                                : model['tempsEstimat'].toString() + "h",
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Icon(Icons.euro),
+                          Icon(Icons.schedule),
                         ],
                       ),
                       onPressed: () async {
@@ -314,10 +264,10 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           context: context,
                           builder: (BuildContext context) {
                             return new NumberPickerDialog.integer(
-                              title: Text("Preu estimat en €"),
+                              title: Text("Temps estimat en h"),
                               minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: model['preuEstimat'] ?? 1,
+                              initialIntegerValue: model['tempsEstimat'] ?? 1,
                             );
                           },
                         );
@@ -334,7 +284,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 height: 20,
               ),
               RaisedButton(
-                color: Colors.blueAccent,
+                color: Colors.deepOrange[400],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Navigator.pop(context, model);
