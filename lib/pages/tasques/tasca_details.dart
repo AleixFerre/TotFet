@@ -1,16 +1,12 @@
 import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:compres/models/Tasca.dart';
 import 'package:compres/pages/tasques/edit_tasca.dart';
-import 'package:flutter/material.dart';
-
-import 'package:compres/pages/compres/edit_compra.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/some_error_page.dart';
 import 'package:compres/shared/loading.dart';
-import 'package:compres/models/Compra.dart';
-import 'package:compres/models/Tipus/Tipus.dart';
 import 'package:compres/models/Prioritat/Prioritat.dart';
 
 class TascaDetails extends StatelessWidget {

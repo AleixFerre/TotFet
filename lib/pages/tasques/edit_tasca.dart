@@ -1,14 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:numberpicker/numberpicker.dart';
+
 import 'package:compres/models/Usuari.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/loading.dart';
 import 'package:compres/shared/some_error_page.dart';
-import 'package:flutter/material.dart';
-
 import 'package:compres/models/Prioritat/Prioritat.dart';
-import 'package:compres/models/Tipus/Tipus.dart';
 
-import 'package:numberpicker/numberpicker.dart';
 
 class EditTasca extends StatelessWidget {
   final Map tasca;

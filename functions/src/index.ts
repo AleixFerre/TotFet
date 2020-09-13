@@ -45,11 +45,52 @@ async function enviarNotificacioCompra(snapshot: functions.firestore.QueryDocume
 
 }
 
+async function enviarNotificacioTasca(snapshot: functions.firestore.QueryDocumentSnapshot) {
+  if (!snapshot.exists) {
+    console.log("No devices connected.");
+    return;
+  }
+
+  const tokens = [];
+
+  const tasca = snapshot.data();
+
+  if (tasca?.idAssignat === null) {
+    console.log("No s'ha assignat a ningu!");
+    return;
+  }
+
+  const usuari = await db.collection('usuaris').doc(tasca.idAssignat).get();
+
+  tokens.push(usuari.data()?.token);
+
+  const payload: admin.messaging.MessagingPayload = {
+    notification: {
+      title: "T'han assignat una tasca!",
+      body: `Has de ${tasca.nom}.`,
+    },
+    data: {
+      clickAction: "FLUTTER_NOTIFICATION_CLICK",
+      view: "detalls_tasca",
+      compraID: snapshot.id,
+    }
+  }
+
+  try {
+    await fcm.sendToDevice(tokens, payload);
+  } catch (e) {
+    console.log(e.toString());
+  }
+
+}
+
 // Retorna si hi ha hagut un canvi al camp idAssignat
 function comprovarCanviAssignat(snapshot: functions.Change<functions.firestore.QueryDocumentSnapshot>): boolean {
   return (snapshot.before.data()?.idAssignat !== snapshot.after.data()?.idAssignat);
 }
 
+
+//? -------- COMPRES --------
 export const alCrearCompra = functions.firestore
   .document('compres/{idAssignat}')
   .onCreate(async snapshot => await enviarNotificacioCompra(snapshot));
@@ -61,8 +102,14 @@ export const alActualitzarCompra = functions.firestore
       await enviarNotificacioCompra(snapshot.after);
   });
 
+//? -------- TASQUES --------
+export const alCrearTasca = functions.firestore
+  .document('tasques/{idAssignat}')
+  .onCreate(async snapshot => await enviarNotificacioTasca(snapshot));
 
-// TODO: TASQUES
-// export const alActualitzarTasca = functions.firestore
-//   .document('tasques/{idAssignat}')
-//   .onWrite(async snapshot => enviarNotificacioTasca(snapshot));
+export const alActualitzarTasca = functions.firestore
+  .document('tasques/{idAssignat}')
+  .onUpdate(async snapshot => {
+    if (comprovarCanviAssignat(snapshot))
+      await enviarNotificacioTasca(snapshot.after);
+  });
