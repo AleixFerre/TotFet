@@ -63,6 +63,7 @@ class Tasca {
     return Tasca(
       id: data['id'],
       nom: data['nom'],
+      descripcio: data['descripcio'],
       prioritat: prioritatfromString(data['prioritat']),
       tempsEstimat: data['tempsEstimat'],
       dataPrevista: data['dataPrevista'],
@@ -82,6 +83,7 @@ class Tasca {
   Map<String, dynamic> toDBMap() {
     return {
       'nom': nom,
+      'descripcio': descripcio,
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
       'dataPrevista': dataPrevista,

@@ -85,7 +85,10 @@ class _UnirseLlistaState extends State<UnirseLlista> {
         ),
       ),
       body: loading
-          ? Loading("Comprovant la ID...")
+          ? Loading(
+              msg: "Comprovant la ID...",
+              esTaronja: false,
+            )
           : Form(
               key: _formKey,
               child: SingleChildScrollView(

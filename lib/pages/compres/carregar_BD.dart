@@ -51,13 +51,19 @@ class _CarregarBDState extends State<CarregarBD> {
                   );
                 }
                 return Scaffold(
-                  body: Loading("Carregant informacio de les llistes..."),
+                  body: Loading(
+                    msg: "Carregant informacio de les llistes...",
+                    esTaronja: false,
+                  ),
                 );
               });
         }
 
         return Scaffold(
-          body: Loading("Carregant llistes..."),
+          body: Loading(
+            msg: "Carregant llistes...",
+            esTaronja: false,
+          ),
         );
       },
     );
@@ -131,7 +137,10 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
 
         // LOADING
         return Scaffold(
-          body: Loading("Carregant les compres de la llista..."),
+          body: Loading(
+            msg: "Carregant les compres de la llista...",
+            esTaronja: false,
+          ),
         );
       },
     );

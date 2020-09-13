@@ -65,7 +65,10 @@ class _CreateTascaState extends State<CreateTasca> {
         }
 
         return Scaffold(
-          body: Loading("Carregant usuaris de la llista..."),
+          body: Loading(
+            msg: "Carregant usuaris de la llista...",
+            esTaronja: true,
+          ),
         );
       },
     );

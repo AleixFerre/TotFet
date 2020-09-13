@@ -50,13 +50,18 @@ class _AdminLlistesState extends State<AdminLlistes> {
 
             if (snapshot.hasData) {
               if (snapshot.data.docs.length == 0) {
-                return LlistaBuida();
+                return LlistaBuida(
+                  esTaronja: false,
+                );
               }
               // Si hi ha dades i no estan buides, mostrem la llista
               return montarLlista(snapshot.data.docs);
             }
 
-            return Loading("Carregant les llistes (1/2)...");
+            return Loading(
+              msg: "Carregant les llistes (1/2)...",
+              esTaronja: false,
+            );
           }),
     );
   }
@@ -336,7 +341,10 @@ class _AdminLlistesState extends State<AdminLlistes> {
 
         // si encara no te dades, mostrem la pagina de carregant
         return Scaffold(
-          body: Loading("Carregant les llistes (2/2)..."),
+          body: Loading(
+            msg: "Carregant les llistes (2/2)...",
+            esTaronja: false,
+          ),
         );
       },
     );

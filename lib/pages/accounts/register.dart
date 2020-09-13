@@ -29,7 +29,10 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return loading
         ? Scaffold(
-            body: Loading("Comprovant credencials..."),
+            body: Loading(
+              msg: "Comprovant credencials...",
+              esTaronja: false,
+            ),
           )
         : Scaffold(
             appBar: AppBar(

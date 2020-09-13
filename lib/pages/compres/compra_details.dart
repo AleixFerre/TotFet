@@ -64,7 +64,10 @@ class CompraDetails extends StatelessWidget {
             Map<String, dynamic> info = snapshotDetails.data.data();
             if (info == null) {
               return Scaffold(
-                body: Loading("Esborrant compra..."),
+                body: Loading(
+                  msg: "Esborrant compra...",
+                  esTaronja: false,
+                ),
               );
             }
 
@@ -308,14 +311,20 @@ class CompraDetails extends StatelessWidget {
                     );
                   }
                   return Scaffold(
-                    body: Loading("Carregant les dades de la compra (2/2)..."),
+                    body: Loading(
+                      msg: "Carregant les dades de la compra (2/2)...",
+                      esTaronja: false,
+                    ),
                   );
                 });
           }
 
           // Si encara no hi ha dades
           return Scaffold(
-            body: Loading("Carregant les dades de la compra (1/2)..."),
+            body: Loading(
+              msg: "Carregant les dades de la compra (1/2)...",
+              esTaronja: false,
+            ),
           );
         });
   }

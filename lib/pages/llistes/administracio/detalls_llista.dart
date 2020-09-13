@@ -130,7 +130,10 @@ class LlistaDetalls extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Loading("Carregant detalls de la llista..."),
+          body: Loading(
+            msg: "Carregant detalls de la llista...",
+            esTaronja: false,
+          ),
         );
       },
     );

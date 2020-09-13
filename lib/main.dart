@@ -71,7 +71,10 @@ class BuildApp extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Loading("Inicialitzant la aplicació de Firebase..."),
+          body: Loading(
+            msg: "Inicialitzant la aplicació de Firebase...",
+            esTaronja: false,
+          ),
         );
       },
     );

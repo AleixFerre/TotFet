@@ -66,7 +66,10 @@ class _CreateCompraState extends State<CreateCompra> {
         }
 
         return Scaffold(
-          body: Loading("Carregant usuaris de la llista..."),
+          body: Loading(
+            msg: "Carregant usuaris de la llista...",
+            esTaronja: false,
+          ),
         );
       },
     );

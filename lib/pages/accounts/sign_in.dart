@@ -28,7 +28,10 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return loading
         ? Scaffold(
-            body: Loading("Comprovant credencials..."),
+            body: Loading(
+              msg: "Comprovant credencials...",
+              esTaronja: false,
+            ),
           )
         : Scaffold(
             appBar: AppBar(

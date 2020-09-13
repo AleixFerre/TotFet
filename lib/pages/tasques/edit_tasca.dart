@@ -8,7 +8,6 @@ import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
 import 'package:totfet/models/Prioritat/Prioritat.dart';
 
-
 class EditTasca extends StatelessWidget {
   final Map tasca;
   EditTasca({this.tasca});
@@ -40,7 +39,10 @@ class EditTasca extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Loading("Carregant usuaris de la llista..."),
+          body: Loading(
+            msg: "Carregant usuaris de la llista...",
+            esTaronja: true,
+          ),
         );
       },
     );
@@ -123,6 +125,31 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Entra el nom de la tasca...',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: TextFormField(
+                  validator: (value) {
+                    value = value.trim();
+                    if (value.length > 255) {
+                      return "La descripció és massa llarga. (max. 255 caràcters)";
+                    }
+                    return null;
+                  },
+                  initialValue: model['descripcio'],
+                  onChanged: (str) {
+                    setState(() {
+                      model['descripcio'] =
+                          (str.trim() == "") ? null : str.trim();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    counterText:
+                        "${model['descripcio'] == null ? 0 : model['descripcio'].length}/255",
+                    labelText: 'Entra la descripcio de la tasca',
                   ),
                 ),
               ),

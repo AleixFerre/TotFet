@@ -283,7 +283,10 @@ class Perfil extends StatelessWidget {
 
         // Si encara no hi ha dades
         return Scaffold(
-          body: Loading("Carregant les dades del perfil..."),
+          body: Loading(
+            msg: "Carregant les dades del perfil...",
+            esTaronja: false,
+          ),
         );
       },
     );

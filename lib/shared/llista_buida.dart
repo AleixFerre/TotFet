@@ -3,8 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LlistaBuida extends StatelessWidget {
-  LlistaBuida({this.missatge});
+  LlistaBuida({this.missatge, @required this.esTaronja});
   final String missatge;
+  final bool esTaronja;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class LlistaBuida extends StatelessWidget {
         SizedBox(
           height: 250,
           child: SvgPicture.asset(
-            "images/empty.svg",
+            esTaronja ? "images/empty_tasques.svg" : "images/empty.svg",
             alignment: Alignment.topCenter,
             placeholderBuilder: (context) {
               return Row(

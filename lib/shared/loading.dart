@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
-  Loading(this.msg);
+  Loading({this.msg, @required this.esTaronja});
   final String msg;
+  final bool esTaronja;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class Loading extends StatelessWidget {
               height: 20,
             ),
             SpinKitCubeGrid(
-              color: Colors.blue,
+              color: esTaronja ? Colors.orange[900] : Colors.blue,
               size: 100,
             ),
             Expanded(

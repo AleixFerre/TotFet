@@ -47,6 +47,7 @@ class _CanviarHostState extends State<CanviarHost> {
                 padding: const EdgeInsets.all(8.0),
                 child: LlistaBuida(
                   missatge: "Sembla que no hi ha ningú...",
+                  esTaronja: false,
                 ),
               ),
             );
@@ -138,7 +139,10 @@ class _CanviarHostState extends State<CanviarHost> {
         }
         // Si està carregant la info encara...
         return Scaffold(
-          body: Loading("Carregant usuaris..."),
+          body: Loading(
+            msg: "Carregant usuaris...",
+            esTaronja: false,
+          ),
         );
       },
     );

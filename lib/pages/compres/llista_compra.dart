@@ -221,7 +221,11 @@ class LlistaCompra extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       appBar: appBar,
-      body: llista.isEmpty ? LlistaBuida() : mostrarLlista,
+      body: llista.isEmpty
+          ? LlistaBuida(
+              esTaronja: false,
+            )
+          : mostrarLlista,
       bottomNavigationBar: bottomAppBar,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,

@@ -51,13 +51,18 @@ class _TasquesState extends State<Tasques> {
                   );
                 }
                 return Scaffold(
-                  body: Loading("Carregant informacio de les llistes..."),
+                  body: Loading(
+                      msg: "Carregant informacio de les llistes...",
+                      esTaronja: true),
                 );
               });
         }
 
         return Scaffold(
-          body: Loading("Carregant llistes..."),
+          body: Loading(
+            msg: "Carregant llistes...",
+            esTaronja: true,
+          ),
         );
       },
     );
@@ -131,7 +136,10 @@ class _BuildStreamTasquesState extends State<BuildStreamTasques> {
 
         // LOADING
         return Scaffold(
-          body: Loading("Carregant les tasques de la llista..."),
+          body: Loading(
+            msg: "Carregant les tasques de la llista...",
+            esTaronja: true,
+          ),
         );
       },
     );
