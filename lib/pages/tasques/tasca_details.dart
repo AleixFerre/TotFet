@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:compres/models/Tasca.dart';
+import 'package:compres/pages/tasques/edit_tasca.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compres/pages/compres/edit_compra.dart';
@@ -63,7 +65,7 @@ class TascaDetails extends StatelessWidget {
             Map<String, dynamic> info = snapshotDetails.data.data();
             if (info == null) {
               return Scaffold(
-                body: Loading("Esborrant compra..."),
+                body: Loading("Esborrant tasca..."),
               );
             }
 
@@ -71,8 +73,8 @@ class TascaDetails extends StatelessWidget {
               info['idCreador'],
             ];
 
-            if (info['idComprador'] != null) {
-              idUsuaris.add(info['idComprador']);
+            if (info['idUsuariFet'] != null) {
+              idUsuaris.add(info['idUsuariFet']);
             }
 
             if (info['idAssignat'] != null) {
@@ -99,13 +101,13 @@ class TascaDetails extends StatelessWidget {
 
                     info['nomCreador'] = getNom(info['idCreador']);
                     info['nomAssignat'] = getNom(info['idAssignat']);
-                    info['nomComprador'] = getNom(info['idComprador']);
+                    info['nomUsuariFet'] = getNom(info['nomUsuariFet']);
 
-                    Compra compra = Compra.fromDB(info);
+                    Tasca tasca = Tasca.fromDB(info);
 
                     return Scaffold(
                       appBar: AppBar(
-                        title: Text('Propietats de la compra'),
+                        title: Text('Propietats de la tasca'),
                         centerTitle: true,
                         flexibleSpace: Container(
                           decoration: BoxDecoration(
@@ -113,15 +115,15 @@ class TascaDetails extends StatelessWidget {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: <Color>[
-                                Colors.blue[400],
-                                Colors.blue[900],
+                                Colors.orange[400],
+                                Colors.deepOrange[900],
                               ],
                             ),
                           ),
                         ),
                         actions: [
                           IconButton(
-                            tooltip: "Editar compra",
+                            tooltip: "Editar tasca",
                             icon: Icon(Icons.edit),
                             onPressed: () async {
                               Map<String, dynamic> resposta =
@@ -129,21 +131,21 @@ class TascaDetails extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      EditCompra(compra: compra.toMap()),
+                                      EditTasca(tasca: tasca.toMap()),
                                 ),
                               );
                               if (resposta != null) {
                                 resposta.remove('id');
                                 await DatabaseService()
                                     .editarCompra(id, resposta);
-                                print("Compra editada correctament!");
+                                print("Tasca editada correctament!");
                                 // El future builder agafarà les dades més recents de la BD
                                 // En quant es recarregui l'estat
                               }
                             },
                           ),
                           IconButton(
-                            tooltip: "Esborrar compra",
+                            tooltip: "Esborrar tasca",
                             icon: Icon(Icons.delete),
                             onPressed: () async {
                               // Show alert box
@@ -152,7 +154,7 @@ class TascaDetails extends StatelessWidget {
                                 barrierDismissible: true,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text('Vols esborrar la compra?'),
+                                    title: Text('Vols esborrar la tasca?'),
                                     content: SingleChildScrollView(
                                       child: ListBody(
                                         children: [
@@ -188,7 +190,7 @@ class TascaDetails extends StatelessWidget {
 
                               // Si esborrar és null o false, llavors no es fa res
                               if (esborrar == true) {
-                                DatabaseService().esborrarCompra(id);
+                                DatabaseService().esborrarTasca(id);
                                 // Si no hi ha element, podem sortir d'aquesta pantalla
                                 Navigator.pop(context);
                               }
@@ -203,52 +205,47 @@ class TascaDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                "Nom: ${compra.nom}",
+                                "Nom: ${tasca.nom}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Tipus: ${tipusToString(compra.tipus)}",
+                                "Descripcio: ${tasca.descripcio ?? "Sense Descripció"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Quantitat: ${compra.quantitat}",
+                                "Prioritat: ${prioritatToString(tasca.prioritat)}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Prioritat: ${prioritatToString(compra.prioritat)}",
+                                "Temps estimat: ${tasca.tempsEstimat == null ? "No assignat" : tasca.tempsEstimat.toString() + "h"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Preu estimat: ${compra.preuEstimat ?? "No assignat"}",
+                                "Data Prevista: ${readTimestamp(tasca.dataPrevista, false) ?? "No assignada"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Data Prevista: ${readTimestamp(compra.dataPrevista, false) ?? "No assignada"}",
+                                "Data Creació: ${readTimestamp(tasca.dataCreacio, true) ?? "No assignada"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Data Creació: ${readTimestamp(compra.dataCreacio, true) ?? "No assignada"}",
+                                "Creat per: ${tasca.nomCreador ?? "No disponible"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Creat per: ${compra.nomCreador ?? "No disponible"}",
+                                "Llista: ${buscarNom(tasca.idLlista) ?? "No disponible"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               Divider(),
                               Text(
-                                "Llista: ${buscarNom(compra.idLlista) ?? "No disponible"}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Assignat a: ${compra.nomAssignat ?? "Ningú"}",
+                                "Assignat a: ${tasca.nomAssignat ?? "Ningú"}",
                                 style: TextStyle(fontSize: 25),
                               ),
                               SizedBox(height: 30),
@@ -261,22 +258,22 @@ class TascaDetails extends StatelessWidget {
                               ),
                               Divider(),
                               Text(
-                                "Comprat: ${compra.comprat ? 'SI' : 'NO'}",
+                                "Fet: ${tasca.fet ? 'SI' : 'NO'}",
                                 style: TextStyle(fontSize: 25),
                               ),
-                              compra.comprat
+                              tasca.fet
                                   ? Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Divider(),
                                         Text(
-                                          "Data Compra: ${readTimestamp(compra.dataCompra, true) ?? "No assignada"}",
+                                          "Data Tancament: ${readTimestamp(tasca.dataTancament, true) ?? "No assignada"}",
                                           style: TextStyle(fontSize: 25),
                                         ),
                                         Divider(),
                                         Text(
-                                          "Comprat per: ${compra.nomComprador ?? "No disponible"}",
+                                          "Fet per: ${tasca.nomUsuariFet ?? "No disponible"}",
                                           style: TextStyle(fontSize: 25),
                                         ),
                                       ],

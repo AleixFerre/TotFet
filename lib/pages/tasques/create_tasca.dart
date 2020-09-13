@@ -1,3 +1,5 @@
+import 'package:compres/models/Prioritat/Prioritat.dart';
+import 'package:compres/models/Tasca.dart';
 import 'package:compres/models/Usuari.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/shared/loading.dart';
@@ -5,23 +7,20 @@ import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:compres/models/Compra.dart';
-import 'package:compres/models/Prioritat/Prioritat.dart';
-import 'package:compres/models/Tipus/Tipus.dart';
 import 'package:compres/services/auth.dart';
 
 import 'package:numberpicker/numberpicker.dart';
 
-class CreateCompra extends StatefulWidget {
+class CreateTasca extends StatefulWidget {
   final List<Map<String, String>> llistesUsuari;
   final int indexLlista;
-  CreateCompra({this.llistesUsuari, this.indexLlista});
+  CreateTasca({this.llistesUsuari, this.indexLlista});
 
   @override
-  _CreateCompraState createState() => _CreateCompraState();
+  _CreateTascaState createState() => _CreateTascaState();
 }
 
-class _CreateCompraState extends State<CreateCompra> {
+class _CreateTascaState extends State<CreateTasca> {
   int indexLlista;
 
   @override
@@ -87,7 +86,7 @@ class LlistarCompraCrear extends StatefulWidget {
 }
 
 class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
-  Compra compra;
+  Tasca tasca;
   int indexLlista;
   int indexUsuari;
 
@@ -96,7 +95,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
   @override
   void initState() {
     super.initState();
-    compra = Compra.nova(null, AuthService().userId,
+    tasca = Tasca.nova(null, AuthService().userId,
         widget.llistesUsuari[widget.indexLlista]['id']);
   }
 
@@ -104,7 +103,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Crear Compra"),
+        title: Text("Crear Tasca"),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -112,8 +111,8 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
+                Colors.orange[400],
+                Colors.deepOrange[900],
               ],
             ),
           ),
@@ -132,17 +131,45 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     value = value.trim();
                     if (value == "") {
                       return "Siusplau, posa un nom";
+                    } else if (value.length > 20) {
+                      return "Nom massa llarg. (max. 20 caràcters)";
                     }
                     return null;
                   },
-                  initialValue: compra.nom,
+                  initialValue: tasca.nom,
                   onChanged: (str) {
                     setState(() {
-                      compra.nom = (str.trim() == "") ? null : str.trim();
+                      tasca.nom = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra el nom del producte',
+                    labelText: 'Entra el nom de la tasca',
+                    counterText:
+                        "${tasca.nom == null ? 0 : tasca.nom.length}/20",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: TextFormField(
+                  validator: (value) {
+                    value = value.trim();
+                    if (value.length > 255) {
+                      return "La descripció és massa llarga. (max. 255 caràcters)";
+                    }
+                    return null;
+                  },
+                  initialValue: tasca.descripcio,
+                  onChanged: (str) {
+                    setState(() {
+                      tasca.descripcio = (str.trim() == "") ? null : str.trim();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    counterText:
+                        "${tasca.descripcio == null ? 0 : tasca.descripcio.length}/255",
+                    labelText: 'Entra la descripcio de la tasca',
                   ),
                 ),
               ),
@@ -169,7 +196,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                         indexLlista = widget.llistesUsuari.indexWhere(
                           (element) => element['id'] == newValue,
                         );
-                        compra.idAssignat = null;
+                        tasca.idAssignat = null;
                         widget.updateParent(indexLlista);
                       },
                     ),
@@ -187,7 +214,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                       children: [
                         DropdownButton<String>(
                           hint: Text("Selecciona un usuari"),
-                          value: compra.idAssignat,
+                          value: tasca.idAssignat,
                           items: widget.usuaris
                               .map<DropdownMenuItem<String>>((Usuari value) {
                             return DropdownMenuItem<String>(
@@ -197,7 +224,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           }).toList(),
                           onChanged: (String newValue) {
                             setState(() {
-                              compra.idAssignat = newValue;
+                              tasca.idAssignat = newValue;
                             });
                           },
                         ),
@@ -206,7 +233,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           icon: Icon(Icons.clear),
                           onPressed: () {
                             setState(() {
-                              compra.idAssignat = null;
+                              tasca.idAssignat = null;
                             });
                           },
                         )
@@ -220,58 +247,10 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Quantitat: ${compra.quantitat}"),
-                    Slider(
-                      value: compra.quantitat.toDouble(),
-                      min: 1,
-                      max: 30,
-                      divisions: 29,
-                      label: "${compra.quantitat}",
-                      onChanged: (value) {
-                        setState(() {
-                          compra.quantitat = value.toInt();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona un tipus de producte"),
-                    DropdownButton<Tipus>(
-                      hint: Text("Escolleix un tipus"),
-                      value: compra.tipus,
-                      items: Tipus.values
-                          .map<DropdownMenuItem<Tipus>>((Tipus value) {
-                        return DropdownMenuItem<Tipus>(
-                          value: value,
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
-                        );
-                      }).toList(),
-                      onChanged: (Tipus newValue) {
-                        setState(() {
-                          compra.tipus = newValue;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
                     Text("Selecciona una prioritat"),
                     DropdownButton<Prioritat>(
                       hint: Text("Escolleix una prioritat"),
-                      value: compra.prioritat,
+                      value: tasca.prioritat,
                       items: Prioritat.values
                           .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
                         return DropdownMenuItem<Prioritat>(
@@ -283,7 +262,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                       }).toList(),
                       onChanged: (Prioritat newValue) {
                         setState(() {
-                          compra.prioritat = newValue;
+                          tasca.prioritat = newValue;
                         });
                       },
                     ),
@@ -295,31 +274,28 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona una data prevista de compra"),
+                    Text("Selecciona una data prevista de tasca"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            compra.dataPrevista == null
+                            tasca.dataPrevista == null
                                 ? "Escolleix la data"
-                                : compra.dataPrevista
+                                : tasca.dataPrevista
                                         .toDate()
                                         .day
                                         .toString()
                                         .padLeft(2, "0") +
                                     "/" +
-                                    compra.dataPrevista
+                                    tasca.dataPrevista
                                         .toDate()
                                         .month
                                         .toString()
                                         .padLeft(2, "0") +
                                     "/" +
-                                    compra.dataPrevista
-                                        .toDate()
-                                        .year
-                                        .toString(),
+                                    tasca.dataPrevista.toDate().year.toString(),
                           ),
                           SizedBox(
                             width: 10,
@@ -330,18 +306,18 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
-                          initialDate: compra.dataPrevista == null
+                          initialDate: tasca.dataPrevista == null
                               ? DateTime.now()
                               : DateTime.fromMillisecondsSinceEpoch(
-                                  compra.dataPrevista.millisecondsSinceEpoch),
+                                  tasca.dataPrevista.millisecondsSinceEpoch),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
                           if (picked == null) {
-                            compra.dataPrevista = null;
+                            tasca.dataPrevista = null;
                           } else {
-                            compra.dataPrevista = Timestamp.fromDate(picked);
+                            tasca.dataPrevista = Timestamp.fromDate(picked);
                           }
                         });
                       },
@@ -354,21 +330,21 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un preu estimat"),
+                    Text("Selecciona un temps estimat"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            compra.preuEstimat == null
-                                ? "Escolleix el preu estimat"
-                                : compra.preuEstimat.toString() + "€",
+                            tasca.tempsEstimat == null
+                                ? "Escolleix el temps estimat"
+                                : tasca.tempsEstimat.toString() + "h",
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Icon(Icons.euro),
+                          Icon(Icons.schedule),
                         ],
                       ),
                       onPressed: () async {
@@ -376,16 +352,16 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           context: context,
                           builder: (BuildContext context) {
                             return new NumberPickerDialog.integer(
-                              title: Text("Preu estimat en €"),
+                              title: Text("Temps estimat en hores"),
                               minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: compra.preuEstimat ?? 1,
+                              initialIntegerValue: tasca.tempsEstimat ?? 1,
                             );
                           },
                         );
 
                         setState(() {
-                          compra.preuEstimat = picked;
+                          tasca.tempsEstimat = picked;
                         });
                       },
                     ),
@@ -396,10 +372,10 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 height: 20,
               ),
               RaisedButton(
-                color: Colors.blueAccent,
+                color: Colors.deepOrange[400],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, compra);
+                    Navigator.pop(context, tasca);
                   }
                 },
                 child: Row(

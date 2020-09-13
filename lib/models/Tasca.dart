@@ -10,6 +10,7 @@ class Tasca {
     this.descripcio,
     this.prioritat,
     this.fet,
+    this.tempsEstimat,
     // Dates
     @required this.dataCreacio,
     this.dataPrevista,
@@ -30,6 +31,8 @@ class Tasca {
   String nom;
   // Descripcio de la tasca
   String descripcio;
+  // Temps en hores estimat
+  int tempsEstimat;
   // Prioritat de tasca (enum Prioritat)
   Prioritat prioritat;
   // [dataCreacio] no pot ser mai null
@@ -61,6 +64,7 @@ class Tasca {
       id: data['id'],
       nom: data['nom'],
       prioritat: prioritatfromString(data['prioritat']),
+      tempsEstimat: data['tempsEstimat'],
       dataPrevista: data['dataPrevista'],
       dataCreacio: data['dataCreacio'],
       dataTancament: data['dataTancament'],
@@ -81,6 +85,7 @@ class Tasca {
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
       'dataPrevista': dataPrevista,
+      'tempsEstimat': tempsEstimat,
       'dataCreacio': dataCreacio,
       'dataTancament': dataTancament,
       'idCreador': idCreador,
@@ -96,6 +101,7 @@ class Tasca {
       'id': id,
       'nom': nom,
       'descripcio': descripcio,
+      'tempsEstimat': tempsEstimat,
       'prioritat': prioritatToString(prioritat),
       'dataPrevista': dataPrevista,
       'dataCreacio': dataCreacio,

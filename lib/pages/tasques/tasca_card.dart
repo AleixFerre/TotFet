@@ -1,6 +1,6 @@
+import 'package:compres/pages/tasques/tasca_details.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compres/pages/compres/compra_details.dart';
 import 'package:compres/services/database.dart';
 import 'package:compres/pages/tasques/edit_tasca.dart';
 
@@ -24,6 +24,11 @@ class TascaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String nom = tasca['nom'];
+    if (tasca['tempsEstimat'] != null) {
+      nom += " · " + tasca['tempsEstimat'].toString() + "h";
+    }
+
     return tasca.isNotEmpty // En quant es pugui mostrar
         ? Card(
             shape: RoundedRectangleBorder(
@@ -46,7 +51,7 @@ class TascaCard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CompraDetails(
+                        builder: (context) => TascaDetails(
                           id: tascaKey,
                           tipus: tipus,
                         ),
@@ -59,7 +64,7 @@ class TascaCard extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
-                        tasca['nom'].toUpperCase() + " · ${tasca['quantitat']}",
+                        nom,
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

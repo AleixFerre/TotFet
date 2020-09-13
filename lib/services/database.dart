@@ -33,6 +33,12 @@ class DatabaseService {
         );
   }
 
+  Future<void> addTasca(Map<String, dynamic> result) async {
+    return await tasquesCollection.add(result).catchError(
+          (error) => print("Error a l'afegir tasca: $error"),
+        );
+  }
+
   Future<void> addList(Llista llista) async {
     // Afegim la llista a la taula LLISTES
     DocumentReference llistaCreada =
@@ -67,13 +73,17 @@ class DatabaseService {
   Future<void> completarTasca(String tascaKey) async {
     tasquesCollection.doc(tascaKey).update({
       "fet": true,
-      "idComprador": AuthService().userId,
-      "dataCompra": Timestamp.now(),
+      "idUsuariFet": AuthService().userId,
+      "dataTancament": Timestamp.now(),
     });
   }
 
   Future<void> esborrarCompra(String compraKey) async {
     return await compresCollection.doc(compraKey).delete();
+  }
+
+  Future<void> esborrarTasca(String tascaKey) async {
+    return await tasquesCollection.doc(tascaKey).delete();
   }
 
   Future<void> setHost(String llistaID, String uid) async {

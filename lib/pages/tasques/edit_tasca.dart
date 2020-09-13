@@ -93,8 +93,8 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
+                Colors.orange[400],
+                Colors.deepOrange[900],
               ],
             ),
           ),
@@ -112,7 +112,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
-                      return "Siusplau, posa un nom a la compra.";
+                      return "Siusplau, posa un nom a la tasca.";
                     }
                     return null;
                   },
@@ -123,7 +123,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra el nom del producte...',
+                    labelText: 'Entra el nom de la tasca...',
                   ),
                 ),
               ),

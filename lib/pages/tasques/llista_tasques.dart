@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:compres/models/Finestra.dart';
+import 'package:compres/models/Tasca.dart';
+import 'package:compres/pages/tasques/create_tasca.dart';
 import 'package:compres/pages/tasques/tasca_card.dart';
 import 'package:compres/shared/drawer.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,6 @@ import 'package:compres/services/database.dart';
 import 'package:compres/shared/llista_buida.dart';
 import 'package:compres/models/Prioritat/PrioritatColors.dart';
 import 'package:compres/models/Tipus/TipusEmojis.dart';
-import 'package:compres/models/Compra.dart';
-import 'package:compres/pages/compres/create_compra.dart';
 
 class LlistaTasques extends StatelessWidget {
   LlistaTasques({
@@ -52,8 +52,8 @@ class LlistaTasques extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: <Color>[
-              Colors.blue[400],
-              Colors.blue[900],
+              Colors.orange[400],
+              Colors.deepOrange[900],
             ],
           ),
         ),
@@ -129,7 +129,7 @@ class LlistaTasques extends StatelessWidget {
     BottomAppBar bottomAppBar = BottomAppBar(
       elevation: 10,
       shape: CircularNotchedRectangle(),
-      color: Colors.blue[800],
+      color: Colors.orange[800],
       child: Container(
         height: 60,
         child: Row(
@@ -197,12 +197,12 @@ class LlistaTasques extends StatelessWidget {
     );
 
     FloatingActionButton floatingActionButton = FloatingActionButton(
-      backgroundColor: Colors.blue[700],
+      backgroundColor: Colors.orange[900],
       onPressed: () async {
-        final Compra result = await Navigator.push(
+        final Tasca result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CreateCompra(
+            builder: (context) => CreateTasca(
               llistesUsuari: llistesUsuari,
               indexLlista: indexLlista,
             ),
@@ -210,7 +210,7 @@ class LlistaTasques extends StatelessWidget {
         );
 
         if (result != null) {
-          await DatabaseService().addCompra(result.toDBMap());
+          await DatabaseService().addTasca(result.toDBMap());
           print("Tasca afegida correctament!");
         }
       },
@@ -227,7 +227,7 @@ class LlistaTasques extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       drawer: MyDrawer(
         canviarFinestra: canviarFinestra,
-        actual: Finestra.Llista,
+        actual: Finestra.Tasques,
       ),
     );
   }
