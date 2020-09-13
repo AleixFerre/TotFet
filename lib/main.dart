@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
+    // Initialize Firebase Push Notifications Service
+    MessagingService().initialize();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TotFet',
@@ -49,8 +52,6 @@ class BuildApp extends StatelessWidget {
   Future initFirebase() async {
     // Initialize Firebase App
     await Firebase.initializeApp();
-    // Initialize Firebase Push Notifications Service
-    await MessagingService().initialize();
   }
 
   @override

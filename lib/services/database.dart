@@ -52,9 +52,21 @@ class DatabaseService {
     return await compresCollection.doc(compraKey).update(resposta);
   }
 
+  Future<void> editarTasca(String tascaKey, Map resposta) async {
+    return await tasquesCollection.doc(tascaKey).update(resposta);
+  }
+
   Future<void> comprarCompra(String compraKey) async {
     compresCollection.doc(compraKey).update({
       "comprat": true,
+      "idComprador": AuthService().userId,
+      "dataCompra": Timestamp.now(),
+    });
+  }
+
+  Future<void> completarTasca(String tascaKey) async {
+    tasquesCollection.doc(tascaKey).update({
+      "fet": true,
       "idComprador": AuthService().userId,
       "dataCompra": Timestamp.now(),
     });
@@ -193,6 +205,10 @@ class DatabaseService {
     return compresCollection.doc(id).snapshots();
   }
 
+  Stream<DocumentSnapshot> getTasquesData() {
+    return tasquesCollection.doc(id).snapshots();
+  }
+
   Stream<QuerySnapshot> getLlistesUsuarisActualData() {
     return llistesUsuarisCollection
         .where("usuari", isEqualTo: AuthService().userId)
@@ -209,6 +225,13 @@ class DatabaseService {
     return compresCollection
         .where("idLlista", isEqualTo: idLlista)
         .where("comprat", isEqualTo: comprat)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> getTasquesInfoWhere(String idLlista, bool fet) {
+    return tasquesCollection
+        .where("idLlista", isEqualTo: idLlista)
+        .where("fet", isEqualTo: fet)
         .snapshots();
   }
 }

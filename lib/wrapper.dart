@@ -1,7 +1,7 @@
 import 'package:compres/models/Finestra.dart';
 import 'package:compres/pages/accounts/profile.dart';
 import 'package:compres/pages/menu_principal.dart';
-import 'package:compres/pages/tasques/tasques.dart';
+import 'package:compres/pages/tasques/carregar_BD_tasques.dart';
 import 'package:compres/shared/some_error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:compres/models/Usuari.dart';
