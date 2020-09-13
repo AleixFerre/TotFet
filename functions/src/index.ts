@@ -33,7 +33,6 @@ export const sendToDevice = functions.firestore
       notification: {
         title: "T'han assignat una compra!",
         body: `Has de comprar ${compra.quantitat} de ${compra.nom}.`,
-        icon: 'https://raw.githubusercontent.com/CatalaHD/TotFet/master/android/app/src/main/res/mipmap-hdpi/ic_launcher.png',
       },
       data: {
         clickAction: "FLUTTER_NOTIFICATION_CLICK",
