@@ -29,6 +29,7 @@ class CompraCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             ),
+            elevation: 3,
             color: cardColor,
             child: Column(
               mainAxisSize: MainAxisSize.min,

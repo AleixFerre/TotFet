@@ -116,6 +116,8 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     value = value.trim();
                     if (value == "") {
                       return "Siusplau, posa un nom a la compra.";
+                    } else if (value.length > 30) {
+                      return "El nom de la compra és massa llarg. (max. 30 caràcters)";
                     }
                     return null;
                   },
@@ -127,6 +129,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Entra el nom del producte...',
+                    counterText: "${model['nom'].length}/30",
                   ),
                 ),
               ),

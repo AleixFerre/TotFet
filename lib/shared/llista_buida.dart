@@ -22,7 +22,7 @@ class LlistaBuida extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SpinKitCubeGrid(
-                    color: Colors.blue,
+                    color: esTaronja ? Colors.deepOrange : Colors.blue,
                     size: 100,
                   ),
                 ],

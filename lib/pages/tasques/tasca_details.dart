@@ -101,7 +101,7 @@ class TascaDetails extends StatelessWidget {
 
                   info['nomCreador'] = getNom(info['idCreador']);
                   info['nomAssignat'] = getNom(info['idAssignat']);
-                  info['nomUsuariFet'] = getNom(info['nomUsuariFet']);
+                  info['nomUsuariFet'] = getNom(info['idUsuariFet']);
 
                   Tasca tasca = Tasca.fromDB(info);
 
@@ -280,7 +280,7 @@ class TascaDetails extends StatelessWidget {
                                       ),
                                       Divider(),
                                       Text(
-                                        "Fet per: ${tasca.nomUsuariFet ?? "No disponible"}",
+                                        "Fet per: ${tasca.nomUsuariFet ?? "No disponible"} ${etsTu(tasca.idUsuariFet)}",
                                         style: TextStyle(fontSize: 25),
                                       ),
                                     ],

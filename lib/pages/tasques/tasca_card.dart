@@ -35,6 +35,7 @@ class TascaCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(18.0),
             ),
             color: cardColor,
+            elevation: 3,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

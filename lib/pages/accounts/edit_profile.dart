@@ -59,6 +59,7 @@ class _EditPerfilState extends State<EditPerfil> {
                   decoration: InputDecoration(
                     hintText: "Introdueix el teu nom",
                     labelText: 'Introdueix el teu nom...',
+                    counterText: "${model.nom.length}/15",
                   ),
                 ),
               ),
