@@ -20,7 +20,7 @@ class Loading extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  msg,
+                  msg ?? "",
                   style: TextStyle(fontSize: 1000),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/pages/accounts/image_picker.dart';
 import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -91,7 +93,22 @@ class Perfil extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        usuari.avatar,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: FlatButton(
+                            onPressed: () async {
+                              File avatarFile = await usuari.avatarFile;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      ImageCapture(img: avatarFile),
+                                ),
+                              );
+                            },
+                            child: usuari.avatar,
+                          ),
+                        ),
                         Expanded(
                           child: Container(),
                         ),
@@ -127,6 +144,15 @@ class Perfil extends StatelessWidget {
                           child: Container(),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      usuari.bio ?? "",
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
                     ),
                     Divider(),
                     Center(

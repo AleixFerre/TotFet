@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^0.18.0+1
   firebase_analytics: ^6.0.0
   firebase_messaging: ^7.0.0
+  firebase_storage: ^4.0.0
 
   # Google Sigin in
   google_sign_in: ^4.5.3
@@ -45,6 +46,10 @@ dependencies:
 
   # SVG import
   flutter_svg: ^0.18.1
+
+  # Foto de perfil
+  image_picker: ^0.6.7+7
+  image_cropper: ^1.3.1
 
   # QR system
   qr_flutter: ^3.2.0

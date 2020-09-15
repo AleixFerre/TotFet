@@ -1,32 +1,38 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:totfet/services/storage.dart';
 
 class Usuari {
   final String uid;
   String nom;
   String email;
-  String urlImg;
   String token;
+  String bio;
   bool isAdmin;
+  Timestamp dataCreacio;
 
-  Usuari(
-      {@required this.uid,
-      this.nom,
-      this.email,
-      this.urlImg,
-      this.isAdmin,
-      this.token});
+  Usuari({
+    @required this.uid,
+    this.nom,
+    this.email,
+    this.isAdmin,
+    this.token,
+    this.bio,
+    this.dataCreacio,
+  });
 
   static Usuari fromDB(String id, String _email, Map<String, dynamic> data) {
     return Usuari(
       uid: id,
       email: _email,
       nom: data['nom'],
-      urlImg: data['urlImg'],
       isAdmin: data['isAdmin'],
       token: data['token'],
+      bio: data['bio'],
+      dataCreacio: data['dataCreacio'],
     );
   }
 
@@ -35,8 +41,8 @@ class Usuari {
       "nom": nom.trim(),
       "isAdmin": isAdmin,
       "token": token,
-      "dataCreacio": DateTime.now(),
-      // Expandible...
+      "dataCreacio": dataCreacio ?? DateTime.now(),
+      "bio": bio,
     };
   }
 
@@ -67,24 +73,47 @@ class Usuari {
   }
 
   CircleAvatar get avatar {
-    return CircleAvatar(
-      backgroundColor: Colors.blue,
-      child: Text(
-        _inicials(this.nom),
-        style: TextStyle(fontSize: 60),
-      ),
-      radius: 60,
-    );
+    return getAvatar(nom, uid, true);
   }
 
-  static CircleAvatar getAvatar(String nom) {
+  Future<File> get avatarFile async {
+    String link = await StorageService().getImageFromUser(uid);
+    return link == null ? null : File(link);
+  }
+
+  static CircleAvatar getAvatar(String nom, String id, bool esGran) {
     return CircleAvatar(
       backgroundColor: Colors.blue,
-      child: Text(
-        _inicials(nom),
-        style: TextStyle(fontSize: 20),
+      child: FutureBuilder<String>(
+        future: StorageService().getImageFromUser(id),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text(
+              _inicials(nom),
+              style: TextStyle(fontSize: esGran ? 50 : 20),
+            );
+          }
+
+          if (snapshot.hasData) {
+            // MOSTRAR LA IMATGE
+            String src = snapshot.data;
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.network(src),
+            );
+          }
+
+          double mida = esGran ? 50 : 20;
+          return SizedBox(
+            height: mida,
+            width: mida,
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ),
+          );
+        },
       ),
-      radius: 20,
+      radius: esGran ? 50 : 20,
     );
   }
 }

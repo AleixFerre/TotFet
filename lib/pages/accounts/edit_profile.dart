@@ -46,7 +46,7 @@ class _EditPerfilState extends State<EditPerfil> {
                     if (value == "") {
                       return "Has de tenir un nom.";
                     } else if (value.length > 15) {
-                      return "El nom no pot tenir més de 15 lletres.";
+                      return "El nom no pot tenir més de 15 caràcters.";
                     }
                     return null;
                   },
@@ -60,6 +60,30 @@ class _EditPerfilState extends State<EditPerfil> {
                     hintText: "Introdueix el teu nom",
                     labelText: 'Introdueix el teu nom...',
                     counterText: "${model.nom.length}/15",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) {
+                    value = value.trim();
+                    if (value.length > 255) {
+                      return "La bio no pot tenir més de 255 caràcters.";
+                    }
+                    return null;
+                  },
+                  initialValue: model.bio,
+                  onChanged: (str) {
+                    setState(() {
+                      model.bio = str;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: "La meva biografia.",
+                    labelText: 'Introdueix una descripció del teu perfil...',
+                    counterText:
+                        "${model.bio == null ? 0 : model.bio.length}/255",
                   ),
                 ),
               ),

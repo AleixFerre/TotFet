@@ -89,7 +89,8 @@ class LlistaDetalls extends StatelessWidget {
                         borderRadius: BorderRadius.circular(18.0),
                       ),
                       child: ListTile(
-                        leading: Usuari.getAvatar(llistaUsuaris[index].nom),
+                        leading: Usuari.getAvatar(llistaUsuaris[index].nom,
+                            llistaUsuaris[index].uid, false),
                         title: Text(
                           llistaUsuaris[index].nom +
                               etsTu(llistaUsuaris[index].uid),
