@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,7 +62,7 @@ class Usuari {
     );
   }
 
-  static String _inicials(String s) {
+  static String inicials(String s) {
     List<String> paraules = s.split(" ");
     String fi = paraules[0].substring(0, 1).toUpperCase();
     if (paraules.length > 1) {
@@ -76,9 +75,13 @@ class Usuari {
     return getAvatar(nom, uid, true);
   }
 
-  Future<File> get avatarFile async {
-    String link = await StorageService().getImageFromUser(uid);
-    return link == null ? null : File(link);
+  Future<String> get avatarFile async {
+    try {
+      String link = await StorageService().getImageFromUser(uid);
+      return link;
+    } catch (e) {
+      return null;
+    }
   }
 
   static CircleAvatar getAvatar(String nom, String id, bool esGran) {
@@ -89,7 +92,7 @@ class Usuari {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text(
-              _inicials(nom),
+              inicials(nom),
               style: TextStyle(fontSize: esGran ? 50 : 20),
             );
           }

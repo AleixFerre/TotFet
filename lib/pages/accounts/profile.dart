@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -19,10 +18,15 @@ import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
 
-class Perfil extends StatelessWidget {
+class Perfil extends StatefulWidget {
   final Function canviarFinestra;
   Perfil({this.canviarFinestra});
 
+  @override
+  _PerfilState createState() => _PerfilState();
+}
+
+class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     final AuthService _auth = AuthService();
@@ -47,7 +51,7 @@ class Perfil extends StatelessWidget {
 
           return Scaffold(
             drawer: MyDrawer(
-              canviarFinestra: canviarFinestra,
+              canviarFinestra: widget.canviarFinestra,
               actual: Finestra.Perfil,
             ),
             appBar: AppBar(
@@ -97,14 +101,17 @@ class Perfil extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100),
                           child: FlatButton(
                             onPressed: () async {
-                              File avatarFile = await usuari.avatarFile;
-                              Navigator.push(
+                              String avatarFilePath = await usuari.avatarFile;
+                              await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      ImageCapture(img: avatarFile),
+                                  builder: (ctx) => ImageCapture(
+                                    imgPath: avatarFilePath,
+                                    nom: usuari.nom,
+                                  ),
                                 ),
                               );
+                              setState(() {});
                             },
                             child: usuari.avatar,
                           ),
