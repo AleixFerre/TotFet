@@ -92,9 +92,9 @@ class MyDrawer extends StatelessWidget {
                 disabledTextColor: disabledTextColor,
                 disabledColor: disabledColor,
                 color: color,
-                onPressed: escenaActual(Finestra.Llista)
+                onPressed: escenaActual(Finestra.Compres)
                     ? () {
-                        canviarFinestra(Finestra.Llista);
+                        canviarFinestra(Finestra.Compres);
                       }
                     : null,
                 child: Row(

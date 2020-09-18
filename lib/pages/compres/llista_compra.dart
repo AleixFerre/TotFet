@@ -68,7 +68,10 @@ class LlistaCompra extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LlistaDetalls(llista: infoLlista),
+                builder: (context) => LlistaDetalls(
+                  llista: infoLlista,
+                  finestra: Finestra.Compres,
+                ),
               ),
             );
           },
@@ -245,7 +248,7 @@ class LlistaCompra extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       drawer: MyDrawer(
         canviarFinestra: canviarFinestra,
-        actual: Finestra.Llista,
+        actual: Finestra.Compres,
       ),
     );
   }

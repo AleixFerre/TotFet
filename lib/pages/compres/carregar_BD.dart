@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Finestra.dart';
 
 import 'package:totfet/services/database.dart';
 import 'package:totfet/pages/llistes/menu_llistes.dart';
@@ -33,7 +34,10 @@ class _CarregarBDState extends State<CarregarBD> {
               .toList();
 
           if (llistaDeReferencies.isEmpty) {
-            return MenuLlistes(canviarFinestra: widget.canviarFinestra);
+            return MenuLlistes(
+              canviarFinestra: widget.canviarFinestra,
+              finestra: Finestra.Compres,
+            );
           }
 
           return StreamBuilder(

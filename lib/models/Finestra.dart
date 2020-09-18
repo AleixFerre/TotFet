@@ -1,6 +1,6 @@
 enum Finestra {
   Menu,
-  Llista,
+  Compres,
   Tasques,
   Perfil,
 }

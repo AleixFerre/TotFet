@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/services/auth.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -11,7 +12,9 @@ import 'package:totfet/shared/some_error_page.dart';
 class LlistaDetalls extends StatelessWidget {
   final Llista llista;
   final bool isOwner;
-  LlistaDetalls({this.llista, this.isOwner});
+  final Finestra finestra;
+  LlistaDetalls({this.llista, this.isOwner, @required this.finestra});
+
   @override
   Widget build(BuildContext context) {
     String etsTu(String id) {
@@ -32,10 +35,15 @@ class LlistaDetalls extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: <Color>[
-                  Colors.blue[400],
-                  Colors.blue[900],
-                ],
+                colors: finestra == Finestra.Tasques
+                    ? <Color>[
+                        Colors.orange[400],
+                        Colors.deepOrange[900],
+                      ]
+                    : <Color>[
+                        Colors.blue[400],
+                        Colors.blue[900],
+                      ],
               ),
             ),
           ),
@@ -133,7 +141,7 @@ class LlistaDetalls extends StatelessWidget {
         return Scaffold(
           body: Loading(
             msg: "Carregant detalls de la llista...",
-            esTaronja: false,
+            esTaronja: finestra == Finestra.Tasques,
           ),
         );
       },

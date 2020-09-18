@@ -188,7 +188,9 @@ class _PerfilState extends State<Perfil> {
                             onPressed: () async {
                               Llista result = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => CrearLlista(),
+                                  builder: (context) => CrearLlista(
+                                    finestra: Finestra.Perfil,
+                                  ),
                                 ),
                               );
                               if (result != null) {
@@ -231,7 +233,8 @@ class _PerfilState extends State<Perfil> {
                             onPressed: () async {
                               String id = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => UnirseLlista(),
+                                  builder: (context) =>
+                                      UnirseLlista(finestra: Finestra.Perfil),
                                 ),
                               );
                               if (id != null) {

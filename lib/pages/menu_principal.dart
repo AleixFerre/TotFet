@@ -75,7 +75,7 @@ class MenuPrincipal extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
                 onPressed: () {
-                  canviarFinestra(Finestra.Llista);
+                  canviarFinestra(Finestra.Compres);
                 },
                 padding: EdgeInsets.only(top: 20),
                 child: Column(

@@ -313,7 +313,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 height: 20,
               ),
               RaisedButton(
-                color: Colors.deepOrange[400],
+                color: Colors.orange[400],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Navigator.pop(context, model);

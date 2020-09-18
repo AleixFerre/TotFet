@@ -38,7 +38,7 @@ class _WrapperState extends State<Wrapper> {
       // Si hi ha algun usuari dins, mirem la finestra que volem
       if (finestra == Finestra.Menu)
         return MenuPrincipal(canviarFinestra: canviarFinestra);
-      else if (finestra == Finestra.Llista)
+      else if (finestra == Finestra.Compres)
         return CarregarBD(canviarFinestra: canviarFinestra);
       else if (finestra == Finestra.Perfil)
         return Perfil(canviarFinestra: canviarFinestra);

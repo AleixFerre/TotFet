@@ -2,11 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:totfet/models/Finestra.dart';
 
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 
 class UnirseLlista extends StatefulWidget {
+  final Finestra finestra;
+  UnirseLlista({@required this.finestra});
   @override
   _UnirseLlistaState createState() => _UnirseLlistaState();
 }
@@ -76,10 +79,15 @@ class _UnirseLlistaState extends State<UnirseLlista> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
+              colors: widget.finestra == Finestra.Tasques
+                  ? <Color>[
+                      Colors.orange[400],
+                      Colors.deepOrange[900],
+                    ]
+                  : <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
             ),
           ),
         ),
@@ -153,7 +161,9 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                       height: 20,
                     ),
                     RaisedButton(
-                      color: Colors.blueAccent,
+                      color: widget.finestra == Finestra.Tasques
+                          ? Colors.orange[400]
+                          : Colors.blueAccent,
                       onPressed: () async {
                         comprovarLlista();
                       },

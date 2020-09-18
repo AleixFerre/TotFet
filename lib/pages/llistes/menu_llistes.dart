@@ -11,7 +11,8 @@ import 'package:totfet/services/database.dart';
 
 class MenuLlistes extends StatefulWidget {
   final Function canviarFinestra;
-  MenuLlistes({this.canviarFinestra});
+  final Finestra finestra;
+  MenuLlistes({this.canviarFinestra, @required this.finestra});
 
   @override
   _MenuLlistesState createState() => _MenuLlistesState();
@@ -23,7 +24,7 @@ class _MenuLlistesState extends State<MenuLlistes> {
     return Scaffold(
       drawer: MyDrawer(
         canviarFinestra: widget.canviarFinestra,
-        actual: Finestra.Llista,
+        actual: widget.finestra,
       ),
       appBar: AppBar(
         title: Text("Menu de llistes"),
@@ -33,10 +34,15 @@ class _MenuLlistesState extends State<MenuLlistes> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
+              colors: widget.finestra == Finestra.Tasques
+                  ? <Color>[
+                      Colors.orange[400],
+                      Colors.deepOrange[900],
+                    ]
+                  : <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
             ),
           ),
         ),
@@ -75,7 +81,9 @@ class _MenuLlistesState extends State<MenuLlistes> {
                   elevation: 3,
                   onPressed: () async {
                     Llista llista = await Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => CrearLlista()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CrearLlista(finestra: widget.finestra)),
                     );
 
                     if (llista != null) {
@@ -88,7 +96,9 @@ class _MenuLlistesState extends State<MenuLlistes> {
                     child: Column(
                       children: [
                         SvgPicture.asset(
-                          "images/create.svg",
+                          widget.finestra == Finestra.Compres
+                              ? "images/create.svg"
+                              : "images/create_tasques.svg",
                           height: 100,
                         ),
                         SizedBox(
@@ -114,7 +124,9 @@ class _MenuLlistesState extends State<MenuLlistes> {
                   elevation: 3,
                   onPressed: () async {
                     String id = await Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => UnirseLlista()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              UnirseLlista(finestra: widget.finestra)),
                     );
                     if (id != null) {
                       await DatabaseService().addUsuariLlista(id);
@@ -126,7 +138,9 @@ class _MenuLlistesState extends State<MenuLlistes> {
                     child: Column(
                       children: [
                         SvgPicture.asset(
-                          "images/join.svg",
+                          widget.finestra == Finestra.Compres
+                              ? "images/join.svg"
+                              : "images/join_tasques.svg",
                           height: 100,
                         ),
                         SizedBox(

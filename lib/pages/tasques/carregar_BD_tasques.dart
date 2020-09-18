@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/pages/llistes/menu_llistes.dart';
 import 'package:totfet/pages/tasques/llista_tasques.dart';
 import 'package:totfet/services/database.dart';
@@ -33,7 +34,10 @@ class _TasquesState extends State<Tasques> {
               .toList();
 
           if (llistaDeReferencies.isEmpty) {
-            return MenuLlistes(canviarFinestra: widget.canviarFinestra);
+            return MenuLlistes(
+              canviarFinestra: widget.canviarFinestra,
+              finestra: Finestra.Tasques,
+            );
           }
 
           return StreamBuilder(

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Finestra.dart';
 
 import 'package:totfet/pages/llistes/administracio/expulsar_llista.dart';
 import 'package:totfet/pages/llistes/administracio/QR/qr_viewer.dart';
@@ -293,6 +294,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                           builder: (context) => LlistaDetalls(
                             llista: llista,
                             isOwner: isOwner,
+                            finestra: Finestra.Perfil,
                           ),
                         ),
                       );

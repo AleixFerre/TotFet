@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/models/Llista.dart';
 
 class CrearLlista extends StatefulWidget {
+  final Finestra finestra;
+  CrearLlista({@required this.finestra});
+
   @override
   _CrearLlistaState createState() => _CrearLlistaState();
 }
@@ -22,10 +26,15 @@ class _CrearLlistaState extends State<CrearLlista> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
+              colors: widget.finestra == Finestra.Tasques
+                  ? <Color>[
+                      Colors.orange[400],
+                      Colors.deepOrange[900],
+                    ]
+                  : <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
             ),
           ),
         ),
@@ -93,7 +102,9 @@ class _CrearLlistaState extends State<CrearLlista> {
                 height: 20,
               ),
               RaisedButton(
-                color: Colors.blueAccent,
+                color: widget.finestra == Finestra.Tasques
+                    ? Colors.orange[400]
+                    : Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Navigator.pop(context, llista);
