@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/pages/llistes/administracio/detalls_llista.dart';
 
 import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/models/Finestra.dart';
@@ -59,6 +61,18 @@ class LlistaCompra extends StatelessWidget {
         ),
       ),
       actions: [
+        IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () {
+            Llista infoLlista = Llista.fromMap(llistesUsuari[indexLlista]);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LlistaDetalls(llista: infoLlista),
+              ),
+            );
+          },
+        ),
         PopupMenuButton<int>(
           tooltip: "Selecciona una llista",
           icon: Icon(Icons.filter_list),

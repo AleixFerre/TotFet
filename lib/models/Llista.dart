@@ -33,6 +33,15 @@ class Llista {
     );
   }
 
+  static Llista fromMap(Map<String, dynamic> llista) {
+    return Llista(
+      id: llista['id'],
+      nom: llista['nom'],
+      descripcio: llista['descripcio'],
+      idCreador: llista['idCreador'],
+    );
+  }
+
   // Retorna un mapa de ID llista - Nom llista
   static List<Map<String, String>> llistaPairs(List<Llista> list) {
     List<Map<String, String>> llistaFinal = [];
@@ -40,6 +49,8 @@ class Llista {
       llistaFinal.add({
         "id": l.id,
         "nom": l.nom,
+        "descripcio": l.descripcio,
+        "idCreador": l.idCreador,
       });
     }
     return llistaFinal;
