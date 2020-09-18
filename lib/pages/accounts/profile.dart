@@ -159,6 +159,7 @@ class _PerfilState extends State<Perfil> {
                       usuari.bio ?? "",
                       style: TextStyle(
                         fontSize: 25,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                     Divider(),

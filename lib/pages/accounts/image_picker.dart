@@ -60,9 +60,7 @@ class _ImageCaptureState extends State<ImageCapture> {
 
     if (cropped == null) return;
 
-    print("Bytes of Cropped file:    " + cropped.lengthSync().toString());
     File compressed = await _compressImage(cropped, path);
-    print("Bytes of Compressed file: " + compressed.lengthSync().toString());
 
     setState(() {
       _imageFile = compressed;
