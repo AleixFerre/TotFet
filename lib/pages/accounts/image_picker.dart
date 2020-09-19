@@ -140,13 +140,23 @@ class _ImageCaptureState extends State<ImageCapture> {
                   return Column(
                     children: [
                       if (_uploadTask.isComplete)
-                        Text(
-                          '🎉🎉🎉',
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
+                        Column(children: [
+                          Text(
+                            '🎉🎉🎉',
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+                          Text(
+                            "Wow la imatge s'ha pujat perfectament!\nJa pots tancar la finestra.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ]),
 
                       if (_uploadTask.isPaused)
                         FlatButton(

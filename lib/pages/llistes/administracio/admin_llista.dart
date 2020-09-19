@@ -310,7 +310,10 @@ class _AdminLlistesState extends State<AdminLlistes> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => QRViewer(id: llista.id),
+                            builder: (context) => QRViewer(
+                              id: llista.id,
+                              finestra: Finestra.Perfil,
+                            ),
                           ),
                         );
                       },

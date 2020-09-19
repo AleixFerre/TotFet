@@ -25,6 +25,75 @@ class LlistaDetalls extends StatelessWidget {
       }
     }
 
+    void _mostrarPerfilBottomSheet(Usuari usuari) {
+      showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Text(
+                  "Informació de l'usuari",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Divider(),
+                Row(
+                  children: [
+                    usuari.avatar,
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Text(
+                      usuari.nom,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (usuari.isAdmin)
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(Icons.verified),
+                        ],
+                      ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  usuari.bio == "" || usuari.bio == null
+                      ? "Sense bio"
+                      : usuari.bio,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     Scaffold buildDetalls(List<Usuari> llistaUsuaris) {
       return Scaffold(
         appBar: AppBar(
@@ -53,7 +122,10 @@ class LlistaDetalls extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => QRViewer(id: llista.id),
+                    builder: (context) => QRViewer(
+                      id: llista.id,
+                      finestra: finestra,
+                    ),
                   ),
                 );
               },
@@ -96,19 +168,29 @@ class LlistaDetalls extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),
-                      child: ListTile(
-                        leading: Usuari.getAvatar(llistaUsuaris[index].nom,
-                            llistaUsuaris[index].uid, false),
-                        title: Text(
-                          llistaUsuaris[index].nom +
-                              etsTu(llistaUsuaris[index].uid),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 30),
+                      child: FlatButton(
+                        onPressed: () =>
+                            _mostrarPerfilBottomSheet(llistaUsuaris[index]),
+                        child: ListTile(
+                          leading: Usuari.getAvatar(llistaUsuaris[index].nom,
+                              llistaUsuaris[index].uid, false),
+                          title: Text(
+                            llistaUsuaris[index].nom +
+                                etsTu(llistaUsuaris[index].uid),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: (llistaUsuaris[index].uid ==
+                                      AuthService().userId)
+                                  ? FontWeight.w700
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                          trailing: llistaUsuaris[index].uid == llista.idCreador
+                              ? Icon(Icons.verified_user)
+                              : null,
                         ),
-                        trailing: llistaUsuaris[index].uid == llista.idCreador
-                            ? Icon(Icons.verified_user)
-                            : null,
                       ),
                     ),
                   ),

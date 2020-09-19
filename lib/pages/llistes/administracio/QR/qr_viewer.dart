@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:totfet/models/Finestra.dart';
 
 class QRViewer extends StatefulWidget {
   final String id;
-  const QRViewer({Key key, this.id}) : super(key: key);
+  final Finestra finestra;
+  const QRViewer({Key key, this.id, @required this.finestra}) : super(key: key);
 
   @override
   _QRViewerState createState() => _QRViewerState();
@@ -26,10 +28,15 @@ class _QRViewerState extends State<QRViewer> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
+              colors: widget.finestra == Finestra.Tasques
+                  ? <Color>[
+                      Colors.orange[400],
+                      Colors.deepOrange[900],
+                    ]
+                  : <Color>[
+                      Colors.blue[400],
+                      Colors.blue[900],
+                    ],
             ),
           ),
         ),
@@ -49,8 +56,11 @@ class _QRViewerState extends State<QRViewer> {
             ),
             Text("o copia el codi"),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Expanded(
+                  child: Container(),
+                  flex: 1,
+                ),
                 Text(
                   widget.id,
                   style: TextStyle(fontSize: 20),
@@ -58,6 +68,7 @@ class _QRViewerState extends State<QRViewer> {
                 IconButton(
                   icon: Icon(hasCopied ? Icons.done : Icons.copy),
                   onPressed: () {
+                    // Copia la ID al porta-retalls
                     Clipboard.setData(ClipboardData(text: widget.id));
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
@@ -68,7 +79,11 @@ class _QRViewerState extends State<QRViewer> {
                       hasCopied = true;
                     });
                   },
-                )
+                ),
+                Expanded(
+                  child: Container(),
+                  flex: 1,
+                ),
               ],
             ),
             Expanded(
