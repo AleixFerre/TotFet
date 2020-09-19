@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/pages/accounts/image_picker.dart';
+import 'package:totfet/pages/admin/admin_panel.dart';
 import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -87,6 +88,19 @@ class _PerfilState extends State<Perfil> {
                     }
                   },
                 ),
+                if (usuari.isAdmin)
+                  IconButton(
+                    tooltip: "Administració",
+                    icon: Icon(Icons.admin_panel_settings),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminPanel(),
+                        ),
+                      );
+                    },
+                  ),
               ],
             ),
             body: SingleChildScrollView(

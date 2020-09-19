@@ -185,6 +185,15 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots();
   }
 
+  Future<List<QuerySnapshot>> getAllTablesInfo() {
+    return Future.wait([
+      usersCollection.get(),
+      llistesCollection.get(),
+      compresCollection.get(),
+      tasquesCollection.get(),
+    ]);
+  }
+
   Future<QuerySnapshot> getUsuarisLlista(String id) async {
     QuerySnapshot refUsuaris =
         await llistesUsuarisCollection.where("llista", isEqualTo: id).get();
