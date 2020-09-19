@@ -94,6 +94,9 @@ class AdminPanelView extends StatelessWidget {
           buildTableRow("Nombre de compres", nCompres),
           buildTableRow("Nombre de tasques", nTasques),
         ],
+        // Expandible...
+        // RECORDAR QUE TINC TOTA LA INFORMACIÓ A LA TAULA PER FER SERVIR
+        // NO NOMÉS LA MIDA!!
       ),
     );
   }
