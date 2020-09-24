@@ -1,5 +1,5 @@
 // Metadata de la app
 
-const String versionNumber = "0.4.4";
+const String versionNumber = "v0.4.5-beta";
 const String appName = "TotFet";
 const String appCreator = "Aleix Ferré";

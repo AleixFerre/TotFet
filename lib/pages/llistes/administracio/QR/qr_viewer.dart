@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -40,6 +41,17 @@ class _QRViewerState extends State<QRViewer> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () async {
+              // TODO: AIXO NO SE PERQUÈ NO FUNCIONA!!
+              // Diu que la funció no està implementada, però em surt tot
+              // com si sí que es pogués. WTF
+              Share.share('check out my website https://example.com');
+            },
+          ),
+        ],
       ),
       body: Builder(
         builder: (context) => Column(
