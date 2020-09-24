@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/models/Report.dart';
+import 'package:totfet/pages/admin/report_bug.dart';
+import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/constants.dart';
 import 'package:totfet/shared/sortir_sessio.dart';
 
@@ -168,6 +171,42 @@ class MyDrawer extends StatelessWidget {
               ),
               SortirSessio(),
               Divider(),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: () async {
+                  // Mostrar la pàgina de report que retorna un report o null
+                  Report report = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReportBug(),
+                    ),
+                  );
+                  // Afegir el report a la taula de reports.
+                  if (report != null) {
+                    await DatabaseService().afegirReport(report);
+                    print("Informe enviat correctament!");
+                  }
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.bug_report),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Informa d'un error"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
+                ),
+              ),
               RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),

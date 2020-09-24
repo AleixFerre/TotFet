@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/models/Llista.dart';
+import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/auth.dart';
 
@@ -16,6 +17,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('tasques');
   final CollectionReference llistesCollection =
       FirebaseFirestore.instance.collection('llistes');
+  final CollectionReference reportsCollection =
+      FirebaseFirestore.instance.collection('reports');
   final CollectionReference llistesUsuarisCollection =
       FirebaseFirestore.instance.collection('llistes_usuaris');
 
@@ -56,6 +59,12 @@ class DatabaseService {
   Future<void> addTasca(Map<String, dynamic> result) async {
     return await tasquesCollection.add(result).catchError(
           (error) => print("Error a l'afegir tasca: $error"),
+        );
+  }
+
+  Future<void> afegirReport(Report report) async {
+    return await reportsCollection.add(report.toDBMap()).catchError(
+          (error) => print("Error a l'afegir report: $error"),
         );
   }
 
