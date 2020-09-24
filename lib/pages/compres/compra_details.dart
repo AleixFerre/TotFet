@@ -52,6 +52,130 @@ class CompraDetails extends StatelessWidget {
       return null;
     }
 
+    final List<Map<String, dynamic>> opcionsBase = [
+      {
+        "nom": "Editar",
+        "icon": Icon(Icons.edit, color: Colors.black),
+        "function": (compra, context) async {
+          Map<String, dynamic> resposta = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditCompra(compra: compra.toMap()),
+            ),
+          );
+          if (resposta != null) {
+            resposta.remove('id');
+            await DatabaseService().editarCompra(id, resposta);
+            print("Compra editada correctament!");
+            // El future builder agafarà les dades més recents de la BD
+            // En quant es recarregui l'estat
+          }
+        },
+      },
+      {
+        "nom": "Esborrar",
+        "icon": Icon(Icons.delete, color: Colors.black),
+        "function": (compra, context) async {
+          // Show alert box
+          bool esborrar = await showDialog<bool>(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Vols esborrar la compra?'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(
+                        'Aquesta acció no es pot desfer!',
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Cancel·lar',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Esborrar',
+                      style: TextStyle(fontSize: 20, color: Colors.red[400]),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          // Si esborrar és null o false, llavors no es fa res
+          if (esborrar == true) {
+            DatabaseService().esborrarCompra(id);
+            // Si no hi ha element, podem sortir d'aquesta pantalla
+            Navigator.pop(context);
+          }
+        },
+      },
+    ];
+    final List<Map<String, dynamic>> opcionsExtra = [
+      {
+        "nom": "Revertir compra",
+        "icon": Icon(Icons.assignment_return, color: Colors.black),
+        "function": (compra, context) async {
+          bool revertir = await showDialog<bool>(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Vols revertir la compra?'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(
+                        'Aquesta opció marcarà la compra com a NO comprada!',
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Cancel·lar',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Revertir',
+                      style: TextStyle(fontSize: 20, color: Colors.red[400]),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (revertir == true) {
+            DatabaseService().revertirCompra(id);
+            Navigator.pop(context);
+          }
+        },
+      },
+    ];
+
     return StreamBuilder<DocumentSnapshot>(
         stream: futureCompres,
         builder: (BuildContext context,
@@ -115,6 +239,11 @@ class CompraDetails extends StatelessWidget {
                       }
                     }
 
+                    List<Map<String, dynamic>> opcions = opcionsBase;
+                    if (compra.comprat) {
+                      opcions.addAll(opcionsExtra);
+                    }
+
                     return Scaffold(
                       appBar: AppBar(
                         title: Text('Propietats de la compra'),
@@ -132,78 +261,29 @@ class CompraDetails extends StatelessWidget {
                           ),
                         ),
                         actions: [
-                          IconButton(
-                            tooltip: "Editar compra",
-                            icon: Icon(Icons.edit),
-                            onPressed: () async {
-                              Map<String, dynamic> resposta =
-                                  await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditCompra(compra: compra.toMap()),
-                                ),
-                              );
-                              if (resposta != null) {
-                                resposta.remove('id');
-                                await DatabaseService()
-                                    .editarCompra(id, resposta);
-                                print("Compra editada correctament!");
-                                // El future builder agafarà les dades més recents de la BD
-                                // En quant es recarregui l'estat
-                              }
-                            },
-                          ),
-                          IconButton(
-                            tooltip: "Esborrar compra",
-                            icon: Icon(Icons.delete),
-                            onPressed: () async {
-                              // Show alert box
-                              bool esborrar = await showDialog<bool>(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Vols esborrar la compra?'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
+                          PopupMenuButton<int>(
+                            tooltip: "Opcions de la compra",
+                            icon: Icon(Icons.more_vert),
+                            itemBuilder: (BuildContext context) {
+                              return opcions
+                                  .map(
+                                    (Map<String, dynamic> opcio) =>
+                                        PopupMenuItem(
+                                      value: opcions.indexOf(opcio),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            'Aquesta acció no es pot desfer!',
-                                          ),
+                                          opcio['icon'],
+                                          SizedBox(width: 5),
+                                          Text(opcio['nom']),
                                         ],
                                       ),
                                     ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text(
-                                          'Cancel·lar',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                      ),
-                                      FlatButton(
-                                        child: Text(
-                                          'Esborrar',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(true);
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              // Si esborrar és null o false, llavors no es fa res
-                              if (esborrar == true) {
-                                DatabaseService().esborrarCompra(id);
-                                // Si no hi ha element, podem sortir d'aquesta pantalla
-                                Navigator.pop(context);
-                              }
+                                  )
+                                  .toList();
+                            },
+                            onSelected: (int index) {
+                              return opcions[index]
+                                  ['function'](compra, context);
                             },
                           ),
                         ],

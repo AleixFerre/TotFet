@@ -50,6 +50,130 @@ class TascaDetails extends StatelessWidget {
       return null;
     }
 
+    final List<Map<String, dynamic>> opcionsBase = [
+      {
+        "nom": "Editar",
+        "icon": Icon(Icons.edit, color: Colors.black),
+        "function": (tasca, context) async {
+          Map<String, dynamic> resposta = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditTasca(tasca: tasca.toMap()),
+            ),
+          );
+          if (resposta != null) {
+            resposta.remove('id');
+            await DatabaseService().editarTasca(id, resposta);
+            print("Tasca editada correctament!");
+            // El future builder agafarà les dades més recents de la BD
+            // En quant es recarregui l'estat
+          }
+        },
+      },
+      {
+        "nom": "Esborrar",
+        "icon": Icon(Icons.delete, color: Colors.black),
+        "function": (compra, context) async {
+          // Show alert box
+          bool esborrar = await showDialog<bool>(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Vols esborrar la tasca?'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(
+                        'Aquesta acció no es pot desfer!',
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Cancel·lar',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Esborrar',
+                      style: TextStyle(fontSize: 20, color: Colors.red[400]),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          // Si esborrar és null o false, llavors no es fa res
+          if (esborrar == true) {
+            DatabaseService().esborrarTasca(id);
+            // Si no hi ha element, podem sortir d'aquesta pantalla
+            Navigator.pop(context);
+          }
+        },
+      },
+    ];
+    final List<Map<String, dynamic>> opcionsExtra = [
+      {
+        "nom": "Revertir tasca",
+        "icon": Icon(Icons.assignment_return, color: Colors.black),
+        "function": (compra, context) async {
+          bool revertir = await showDialog<bool>(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Vols revertir la tasca?'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: [
+                      Text(
+                        'Aquesta opció marcarà la tasca com a NO feta!',
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      'Cancel·lar',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Revertir',
+                      style: TextStyle(fontSize: 20, color: Colors.red[400]),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          if (revertir == true) {
+            DatabaseService().revertirTasca(id);
+            Navigator.pop(context);
+          }
+        },
+      },
+    ];
+
     return StreamBuilder<DocumentSnapshot>(
         stream: futureTasques,
         builder: (BuildContext context,
@@ -113,6 +237,11 @@ class TascaDetails extends StatelessWidget {
                     }
                   }
 
+                  List<Map<String, dynamic>> opcions = opcionsBase;
+                  if (tasca.fet) {
+                    opcions.addAll(opcionsExtra);
+                  }
+
                   return Scaffold(
                     appBar: AppBar(
                       title: Text('Propietats de la tasca'),
@@ -130,77 +259,27 @@ class TascaDetails extends StatelessWidget {
                         ),
                       ),
                       actions: [
-                        IconButton(
-                          tooltip: "Editar tasca",
-                          icon: Icon(Icons.edit),
-                          onPressed: () async {
-                            Map<String, dynamic> resposta =
-                                await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    EditTasca(tasca: tasca.toMap()),
-                              ),
-                            );
-                            if (resposta != null) {
-                              resposta.remove('id');
-                              await DatabaseService().editarTasca(id, resposta);
-                              print("Tasca editada correctament!");
-                              // El future builder agafarà les dades més recents de la BD
-                              // En quant es recarregui l'estat
-                            }
-                          },
-                        ),
-                        IconButton(
-                          tooltip: "Esborrar tasca",
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {
-                            // Show alert box
-                            bool esborrar = await showDialog<bool>(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Vols esborrar la tasca?'),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
+                        PopupMenuButton<int>(
+                          tooltip: "Opcions de la compra",
+                          icon: Icon(Icons.more_vert),
+                          itemBuilder: (BuildContext context) {
+                            return opcions
+                                .map(
+                                  (Map<String, dynamic> opcio) => PopupMenuItem(
+                                    value: opcions.indexOf(opcio),
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          'Aquesta acció no es pot desfer!',
-                                        ),
+                                        opcio['icon'],
+                                        SizedBox(width: 5),
+                                        Text(opcio['nom']),
                                       ],
                                     ),
                                   ),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text(
-                                        'Cancel·lar',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text(
-                                        'Esborrar',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(true);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-
-                            // Si esborrar és null o false, llavors no es fa res
-                            if (esborrar == true) {
-                              DatabaseService().esborrarTasca(id);
-                              // Si no hi ha element, podem sortir d'aquesta pantalla
-                              Navigator.pop(context);
-                            }
+                                )
+                                .toList();
+                          },
+                          onSelected: (int index) {
+                            return opcions[index]['function'](tasca, context);
                           },
                         ),
                       ],
@@ -217,7 +296,7 @@ class TascaDetails extends StatelessWidget {
                             ),
                             Divider(),
                             Text(
-                              "Descripcio: ${tasca.descripcio ?? "Sense Descripció"}",
+                              "Descripcio: ${tasca.descripcio == null || tasca.descripcio == "" ? "Sense Descripció" : tasca.descripcio}",
                               style: TextStyle(fontSize: 25),
                             ),
                             Divider(),
@@ -242,7 +321,7 @@ class TascaDetails extends StatelessWidget {
                             ),
                             Divider(),
                             Text(
-                              "Creat per: ${tasca.nomCreador ?? "No disponible"} ${etsTu(tasca.idCreador)}",
+                              "Creada per: ${tasca.nomCreador ?? "No disponible"} ${etsTu(tasca.idCreador)}",
                               style: TextStyle(fontSize: 25),
                             ),
                             Divider(),
@@ -252,7 +331,7 @@ class TascaDetails extends StatelessWidget {
                             ),
                             Divider(),
                             Text(
-                              "Assignat a: ${tasca.nomAssignat ?? "Ningú"} ${etsTu(tasca.idAssignat)}",
+                              "Assignada a: ${tasca.nomAssignat ?? "Ningú"} ${etsTu(tasca.idAssignat)}",
                               style: TextStyle(fontSize: 25),
                             ),
                             SizedBox(height: 30),
@@ -265,7 +344,7 @@ class TascaDetails extends StatelessWidget {
                             ),
                             Divider(),
                             Text(
-                              "Fet: ${tasca.fet ? 'SI' : 'NO'}",
+                              "Feta: ${tasca.fet ? 'SI' : 'NO'}",
                               style: TextStyle(fontSize: 25),
                             ),
                             tasca.fet
@@ -280,7 +359,7 @@ class TascaDetails extends StatelessWidget {
                                       ),
                                       Divider(),
                                       Text(
-                                        "Fet per: ${tasca.nomUsuariFet ?? "No disponible"} ${etsTu(tasca.idUsuariFet)}",
+                                        "Feta per: ${tasca.nomUsuariFet ?? "No disponible"} ${etsTu(tasca.idUsuariFet)}",
                                         style: TextStyle(fontSize: 25),
                                       ),
                                     ],

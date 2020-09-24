@@ -33,6 +33,26 @@ class DatabaseService {
         );
   }
 
+  Future<void> revertirCompra(String id) async {
+    return await compresCollection.doc(id).update({
+      "comprat": false,
+      "dataCompra": null,
+      "idComprador": null,
+    }).catchError(
+      (error) => print("Error a l'revertir la compra de producte: $error"),
+    );
+  }
+
+  Future<void> revertirTasca(String id) async {
+    return await tasquesCollection.doc(id).update({
+      "fet": false,
+      "dataTancament": null,
+      "idUsuariFet": null,
+    }).catchError(
+      (error) => print("Error a l'revertir tasca de producte: $error"),
+    );
+  }
+
   Future<void> addTasca(Map<String, dynamic> result) async {
     return await tasquesCollection.add(result).catchError(
           (error) => print("Error a l'afegir tasca: $error"),
