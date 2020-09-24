@@ -39,6 +39,11 @@
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
 
+      <intent-filter>
+        <action android:name="ACTION_SEND" />
+        <category android:name="android.intent.action.SENDTO" />
+      </intent-filter>
+
     </activity>
 
     <!-- Don't delete the meta-data below.

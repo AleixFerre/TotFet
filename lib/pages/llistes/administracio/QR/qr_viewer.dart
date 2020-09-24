@@ -45,10 +45,11 @@ class _QRViewerState extends State<QRViewer> {
           IconButton(
             icon: Icon(Icons.share),
             onPressed: () async {
-              // TODO: AIXO NO SE PERQUÈ NO FUNCIONA!!
-              // Diu que la funció no està implementada, però em surt tot
-              // com si sí que es pogués. WTF
-              Share.share('check out my website https://example.com');
+              Share.share(
+                "Uneix-te a la meva llista amb el codi: ${widget.id}\n" +
+                    "Posa aquest codi a la pestanya d'unir-se de la app.\n" +
+                    "-- Equip de TotFet --",
+              );
             },
           ),
         ],
