@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Tipus/TipusEmojis.dart';
 
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
@@ -205,12 +206,16 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       items: Tipus.values
                           .map<DropdownMenuItem<String>>((Tipus value) {
                         return DropdownMenuItem<String>(
-                          value: value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1),
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          value: tipusToString(value),
+                          child: Row(
+                            children: [
+                              TipusEmojis(tipus: tipusToString(value)).toIcon(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(tipusToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (String newValue) {
@@ -234,12 +239,16 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       items: Prioritat.values
                           .map<DropdownMenuItem<String>>((Prioritat value) {
                         return DropdownMenuItem<String>(
-                          value: value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1),
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          value: prioritatToString(value),
+                          child: Row(
+                            children: [
+                              prioritatIcon(value),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(prioritatToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (String newValue) {

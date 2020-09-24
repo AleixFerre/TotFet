@@ -255,9 +255,15 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
                         return DropdownMenuItem<Prioritat>(
                           value: value,
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          child: Row(
+                            children: [
+                              prioritatIcon(value),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(prioritatToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (Prioritat newValue) {

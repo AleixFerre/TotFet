@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/models/Report.dart';
+import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/pages/admin/report_bug.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/constants.dart';
@@ -191,6 +192,16 @@ class MyDrawer extends StatelessWidget {
                   if (report != null) {
                     await DatabaseService().afegirReport(report);
                     print("Informe enviat correctament!");
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Text("L'informe s'ha enviat correctament."),
+                          children: [Text(tipusReportDescripcio(report.tipus))],
+                          contentPadding: EdgeInsets.all(24),
+                        );
+                      },
+                    );
                   }
                 },
                 child: Row(

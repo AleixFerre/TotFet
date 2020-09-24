@@ -206,12 +206,16 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       items: Prioritat.values
                           .map<DropdownMenuItem<String>>((Prioritat value) {
                         return DropdownMenuItem<String>(
-                          value: value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1),
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          value: prioritatToString(value),
+                          child: Row(
+                            children: [
+                              prioritatIcon(value),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(prioritatToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (String newValue) {

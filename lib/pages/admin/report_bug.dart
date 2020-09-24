@@ -69,7 +69,7 @@ class _ReportBugState extends State<ReportBug> {
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {
-                      return "La descripcio de l'informe és massa llarga (max. 255 caràcters)";
+                      return "La descripció de l'informe és massa llarga (max. 255 caràcters)";
                     }
                     return null;
                   },
@@ -81,7 +81,7 @@ class _ReportBugState extends State<ReportBug> {
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra la descripcio de l\'informe',
+                    labelText: 'Entra la descripció de l\'informe',
                     counterText: "${report.descripcio?.length ?? 0}/255",
                   ),
                 ),
@@ -91,7 +91,7 @@ class _ReportBugState extends State<ReportBug> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un tipus de producte"),
+                    Text("Selecciona un tipus de l'informe"),
                     DropdownButton<TipusReport>(
                       hint: Text("Escolleix un tipus"),
                       value: report.tipus,
@@ -100,9 +100,16 @@ class _ReportBugState extends State<ReportBug> {
                               (TipusReport value) {
                         return DropdownMenuItem<TipusReport>(
                           value: value,
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          child: Row(
+                            children: [
+                              tipusReportIcon(value),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(value.toString().substring(
+                                  value.toString().indexOf('.') + 1)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (TipusReport newValue) {

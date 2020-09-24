@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:totfet/models/Tipus/TipusEmojis.dart';
 
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
@@ -254,9 +255,15 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           .map<DropdownMenuItem<Tipus>>((Tipus value) {
                         return DropdownMenuItem<Tipus>(
                           value: value,
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          child: Row(
+                            children: [
+                              TipusEmojis(tipus: tipusToString(value)).toIcon(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(tipusToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (Tipus newValue) {
@@ -281,9 +288,15 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
                         return DropdownMenuItem<Prioritat>(
                           value: value,
-                          child: Text(value
-                              .toString()
-                              .substring(value.toString().indexOf('.') + 1)),
+                          child: Row(
+                            children: [
+                              prioritatIcon(value),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(prioritatToString(value)),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (Prioritat newValue) {

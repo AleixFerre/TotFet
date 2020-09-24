@@ -17,8 +17,8 @@ class TipusEmojis {
     "Salut": Icons.spa,
     "Esports": Icons.sports_soccer,
     "Jocs": Icons.sports_esports,
-    "Altres": Icons.device_unknown,
-    null: Icons.device_unknown,
+    "Altres": Icons.help_outline,
+    null: Icons.help_outline,
   };
 
   Icon toIcon() {
