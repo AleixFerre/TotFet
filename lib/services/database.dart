@@ -220,6 +220,7 @@ class DatabaseService {
       llistesCollection.get(),
       compresCollection.get(),
       tasquesCollection.get(),
+      reportsCollection.get(),
     ]);
   }
 

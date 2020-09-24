@@ -60,6 +60,7 @@ class AdminPanelView extends StatelessWidget {
     int nLlistes = data[1].docs.length;
     int nCompres = data[2].docs.length;
     int nTasques = data[3].docs.length;
+    int nInformes = data[4].docs.length;
 
     TableRow buildTableRow(String titol, int quantitat) {
       return TableRow(
@@ -94,6 +95,7 @@ class AdminPanelView extends StatelessWidget {
           buildTableRow("Nombre de llistes", nLlistes),
           buildTableRow("Nombre de compres", nCompres),
           buildTableRow("Nombre de tasques", nTasques),
+          buildTableRow("Nombre d'informes", nInformes),
         ],
         // Expandible...
         // RECORDAR QUE TINC TOTA LA INFORMACIÓ A LA TAULA PER FER SERVIR
