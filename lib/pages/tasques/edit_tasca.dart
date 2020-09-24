@@ -127,7 +127,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Entra el nom de la tasca...',
-                    counterText: "${model['nom'].length}/30",
+                    counterText: "${model['nom']?.length ?? 0}/30",
                   ),
                 ),
               ),
@@ -150,8 +150,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     });
                   },
                   decoration: InputDecoration(
-                    counterText:
-                        "${model['descripcio'] == null ? 0 : model['descripcio'].length}/255",
+                    counterText: "${model['descripcio']?.length ?? 0}/255",
                     labelText: 'Entra la descripcio de la tasca',
                   ),
                 ),

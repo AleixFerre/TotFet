@@ -146,8 +146,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Entra el nom de la tasca',
-                    counterText:
-                        "${tasca.nom == null ? 0 : tasca.nom.length}/20",
+                    counterText: "${tasca.nom?.length ?? 0}/20",
                   ),
                 ),
               ),
@@ -169,8 +168,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     });
                   },
                   decoration: InputDecoration(
-                    counterText:
-                        "${tasca.descripcio == null ? 0 : tasca.descripcio.length}/255",
+                    counterText: "${tasca.descripcio?.length ?? 0}/255",
                     labelText: 'Entra la descripcio de la tasca',
                   ),
                 ),

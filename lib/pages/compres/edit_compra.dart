@@ -129,7 +129,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Entra el nom del producte...',
-                    counterText: "${model['nom'].length}/30",
+                    counterText: "${model['nom']?.length ?? 0}/30",
                   ),
                 ),
               ),

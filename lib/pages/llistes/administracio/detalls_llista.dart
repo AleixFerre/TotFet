@@ -67,7 +67,10 @@ class LlistaDetalls extends StatelessWidget {
                           SizedBox(
                             width: 5,
                           ),
-                          Icon(Icons.verified),
+                          Tooltip(
+                            message: "Administrador",
+                            child: Icon(Icons.build),
+                          ),
                         ],
                       ),
                     Expanded(

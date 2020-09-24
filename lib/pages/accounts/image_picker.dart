@@ -84,6 +84,18 @@ class _ImageCaptureState extends State<ImageCapture> {
       appBar: AppBar(
         title: Text("Editar foto de perfil"),
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue[400],
+                Colors.blue[900],
+              ],
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.add_photo_alternate),
@@ -106,23 +118,32 @@ class _ImageCaptureState extends State<ImageCapture> {
           children: [
             if (firstTime)
               if (mostrarInicials)
-                CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  radius: 100,
-                  child: Text(
-                    Usuari.inicials(widget.nom),
-                    style: TextStyle(fontSize: 100),
+                Hero(
+                  tag: "ImgPerfil",
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    radius: 100,
+                    child: Text(
+                      Usuari.inicials(widget.nom),
+                      style: TextStyle(fontSize: 100),
+                    ),
                   ),
                 )
               else
-                Image.network(
-                  _imageFile.path,
-                  height: 200,
+                Hero(
+                  tag: "ImgPerfil",
+                  child: Image.network(
+                    _imageFile.path,
+                    height: 200,
+                  ),
                 )
             else
-              Image.file(
-                _imageFile,
-                height: 200,
+              Hero(
+                tag: "ImgPerfil",
+                child: Image.file(
+                  _imageFile,
+                  height: 200,
+                ),
               ),
             SizedBox(
               height: 30,

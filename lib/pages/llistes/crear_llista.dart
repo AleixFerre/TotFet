@@ -64,8 +64,7 @@ class _CrearLlistaState extends State<CrearLlista> {
                     });
                   },
                   decoration: InputDecoration(
-                    counterText:
-                        "${llista.nom == null ? 0 : llista.nom.length}/15",
+                    counterText: "${llista.nom?.length ?? 0}/15",
                     labelText: 'Entra el nom de la llista',
                   ),
                 ),
@@ -92,8 +91,7 @@ class _CrearLlistaState extends State<CrearLlista> {
                     });
                   },
                   decoration: InputDecoration(
-                    counterText:
-                        "${llista.descripcio == null ? "0" : llista.descripcio.length}/255",
+                    counterText: "${llista.descripcio?.length ?? 0}/255",
                     labelText: 'Entra la descripció de la llista',
                   ),
                 ),

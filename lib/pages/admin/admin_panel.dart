@@ -71,13 +71,14 @@ class AdminPanelView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-                child: Text(
-              "$quantitat",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+              child: Text(
+                "$quantitat",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )),
+            ),
           ),
         ],
       );

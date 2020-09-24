@@ -111,23 +111,26 @@ class _PerfilState extends State<Perfil> {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: FlatButton(
-                            onPressed: () async {
-                              String avatarFilePath = await usuari.avatarFile;
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (ctx) => ImageCapture(
-                                    imgPath: avatarFilePath,
-                                    nom: usuari.nom,
+                        Hero(
+                          tag: "ImgPerfil",
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: FlatButton(
+                              onPressed: () async {
+                                String avatarFilePath = await usuari.avatarFile;
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ImageCapture(
+                                      imgPath: avatarFilePath,
+                                      nom: usuari.nom,
+                                    ),
                                   ),
-                                ),
-                              );
-                              setState(() {});
-                            },
-                            child: usuari.avatar,
+                                );
+                                setState(() {});
+                              },
+                              child: usuari.avatar,
+                            ),
                           ),
                         ),
                         Expanded(
@@ -148,9 +151,15 @@ class _PerfilState extends State<Perfil> {
                                   ),
                                 ),
                                 usuari.isAdmin
-                                    ? Icon(
-                                        Icons.verified,
-                                        color: Colors.indigo[300],
+                                    ? Padding(
+                                        padding: EdgeInsets.only(left: 8.0),
+                                        child: Tooltip(
+                                          message: "Administrador",
+                                          child: Icon(
+                                            Icons.build,
+                                            color: Colors.indigo[300],
+                                          ),
+                                        ),
                                       )
                                     : Container(),
                               ],

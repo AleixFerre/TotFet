@@ -152,7 +152,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                           });
                         },
                         decoration: InputDecoration(
-                          counterText: "${id.length}/20",
+                          counterText: "${id?.length ?? 0}/20",
                           labelText: 'Entra la ID de la llista',
                         ),
                       ),

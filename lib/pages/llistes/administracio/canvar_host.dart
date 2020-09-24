@@ -42,6 +42,19 @@ class _CanviarHostState extends State<CanviarHost> {
             return Scaffold(
               appBar: AppBar(
                 title: Text("Canviar de host"),
+                centerTitle: true,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        Colors.blue[400],
+                        Colors.blue[900],
+                      ],
+                    ),
+                  ),
+                ),
               ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -42,6 +42,19 @@ class _ExpulsarDeLlistaState extends State<ExpulsarDeLlista> {
             return Scaffold(
               appBar: AppBar(
                 title: Text("Expulsar un membre"),
+                centerTitle: true,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        Colors.blue[400],
+                        Colors.blue[900],
+                      ],
+                    ),
+                  ),
+                ),
               ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),

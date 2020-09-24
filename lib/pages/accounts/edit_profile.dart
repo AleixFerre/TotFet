@@ -59,7 +59,7 @@ class _EditPerfilState extends State<EditPerfil> {
                   decoration: InputDecoration(
                     hintText: "Introdueix el teu nom",
                     labelText: 'Introdueix el teu nom...',
-                    counterText: "${model.nom.length}/15",
+                    counterText: "${model.nom?.length ?? 0}/15",
                   ),
                 ),
               ),
@@ -82,8 +82,7 @@ class _EditPerfilState extends State<EditPerfil> {
                   decoration: InputDecoration(
                     hintText: "La meva biografia.",
                     labelText: 'Introdueix una descripció del teu perfil...',
-                    counterText:
-                        "${model.bio == null ? 0 : model.bio.length}/255",
+                    counterText: "${model.bio?.length ?? 0}/255",
                   ),
                 ),
               ),
