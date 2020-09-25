@@ -35,7 +35,7 @@ class SortirSessio extends StatelessWidget {
                 FlatButton(
                   child: Text(
                     'Sortir',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: Colors.red),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(true);

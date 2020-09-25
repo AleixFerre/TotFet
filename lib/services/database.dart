@@ -17,10 +17,12 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('tasques');
   final CollectionReference llistesCollection =
       FirebaseFirestore.instance.collection('llistes');
-  final CollectionReference reportsCollection =
-      FirebaseFirestore.instance.collection('reports');
   final CollectionReference llistesUsuarisCollection =
       FirebaseFirestore.instance.collection('llistes_usuaris');
+  final CollectionReference reportsCollection =
+      FirebaseFirestore.instance.collection('reports');
+  final CollectionReference appCollection =
+      FirebaseFirestore.instance.collection('app');
 
   Future<void> updateUserData(Usuari usuari) async {
     return await usersCollection.doc(uid).set(usuari.toDBMap());
@@ -228,6 +230,10 @@ class DatabaseService {
     QuerySnapshot refUsuaris =
         await llistesUsuarisCollection.where("llista", isEqualTo: id).get();
     return await getUsersData(Usuari.fromRefDB(refUsuaris));
+  }
+
+  Future<DocumentSnapshot> getCurrentVersion() async {
+    return await appCollection.doc("current_version").get();
   }
 
   Future<QuerySnapshot> getUsersData(List<String> idUsuaris) {

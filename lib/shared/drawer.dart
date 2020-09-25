@@ -5,8 +5,10 @@ import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/pages/admin/report_bug.dart';
 import 'package:totfet/services/database.dart';
+import 'package:totfet/services/versionControl.dart';
 import 'package:totfet/shared/constants.dart';
 import 'package:totfet/shared/sortir_sessio.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyDrawer extends StatelessWidget {
   final Function canviarFinestra;
@@ -211,6 +213,101 @@ class MyDrawer extends StatelessWidget {
                       width: 20,
                     ),
                     Text("Informa d'un error"),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
+                ),
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 1,
+                disabledTextColor: disabledTextColor,
+                disabledColor: disabledColor,
+                color: color,
+                onPressed: () async {
+                  // Comprovar actualitzacions amb el nuvol
+                  Map<String, dynamic> info =
+                      await VersionControlService().checkUpdates();
+
+                  // Si hi ha una actualització mostrar un cartell per
+                  if (info != null) {
+                    // Confirmar si es vol anar a la pestanya del drive.
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Existeix una versió més actual!'),
+                          content: Text(
+                            'Versió actual: $versionNumber\n' +
+                                'Versió nova: ${info['tag']}.\n' +
+                                "Vols actualitzar a la nova versió?",
+                          ),
+                          actions: [
+                            FlatButton(
+                              child: Text(
+                                'Cancel·lar',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                'Actualitzar',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              onPressed: () async {
+                                String url = info['url'];
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => SimpleDialog(
+                                      titlePadding: const EdgeInsets.all(24),
+                                      title:
+                                          Text("No es pot obrir l'enllaç :("),
+                                    ),
+                                  );
+                                }
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog<bool>(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          title: Text("Yey! Tot al dia! 🎉🎉🎉"),
+                          children: [
+                            Text(
+                              "No existeix cap versió més actual de l'aplicació.",
+                            )
+                          ],
+                          contentPadding: EdgeInsets.all(24),
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.update),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Comprova actualitzacions"),
                     Expanded(
                       child: Container(),
                     ),
