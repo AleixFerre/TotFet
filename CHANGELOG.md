@@ -1,6 +1,7 @@
 # CHANGELOG
 
 This document displays the upgrades, new features and bugfixes of all the released versions of the app.
+
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
 ## CHANGELOG - v0.4.5-beta
