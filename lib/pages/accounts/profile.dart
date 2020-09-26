@@ -235,8 +235,9 @@ class _PerfilState extends State<Perfil> {
                                   Text(
                                     "Crear",
                                     style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w300),
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w300,
+                                    ),
                                   ),
                                 ],
                               ),

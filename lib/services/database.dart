@@ -113,6 +113,10 @@ class DatabaseService {
     return await compresCollection.doc(compraKey).delete();
   }
 
+  Future<void> esborrarInforme(String informeKey) async {
+    return await reportsCollection.doc(informeKey).delete();
+  }
+
   Future<void> esborrarTasca(String tascaKey) async {
     return await tasquesCollection.doc(tascaKey).delete();
   }

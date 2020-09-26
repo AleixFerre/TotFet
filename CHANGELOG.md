@@ -4,6 +4,12 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.4.6-beta
+
+- Implementat tot el sistema de reports correctament
+- Ara es guarda l'usuari que ha guardat el report
+- Ara es pot veure tots els reports dins de l'area d'ADMIN
+
 ## CHANGELOG - v0.4.5-beta
 
 - Afegit nou sistema d'informes

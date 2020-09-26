@@ -1,10 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:totfet/models/Report.dart';
+import 'package:totfet/pages/admin/report_list.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
 
-class AdminPanel extends StatelessWidget {
+class AdminPanel extends StatefulWidget {
+  @override
+  _AdminPanelState createState() => _AdminPanelState();
+}
+
+class _AdminPanelState extends State<AdminPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +43,10 @@ class AdminPanel extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            return AdminPanelView(data: snapshot.data);
+            return AdminPanelView(
+              data: snapshot.data,
+              rebuildParent: () => setState(() {}),
+            );
           }
 
           return Scaffold(
@@ -52,8 +63,8 @@ class AdminPanel extends StatelessWidget {
 
 class AdminPanelView extends StatelessWidget {
   final List<QuerySnapshot> data;
-  AdminPanelView({this.data});
-
+  final Function rebuildParent;
+  AdminPanelView({this.data, this.rebuildParent});
   @override
   Widget build(BuildContext context) {
     int nUsuaris = data[0].docs.length;
@@ -87,19 +98,60 @@ class AdminPanelView extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Table(
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        border: TableBorder.all(),
+      child: Column(
         children: [
-          buildTableRow("Nombre d'usuaris", nUsuaris),
-          buildTableRow("Nombre de llistes", nLlistes),
-          buildTableRow("Nombre de compres", nCompres),
-          buildTableRow("Nombre de tasques", nTasques),
-          buildTableRow("Nombre d'informes", nInformes),
+          Table(
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            border: TableBorder.all(),
+            children: [
+              buildTableRow("Nombre d'usuaris", nUsuaris),
+              buildTableRow("Nombre de llistes", nLlistes),
+              buildTableRow("Nombre de compres", nCompres),
+              buildTableRow("Nombre de tasques", nTasques),
+              buildTableRow("Nombre d'informes", nInformes),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            elevation: 3,
+            onPressed: () async {
+              List<Report> informes = data[4]
+                  .docs
+                  .map((e) => Report.fromDB(e.data(), e.id))
+                  .toList();
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ReportList(informes: informes),
+                ),
+              );
+              rebuildParent();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    "images/report.svg",
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Informes",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
-        // Expandible...
-        // RECORDAR QUE TINC TOTA LA INFORMACIÓ A LA TAULA PER FER SERVIR
-        // NO NOMÉS LA MIDA!!
       ),
     );
   }

@@ -40,3 +40,8 @@ String tipusReportDescripcio(TipusReport tipus) {
 String tipusReportToString(TipusReport p) {
   return p.toString().substring(p.toString().indexOf('.') + 1);
 }
+
+TipusReport tipusReportfromString(String s) {
+  return TipusReport.values.firstWhere(
+      (e) => e.toString().split('.')[1].toUpperCase() == s.toUpperCase());
+}

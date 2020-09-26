@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:totfet/models/Prioritat/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
+import 'package:totfet/services/auth.dart';
 
 class ReportBug extends StatefulWidget {
   @override
@@ -160,6 +161,7 @@ class _ReportBugState extends State<ReportBug> {
                 color: Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
+                    report.autor = AuthService().userId;
                     Navigator.pop(context, report);
                   }
                 },
