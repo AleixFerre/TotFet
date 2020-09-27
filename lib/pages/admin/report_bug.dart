@@ -12,7 +12,7 @@ class ReportBug extends StatefulWidget {
 class _ReportBugState extends State<ReportBug> {
   final _formKey = GlobalKey<FormState>();
 
-  Report report = new Report();
+  Report report = Report.perDefecte(AuthService().userId);
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +161,6 @@ class _ReportBugState extends State<ReportBug> {
                 color: Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    report.autor = AuthService().userId;
                     Navigator.pop(context, report);
                   }
                 },

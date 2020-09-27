@@ -65,13 +65,14 @@ class _ReportListState extends State<ReportList> {
                     overflow: TextOverflow.fade,
                     style: TextStyle(fontSize: 20),
                   ),
-                  subtitle: informe.descripcio != ""
-                      ? Text(
-                          informe.descripcio,
-                          overflow: TextOverflow.fade,
-                          style: TextStyle(fontSize: 20),
-                        )
-                      : null,
+                  subtitle:
+                      informe.descripcio == "" || informe.descripcio == null
+                          ? null
+                          : Text(
+                              informe.descripcio,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(fontSize: 20),
+                            ),
                   leading: tipusReportIcon(informe.tipus),
                   trailing: prioritatIcon(informe.prioritat),
                 ),

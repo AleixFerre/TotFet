@@ -86,9 +86,7 @@ class Compra {
   Map<String, dynamic> toDBMap() {
     return {
       'nom': nom,
-      'tipus': tipus == null
-          ? "Altres"
-          : tipus.toString().substring(tipus.toString().indexOf('.') + 1),
+      'tipus': tipus.toString().substring(tipus.toString().indexOf('.') + 1),
       'quantitat': quantitat,
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
@@ -129,6 +127,7 @@ class Compra {
       dataCreacio: Timestamp.fromDate(DateTime.now()),
       idCreador: _idCreador,
       prioritat: Prioritat.Normal,
+      tipus: Tipus.Altres,
       quantitat: 1,
       idLlista: _idLlista,
       comprat: false,

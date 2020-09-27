@@ -18,6 +18,14 @@ class Report {
     this.autor,
   });
 
+  static Report perDefecte(String autor) {
+    return Report(
+      prioritat: Prioritat.Normal,
+      tipus: TipusReport.Error,
+      autor: autor,
+    );
+  }
+
   Map<String, dynamic> toDBMap() {
     return {
       "titol": titol,
@@ -33,8 +41,11 @@ class Report {
       id: id,
       titol: data['titol'],
       descripcio: data['descripcio'],
-      tipus: tipusReportfromString(data['tipus']),
-      prioritat: prioritatfromString(data['prioritat']),
+      tipus:
+          data['tipus'] == null ? null : tipusReportfromString(data['tipus']),
+      prioritat: data['prioritat'] == null
+          ? null
+          : prioritatfromString(data['prioritat']),
       autor: data['autor'],
     );
   }
