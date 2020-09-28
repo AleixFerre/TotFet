@@ -135,71 +135,74 @@ class LlistaDetalls extends StatelessWidget {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Nom: ${llista.nom}",
-                style: TextStyle(fontSize: 25),
-              ),
-              Divider(),
-              Text(
-                "Descripció: ${llista.descripcio ?? "Sense descripció"}",
-                style: TextStyle(fontSize: 25),
-              ),
-              Divider(
-                height: 40,
-              ),
-              Center(
-                child: Text(
-                  "LLISTA D'USUARIS",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Nom: ${llista.nom}",
+                  style: TextStyle(fontSize: 25),
+                ),
+                Divider(),
+                Text(
+                  "Descripció: ${llista.descripcio ?? "Sense descripció"}",
+                  style: TextStyle(fontSize: 25),
+                ),
+                Divider(
+                  height: 40,
+                ),
+                Center(
+                  child: Text(
+                    "LLISTA D'USUARIS",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              SingleChildScrollView(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height - 260,
-                  child: ListView.builder(
-                    itemCount: llistaUsuaris.length,
-                    itemBuilder: (BuildContext context, int index) => Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      child: FlatButton(
-                        onPressed: () =>
-                            _mostrarPerfilBottomSheet(llistaUsuaris[index]),
-                        child: ListTile(
-                          leading: Usuari.getAvatar(llistaUsuaris[index].nom,
-                              llistaUsuaris[index].uid, false),
-                          title: Text(
-                            llistaUsuaris[index].nom +
-                                etsTu(llistaUsuaris[index].uid),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: (llistaUsuaris[index].uid ==
-                                      AuthService().userId)
-                                  ? FontWeight.w700
-                                  : FontWeight.normal,
+                SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height - 260,
+                    child: ListView.builder(
+                      itemCount: llistaUsuaris.length,
+                      itemBuilder: (BuildContext context, int index) => Card(
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
+                        child: FlatButton(
+                          onPressed: () =>
+                              _mostrarPerfilBottomSheet(llistaUsuaris[index]),
+                          child: ListTile(
+                            leading: Usuari.getAvatar(llistaUsuaris[index].nom,
+                                llistaUsuaris[index].uid, false),
+                            title: Text(
+                              llistaUsuaris[index].nom +
+                                  etsTu(llistaUsuaris[index].uid),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: (llistaUsuaris[index].uid ==
+                                        AuthService().userId)
+                                    ? FontWeight.w700
+                                    : FontWeight.normal,
+                              ),
                             ),
+                            trailing:
+                                llistaUsuaris[index].uid == llista.idCreador
+                                    ? Icon(Icons.verified_user)
+                                    : null,
                           ),
-                          trailing: llistaUsuaris[index].uid == llista.idCreador
-                              ? Icon(Icons.verified_user)
-                              : null,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

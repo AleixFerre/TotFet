@@ -4,6 +4,11 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.4.7-beta
+
+- Arreglat el Scroll de la escena "Detalls de la llista"
+- Arreglat el Scroll del drawer
+
 ## CHANGELOG - v0.4.6-beta
 
 - Implementat tot el sistema de reports correctament
