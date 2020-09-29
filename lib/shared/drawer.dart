@@ -333,7 +333,8 @@ class MyDrawer extends StatelessWidget {
                           Image.asset("images/favicon.png", height: 50),
                       applicationName: appName,
                       applicationVersion: versionNumber,
-                      applicationLegalese: 'Desenvolupat per $appCreator',
+                      applicationLegalese:
+                          'Desenvolupat per $appCreator\n\nCC0 SVG Icons by unDraw',
                     );
                   },
                   child: Row(

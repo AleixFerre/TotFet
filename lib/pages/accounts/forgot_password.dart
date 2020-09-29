@@ -62,14 +62,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 0,
+          ),
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(height: 20),

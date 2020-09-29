@@ -235,7 +235,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                     },
                   );
 
-                  // Si esborrar és null o false, llavors no es fa res
+                  // Si sortir és null o false, llavors no es fa res
                   if (sortir == true) {
                     await DatabaseService()
                         .sortirUsuarideLlista(llista.id, AuthService().userId);

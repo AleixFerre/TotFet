@@ -67,6 +67,8 @@ class _ReportBugState extends State<ReportBug> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  minLines: 1,
+                  maxLines: 5,
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {

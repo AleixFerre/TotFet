@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Ban.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -30,6 +31,30 @@ class DatabaseService {
 
   Future<void> updateLlista(Llista llista) async {
     return await llistesCollection.doc(llista.id).set(llista.toDBMap());
+  }
+
+  Future<void> ferAdmin(String uid) async {
+    return await usersCollection.doc(uid).update(
+      {"isAdmin": true},
+    );
+  }
+
+  Future<void> revocarAdmin(String uid) async {
+    return await usersCollection.doc(uid).update(
+      {"isAdmin": false},
+    );
+  }
+
+  Future<void> banejarUsuari(Ban ban) async {
+    return await usersCollection.doc(ban.idUsuari).update(
+      {"ban": ban.toDBMap()},
+    );
+  }
+
+  Future<void> desbanejarUsuari(String uid) async {
+    return await usersCollection.doc(uid).update(
+      {"ban": null},
+    );
   }
 
   Future<void> addCompra(Map<String, dynamic> result) async {

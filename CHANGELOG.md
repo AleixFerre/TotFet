@@ -4,6 +4,15 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.4.8-beta
+
+- Ara al panell d'ADMIN es poden veure els tres botons
+- Botó d'informes: mostren i permeten tancar informes
+- Botó d'estadistiques: mostra totes les mides
+- Botó d'usuaris: mostra una llista d'usuaris i permet fer admin i banejar
+- Ara els usuaris banejats no poden entrar a la app. Només poden tancar sessió i intentar-ho amb una altra conta
+- Ara els camps de text amb 255 caràcters són expandibles a 5 linies
+
 ## CHANGELOG - v0.4.7-beta
 
 - Arreglat el Scroll de la escena "Detalls de la llista"

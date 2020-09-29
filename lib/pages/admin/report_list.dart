@@ -3,6 +3,7 @@ import 'package:totfet/models/Prioritat/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/services/database.dart';
+import 'package:totfet/shared/llista_buida.dart';
 
 class ReportList extends StatefulWidget {
   final List<Report> informes;
@@ -38,47 +39,49 @@ class _ReportListState extends State<ReportList> {
           ),
         ),
       ),
-      body: ListView.builder(
-          padding: EdgeInsets.all(8),
-          itemCount: informes.length,
-          itemBuilder: (context, index) {
-            Report informe = informes[index];
-            return Dismissible(
-              key: GlobalKey(),
-              background: Container(
-                color: Colors.red,
-                child: Center(
-                  child: Icon(Icons.delete),
-                ),
-              ),
-              onDismissed: (direction) {
-                DatabaseService().esborrarInforme(informe.id);
-              },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-                elevation: 3,
-                child: ListTile(
-                  title: Text(
-                    informe.titol,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(fontSize: 20),
+      body: informes.length == 0
+          ? LlistaBuida(esTaronja: false)
+          : ListView.builder(
+              padding: EdgeInsets.all(8),
+              itemCount: informes.length,
+              itemBuilder: (context, index) {
+                Report informe = informes[index];
+                return Dismissible(
+                  key: GlobalKey(),
+                  background: Container(
+                    color: Colors.red,
+                    child: Center(
+                      child: Icon(Icons.delete),
+                    ),
                   ),
-                  subtitle:
-                      informe.descripcio == "" || informe.descripcio == null
-                          ? null
-                          : Text(
-                              informe.descripcio,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                  leading: tipusReportIcon(informe.tipus),
-                  trailing: prioritatIcon(informe.prioritat),
-                ),
-              ),
-            );
-          }),
+                  onDismissed: (direction) {
+                    DatabaseService().esborrarInforme(informe.id);
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    elevation: 3,
+                    child: ListTile(
+                      title: Text(
+                        informe.titol,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      subtitle:
+                          informe.descripcio == "" || informe.descripcio == null
+                              ? null
+                              : Text(
+                                  informe.descripcio,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                      leading: tipusReportIcon(informe.tipus),
+                      trailing: prioritatIcon(informe.prioritat),
+                    ),
+                  ),
+                );
+              }),
     );
   }
 }
