@@ -4,13 +4,16 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
-## CHANGELOG - v0.4.9-beta
+## CHANGELOG - v0.5.0-beta
 
 - Ara es marquen els camps obligatoris amb un asterisc
 - Arreglat un petit bug al enviar el correu de recuperació de contrasenyes
 - S'ha millorat la estètica general de la vista de detalls de compra i tasca
 - Ara es poden veure les icones dels tipus estàtics als detalls
 - Ara es poden veure les fotos de perfil de la gent als detalls
+- Cambiat el disseny per ajustar-se a la nova estètica de menus de la pantalla de Detalls de la Llista
+- Minim canvi al Padding d'Editar Perfil
+- Ara el seleccionador de dates i temps estimat de Crear i Editar Tasca es mostren del color corresponent
 
 ## CHANGELOG - v0.4.8-beta
 

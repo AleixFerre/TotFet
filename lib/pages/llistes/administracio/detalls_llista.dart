@@ -98,6 +98,35 @@ class LlistaDetalls extends StatelessWidget {
     }
 
     Scaffold buildDetalls(List<Usuari> llistaUsuaris) {
+      Column showParam(String nom, String param) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "$nom:",
+              style: TextStyle(fontSize: 15),
+            ),
+            if (param == null || param == "")
+              Text(
+                "No assignat",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w300,
+                  fontStyle: FontStyle.italic,
+                ),
+              )
+            else
+              Text(
+                param,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        );
+      }
+
       return Scaffold(
         appBar: AppBar(
           title: Text("Detalls de la llista"),
@@ -137,19 +166,12 @@ class LlistaDetalls extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Nom: ${llista.nom}",
-                  style: TextStyle(fontSize: 25),
-                ),
-                Divider(),
-                Text(
-                  "Descripció: ${llista.descripcio ?? "Sense descripció"}",
-                  style: TextStyle(fontSize: 25),
-                ),
+                showParam("Nom", llista.nom),
+                showParam("Descripció", llista.descripcio),
                 Divider(
                   height: 40,
                 ),
@@ -157,7 +179,7 @@ class LlistaDetalls extends StatelessWidget {
                   child: Text(
                     "LLISTA D'USUARIS",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -184,7 +206,7 @@ class LlistaDetalls extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 25,
                                 fontWeight: (llistaUsuaris[index].uid ==
                                         AuthService().userId)
                                     ? FontWeight.w700

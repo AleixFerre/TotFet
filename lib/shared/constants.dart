@@ -1,6 +1,6 @@
 // Metadata de la app
 
-const int versionIndex = 8;
-const String versionNumber = "v0.4.8-beta";
+const int versionIndex = 50; // Index de la versió estil | 0.5.0 -> 050 = 50
+const String versionNumber = "v0.5.0-beta";
 const String appName = "TotFet";
 const String appCreator = "Aleix Ferré";

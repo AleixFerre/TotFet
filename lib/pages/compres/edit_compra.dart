@@ -286,6 +286,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
+                          helpText: "SELECCIONA UNA DATA",
+                          confirmText: "CONFIRMAR",
+                          cancelText: "CANCEL·LAR",
                           initialDate: model['dataPrevista'] == null
                               ? DateTime.now()
                               : DateTime.fromMicrosecondsSinceEpoch(

@@ -315,12 +315,29 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
+                          helpText: "SELECCIONA UNA DATA",
+                          confirmText: "CONFIRMAR",
+                          cancelText: "CANCEL·LAR",
                           initialDate: tasca.dataPrevista == null
                               ? DateTime.now()
                               : DateTime.fromMillisecondsSinceEpoch(
                                   tasca.dataPrevista.millisecondsSinceEpoch),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2100),
+                          builder: (BuildContext context, Widget child) {
+                            return Theme(
+                              data: ThemeData.dark().copyWith(
+                                colorScheme: ColorScheme.dark(
+                                  primary: Colors.orange[900],
+                                  onPrimary: Colors.white,
+                                  surface: Colors.orange,
+                                  onSurface: Colors.black87,
+                                ),
+                                dialogBackgroundColor: Colors.orange[50],
+                              ),
+                              child: child,
+                            );
+                          },
                         );
                         setState(() {
                           if (picked == null) {
@@ -360,11 +377,24 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                         final picked = await showDialog<int>(
                           context: context,
                           builder: (BuildContext context) {
-                            return new NumberPickerDialog.integer(
-                              title: Text("Temps estimat en hores"),
-                              minValue: 1,
-                              maxValue: 100,
-                              initialIntegerValue: tasca.tempsEstimat ?? 1,
+                            return Theme(
+                              data: ThemeData.light().copyWith(
+                                accentColor: Colors.orange[900],
+                              ),
+                              child: NumberPickerDialog.integer(
+                                confirmWidget: Text(
+                                  "CONFIRMAR",
+                                  style: TextStyle(color: Colors.orange),
+                                ),
+                                cancelWidget: Text(
+                                  "CANCEL·LAR",
+                                  style: TextStyle(color: Colors.orange),
+                                ),
+                                title: Text("Temps estimat en hores"),
+                                minValue: 1,
+                                maxValue: 100,
+                                initialIntegerValue: tasca.tempsEstimat ?? 1,
+                              ),
                             );
                           },
                         );

@@ -39,7 +39,7 @@ class _EditPerfilState extends State<EditPerfil> {
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(20),
                 child: TextFormField(
                   validator: (value) {
                     value = value.trim();
@@ -64,7 +64,7 @@ class _EditPerfilState extends State<EditPerfil> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(20),
                 child: TextFormField(
                   validator: (value) {
                     value = value.trim();
