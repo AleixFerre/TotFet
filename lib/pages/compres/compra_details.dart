@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Tipus/TipusEmojis.dart';
+import 'package:totfet/models/Usuari.dart';
 
 import 'package:totfet/services/auth.dart';
 import 'package:totfet/pages/compres/edit_compra.dart';
@@ -177,235 +179,284 @@ class CompraDetails extends StatelessWidget {
     ];
 
     return StreamBuilder<DocumentSnapshot>(
-        stream: futureCompres,
-        builder: (BuildContext context,
-            AsyncSnapshot<DocumentSnapshot> snapshotDetails) {
-          if (snapshotDetails.hasError) {
-            print(snapshotDetails.error);
-            return SomeErrorPage(error: snapshotDetails.error);
+      stream: futureCompres,
+      builder: (BuildContext context,
+          AsyncSnapshot<DocumentSnapshot> snapshotDetails) {
+        if (snapshotDetails.hasError) {
+          print(snapshotDetails.error);
+          return SomeErrorPage(error: snapshotDetails.error);
+        }
+        if (snapshotDetails.hasData) {
+          Map<String, dynamic> info = snapshotDetails.data.data();
+          if (info == null) {
+            return Scaffold(
+              body: Loading(
+                msg: "Esborrant compra...",
+                esTaronja: false,
+              ),
+            );
           }
-          if (snapshotDetails.hasData) {
-            Map<String, dynamic> info = snapshotDetails.data.data();
-            if (info == null) {
-              return Scaffold(
-                body: Loading(
-                  msg: "Esborrant compra...",
-                  esTaronja: false,
-                ),
-              );
-            }
 
-            List<String> idUsuaris = [
-              info['idCreador'],
-            ];
+          List<String> idUsuaris = [
+            info['idCreador'],
+          ];
 
-            if (info['idComprador'] != null) {
-              idUsuaris.add(info['idComprador']);
-            }
+          if (info['idComprador'] != null) {
+            idUsuaris.add(info['idComprador']);
+          }
 
-            if (info['idAssignat'] != null) {
-              idUsuaris.add(info['idAssignat']);
-            }
+          if (info['idAssignat'] != null) {
+            idUsuaris.add(info['idAssignat']);
+          }
 
-            return FutureBuilder<QuerySnapshot>(
-                future: DatabaseService().getUsersData(idUsuaris),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    List<QueryDocumentSnapshot> llistaUsuaris =
-                        snapshot.data.docs;
+          return FutureBuilder<QuerySnapshot>(
+            future: DatabaseService().getUsersData(idUsuaris),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                List<QueryDocumentSnapshot> llistaUsuaris = snapshot.data.docs;
 
-                    String getNom(String id) {
-                      if (id == null) return null;
-                      for (QueryDocumentSnapshot doc in llistaUsuaris) {
-                        if (doc.id == id) {
-                          return doc.data()['nom'];
-                        }
-                      }
-                      return null;
+                String getNom(String id) {
+                  if (id == null) return null;
+                  for (QueryDocumentSnapshot doc in llistaUsuaris) {
+                    if (doc.id == id) {
+                      return doc.data()['nom'];
                     }
+                  }
+                  return null;
+                }
 
-                    info['nomCreador'] = getNom(info['idCreador']);
-                    info['nomAssignat'] = getNom(info['idAssignat']);
-                    info['nomComprador'] = getNom(info['idComprador']);
+                info['nomCreador'] = getNom(info['idCreador']);
+                info['nomAssignat'] = getNom(info['idAssignat']);
+                info['nomComprador'] = getNom(info['idComprador']);
 
-                    Compra compra = Compra.fromDB(info);
+                Compra compra = Compra.fromDB(info);
 
-                    String etsTu(String id) {
-                      if (id == AuthService().userId) {
-                        return "(Tu)";
-                      } else {
-                        return "";
-                      }
-                    }
+                String mostrarNom(String id, String nom) {
+                  if (id == null) return null;
 
-                    List<Map<String, dynamic>> opcions = opcionsBase;
-                    if (compra.comprat) {
-                      opcions.addAll(opcionsExtra);
-                    }
+                  if (id == AuthService().userId) {
+                    return "$nom (Tu)";
+                  } else {
+                    return nom;
+                  }
+                }
 
-                    return Scaffold(
-                      appBar: AppBar(
-                        title: Text('Propietats de la compra'),
-                        centerTitle: true,
-                        flexibleSpace: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: <Color>[
-                                Colors.blue[400],
-                                Colors.blue[900],
-                              ],
-                            ),
-                          ),
+                List<Map<String, dynamic>> opcions = opcionsBase;
+                if (compra.comprat) {
+                  opcions.addAll(opcionsExtra);
+                }
+
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Propietats de la compra'),
+                    centerTitle: true,
+                    flexibleSpace: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            Colors.blue[400],
+                            Colors.blue[900],
+                          ],
                         ),
-                        actions: [
-                          PopupMenuButton<int>(
-                            tooltip: "Opcions de la compra",
-                            icon: Icon(Icons.more_vert),
-                            itemBuilder: (BuildContext context) {
-                              return opcions
-                                  .map(
-                                    (Map<String, dynamic> opcio) =>
-                                        PopupMenuItem(
-                                      value: opcions.indexOf(opcio),
-                                      child: Row(
-                                        children: [
-                                          opcio['icon'],
-                                          SizedBox(width: 5),
-                                          Text(opcio['nom']),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList();
-                            },
-                            onSelected: (int index) {
-                              return opcions[index]
-                                  ['function'](compra, context);
-                            },
-                          ),
-                        ],
                       ),
-                      body: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                    actions: [
+                      PopupMenuButton<int>(
+                        tooltip: "Opcions de la compra",
+                        icon: Icon(Icons.more_vert),
+                        itemBuilder: (BuildContext context) {
+                          return opcions
+                              .map(
+                                (Map<String, dynamic> opcio) => PopupMenuItem(
+                                  value: opcions.indexOf(opcio),
+                                  child: Row(
+                                    children: [
+                                      opcio['icon'],
+                                      SizedBox(width: 5),
+                                      Text(opcio['nom']),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList();
+                        },
+                        onSelected: (int index) {
+                          return opcions[index]['function'](compra, context);
+                        },
+                      ),
+                    ],
+                  ),
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          showParam(
+                            "Nom",
+                            compra.nom,
+                            null,
+                          ),
+                          showParam(
+                            "Tipus",
+                            tipusToString(compra.tipus),
+                            TipusEmojis(
+                              tipus: tipusToString(compra.tipus),
+                            ).toIcon(),
+                          ),
+                          showParam(
+                            "Quantitat",
+                            compra.quantitat.toString(),
+                            null,
+                          ),
+                          showParam(
+                            "Prioritat",
+                            prioritatToString(compra.prioritat),
+                            prioritatIcon(compra.prioritat),
+                          ),
+                          showParam(
+                            "Preu estimat",
+                            mostrarPreu(compra.preuEstimat),
+                            null,
+                          ),
+                          showParam(
+                            "Data prevista",
+                            readTimestamp(compra.dataPrevista, false),
+                            null,
+                          ),
+                          showParam(
+                            "Data i hora de creació",
+                            readTimestamp(compra.dataCreacio, true),
+                            null,
+                          ),
+                          showParam(
+                            "Llista",
+                            buscarNom(compra.idLlista),
+                            null,
+                          ),
+                          showParam(
+                            "Creador",
+                            mostrarNom(compra.idCreador, compra.nomCreador),
+                            Usuari.getAvatar(
+                                compra.nomCreador, compra.idCreador, false),
+                          ),
+                          showParam(
+                            "Assignat a",
+                            mostrarNom(compra.idAssignat, compra.nomAssignat),
+                            compra.idAssignat != null
+                                ? Usuari.getAvatar(compra.nomAssignat,
+                                    compra.idAssignat, false)
+                                : null,
+                          ),
+                          showParam(
+                            "Comprat",
+                            compra.comprat ? 'SI' : 'NO',
+                            null,
+                          ),
+                          compra.comprat
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    showParam(
+                                      "Data de compra",
+                                      readTimestamp(compra.dataCompra, true),
+                                      null,
+                                    ),
+                                    showParam(
+                                      "Comprat per",
+                                      mostrarNom(compra.idComprador,
+                                          compra.nomComprador),
+                                      compra.idComprador != null
+                                          ? Usuari.getAvatar(
+                                              compra.nomComprador,
+                                              compra.idComprador,
+                                              false)
+                                          : null,
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                "Nom: ${compra.nom}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Tipus: ${tipusToString(compra.tipus)}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Quantitat: ${compra.quantitat}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Prioritat: ${prioritatToString(compra.prioritat)}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Preu estimat: ${compra.preuEstimat ?? "No assignat"}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Data Prevista: ${readTimestamp(compra.dataPrevista, false) ?? "No assignada"}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Data Creació: ${readTimestamp(compra.dataCreacio, true) ?? "No assignada"}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Creat per: ${compra.nomCreador ?? "No disponible"} ${etsTu(compra.idCreador)}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Llista: ${buscarNom(compra.idLlista) ?? "No disponible"}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              Divider(),
-                              Text(
-                                "Assignat a: ${compra.nomAssignat ?? "Ningú"} ${etsTu(compra.idAssignat)}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              SizedBox(height: 30),
-                              Text(
-                                "Dades de la compra",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Divider(),
-                              Text(
-                                "Comprat: ${compra.comprat ? 'SI' : 'NO'}",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                              compra.comprat
-                                  ? Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Divider(),
-                                        Text(
-                                          "Data Compra: ${readTimestamp(compra.dataCompra, true) ?? "No assignada"}",
-                                          style: TextStyle(fontSize: 25),
-                                        ),
-                                        Divider(),
-                                        Text(
-                                          "Comprat per: ${compra.nomComprador ?? "No disponible"} ${etsTu(compra.idComprador)}",
-                                          style: TextStyle(fontSize: 25),
-                                        ),
-                                      ],
-                                    )
-                                  : Container(),
-                              Divider(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    "ID: $id",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+                                "ID: $id",
+                                style: TextStyle(fontSize: 15),
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
-                    );
-                  }
-                  return Scaffold(
-                    body: Loading(
-                      msg: "Carregant les dades de la compra (2/2)...",
-                      esTaronja: false,
                     ),
-                  );
-                });
-          }
-
-          // Si encara no hi ha dades
-          return Scaffold(
-            body: Loading(
-              msg: "Carregant les dades de la compra (1/2)...",
-              esTaronja: false,
-            ),
+                  ),
+                );
+              }
+              return Scaffold(
+                body: Loading(
+                  msg: "Carregant les dades de la compra (2/2)...",
+                  esTaronja: false,
+                ),
+              );
+            },
           );
-        });
+        }
+
+        // Si encara no hi ha dades
+        return Scaffold(
+          body: Loading(
+            msg: "Carregant les dades de la compra (1/2)...",
+            esTaronja: false,
+          ),
+        );
+      },
+    );
+  }
+
+  Column showParam(String nom, String param, Widget leading) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$nom:",
+          style: TextStyle(fontSize: 15),
+        ),
+        if (param == null || param == "")
+          Text(
+            "No assignat",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w300,
+              fontStyle: FontStyle.italic,
+            ),
+          )
+        else
+          Row(
+            children: [
+              if (leading != null)
+                Row(
+                  children: [
+                    leading,
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              Text(
+                param,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        SizedBox(height: 20),
+      ],
+    );
+  }
+
+  String mostrarPreu(int preu) {
+    return preu == null ? null : preu.toString() + "€";
   }
 }

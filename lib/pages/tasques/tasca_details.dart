@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:totfet/models/Tasca.dart';
+import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/pages/tasques/edit_tasca.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/services/auth.dart';
@@ -175,229 +176,275 @@ class TascaDetails extends StatelessWidget {
     ];
 
     return StreamBuilder<DocumentSnapshot>(
-        stream: futureTasques,
-        builder: (BuildContext context,
-            AsyncSnapshot<DocumentSnapshot> snapshotDetails) {
-          if (snapshotDetails.hasError) {
-            print(snapshotDetails.error);
-            return SomeErrorPage(error: snapshotDetails.error);
+      stream: futureTasques,
+      builder: (BuildContext context,
+          AsyncSnapshot<DocumentSnapshot> snapshotDetails) {
+        if (snapshotDetails.hasError) {
+          print(snapshotDetails.error);
+          return SomeErrorPage(error: snapshotDetails.error);
+        }
+        if (snapshotDetails.hasData) {
+          Map<String, dynamic> info = snapshotDetails.data.data();
+          if (info == null) {
+            return Scaffold(
+              body: Loading(
+                msg: "Esborrant tasca...",
+                esTaronja: true,
+              ),
+            );
           }
-          if (snapshotDetails.hasData) {
-            Map<String, dynamic> info = snapshotDetails.data.data();
-            if (info == null) {
-              return Scaffold(
-                body: Loading(
-                  msg: "Esborrant tasca...",
-                  esTaronja: true,
-                ),
-              );
-            }
 
-            List<String> idUsuaris = [
-              info['idCreador'],
-            ];
+          List<String> idUsuaris = [
+            info['idCreador'],
+          ];
 
-            if (info['idUsuariFet'] != null) {
-              idUsuaris.add(info['idUsuariFet']);
-            }
+          if (info['idUsuariFet'] != null) {
+            idUsuaris.add(info['idUsuariFet']);
+          }
 
-            if (info['idAssignat'] != null) {
-              idUsuaris.add(info['idAssignat']);
-            }
+          if (info['idAssignat'] != null) {
+            idUsuaris.add(info['idAssignat']);
+          }
 
-            return FutureBuilder<QuerySnapshot>(
-              future: DatabaseService().getUsersData(idUsuaris),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  List<QueryDocumentSnapshot> llistaUsuaris =
-                      snapshot.data.docs;
+          return FutureBuilder<QuerySnapshot>(
+            future: DatabaseService().getUsersData(idUsuaris),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                List<QueryDocumentSnapshot> llistaUsuaris = snapshot.data.docs;
 
-                  String getNom(String id) {
-                    if (id == null) return null;
-                    for (QueryDocumentSnapshot doc in llistaUsuaris) {
-                      if (doc.id == id) {
-                        return doc.data()['nom'];
-                      }
-                    }
-                    return null;
-                  }
-
-                  info['nomCreador'] = getNom(info['idCreador']);
-                  info['nomAssignat'] = getNom(info['idAssignat']);
-                  info['nomUsuariFet'] = getNom(info['idUsuariFet']);
-
-                  Tasca tasca = Tasca.fromDB(info);
-
-                  String etsTu(String id) {
-                    if (id == AuthService().userId) {
-                      return "(Tu)";
-                    } else {
-                      return "";
+                String getNom(String id) {
+                  if (id == null) return null;
+                  for (QueryDocumentSnapshot doc in llistaUsuaris) {
+                    if (doc.id == id) {
+                      return doc.data()['nom'];
                     }
                   }
+                  return null;
+                }
 
-                  List<Map<String, dynamic>> opcions = opcionsBase;
-                  if (tasca.fet) {
-                    opcions.addAll(opcionsExtra);
+                info['nomCreador'] = getNom(info['idCreador']);
+                info['nomAssignat'] = getNom(info['idAssignat']);
+                info['nomUsuariFet'] = getNom(info['idUsuariFet']);
+
+                Tasca tasca = Tasca.fromDB(info);
+
+                String mostrarNom(String id, String nom) {
+                  if (id == null) return null;
+
+                  if (id == AuthService().userId) {
+                    return "$nom (Tu)";
+                  } else {
+                    return nom;
                   }
+                }
 
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: Text('Propietats de la tasca'),
-                      centerTitle: true,
-                      flexibleSpace: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: <Color>[
-                              Colors.orange[400],
-                              Colors.deepOrange[900],
-                            ],
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        PopupMenuButton<int>(
-                          tooltip: "Opcions de la compra",
-                          icon: Icon(Icons.more_vert),
-                          itemBuilder: (BuildContext context) {
-                            return opcions
-                                .map(
-                                  (Map<String, dynamic> opcio) => PopupMenuItem(
-                                    value: opcions.indexOf(opcio),
-                                    child: Row(
-                                      children: [
-                                        opcio['icon'],
-                                        SizedBox(width: 5),
-                                        Text(opcio['nom']),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                .toList();
-                          },
-                          onSelected: (int index) {
-                            return opcions[index]['function'](tasca, context);
-                          },
-                        ),
-                      ],
-                    ),
-                    body: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              "Nom: ${tasca.nom}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Descripcio: ${tasca.descripcio == null || tasca.descripcio == "" ? "Sense Descripció" : tasca.descripcio}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Prioritat: ${prioritatToString(tasca.prioritat)}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Temps estimat: ${tasca.tempsEstimat == null ? "No assignat" : tasca.tempsEstimat.toString() + "h"}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Data Prevista: ${readTimestamp(tasca.dataPrevista, false) ?? "No assignada"}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Data Creació: ${readTimestamp(tasca.dataCreacio, true) ?? "No assignada"}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Creada per: ${tasca.nomCreador ?? "No disponible"} ${etsTu(tasca.idCreador)}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Llista: ${buscarNom(tasca.idLlista) ?? "No disponible"}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            Divider(),
-                            Text(
-                              "Assignada a: ${tasca.nomAssignat ?? "Ningú"} ${etsTu(tasca.idAssignat)}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            SizedBox(height: 30),
-                            Text(
-                              "Dades de la tasca",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Divider(),
-                            Text(
-                              "Feta: ${tasca.fet ? 'SI' : 'NO'}",
-                              style: TextStyle(fontSize: 25),
-                            ),
-                            tasca.fet
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Divider(),
-                                      Text(
-                                        "Data Tancament: ${readTimestamp(tasca.dataTancament, true) ?? "No assignada"}",
-                                        style: TextStyle(fontSize: 25),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Feta per: ${tasca.nomUsuariFet ?? "No disponible"} ${etsTu(tasca.idUsuariFet)}",
-                                        style: TextStyle(fontSize: 25),
-                                      ),
-                                    ],
-                                  )
-                                : Container(),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "ID: $id",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
+                String mostrarTemps(int temps) {
+                  return temps == null ? null : temps.toString() + "h";
+                }
+
+                List<Map<String, dynamic>> opcions = opcionsBase;
+                if (tasca.fet) {
+                  opcions.addAll(opcionsExtra);
+                }
+
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Propietats de la tasca'),
+                    centerTitle: true,
+                    flexibleSpace: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            Colors.orange[400],
+                            Colors.deepOrange[900],
                           ],
                         ),
                       ),
                     ),
-                  );
-                }
-                return Scaffold(
-                  body: Loading(
-                    msg: "Carregant les dades de la tasca (2/2)...",
-                    esTaronja: true,
+                    actions: [
+                      PopupMenuButton<int>(
+                        tooltip: "Opcions de la compra",
+                        icon: Icon(Icons.more_vert),
+                        itemBuilder: (BuildContext context) {
+                          return opcions
+                              .map(
+                                (Map<String, dynamic> opcio) => PopupMenuItem(
+                                  value: opcions.indexOf(opcio),
+                                  child: Row(
+                                    children: [
+                                      opcio['icon'],
+                                      SizedBox(width: 5),
+                                      Text(opcio['nom']),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList();
+                        },
+                        onSelected: (int index) {
+                          return opcions[index]['function'](tasca, context);
+                        },
+                      ),
+                    ],
+                  ),
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          showParam(
+                            "Nom",
+                            tasca.nom,
+                            null,
+                          ),
+                          showParam(
+                            "Descripció",
+                            tasca.descripcio,
+                            null,
+                          ),
+                          showParam(
+                            "Prioritat",
+                            prioritatToString(tasca.prioritat),
+                            prioritatIcon(tasca.prioritat),
+                          ),
+                          showParam(
+                            "Temps estimat",
+                            mostrarTemps(tasca.tempsEstimat),
+                            null,
+                          ),
+                          showParam(
+                            "Data prevista",
+                            readTimestamp(tasca.dataPrevista, false),
+                            null,
+                          ),
+                          showParam(
+                            "Data i hora de creació",
+                            readTimestamp(tasca.dataCreacio, true),
+                            null,
+                          ),
+                          showParam(
+                            "Llista",
+                            buscarNom(tasca.idLlista),
+                            null,
+                          ),
+                          showParam(
+                            "Creador",
+                            mostrarNom(tasca.idCreador, tasca.nomCreador),
+                            Usuari.getAvatar(
+                                tasca.nomCreador, tasca.idCreador, false),
+                          ),
+                          showParam(
+                            "Assignat a",
+                            mostrarNom(tasca.idAssignat, tasca.nomAssignat),
+                            tasca.idAssignat != null
+                                ? Usuari.getAvatar(
+                                    tasca.nomAssignat, tasca.idAssignat, false)
+                                : null,
+                          ),
+                          showParam(
+                            "Fet",
+                            tasca.fet ? 'SI' : 'NO',
+                            null,
+                          ),
+                          tasca.fet
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    showParam(
+                                      "Data de tancament",
+                                      readTimestamp(tasca.dataTancament, true),
+                                      null,
+                                    ),
+                                    showParam(
+                                      "Fet per",
+                                      mostrarNom(tasca.idUsuariFet,
+                                          tasca.nomUsuariFet),
+                                      tasca.idUsuariFet != null
+                                          ? Usuari.getAvatar(tasca.nomUsuariFet,
+                                              tasca.idUsuariFet, false)
+                                          : null,
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "ID: $id",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
-              },
-            );
-          }
-
-          // Si encara no hi ha dades
-          return Scaffold(
-            body: Loading(
-              msg: "Carregant les dades de la tasca (1/2)...",
-              esTaronja: true,
-            ),
+              }
+              return Scaffold(
+                body: Loading(
+                  msg: "Carregant les dades de la tasca (2/2)...",
+                  esTaronja: true,
+                ),
+              );
+            },
           );
-        });
+        }
+
+        // Si encara no hi ha dades
+        return Scaffold(
+          body: Loading(
+            msg: "Carregant les dades de la tasca (1/2)...",
+            esTaronja: true,
+          ),
+        );
+      },
+    );
+  }
+
+  Column showParam(String nom, String param, Widget leading) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$nom:",
+          style: TextStyle(fontSize: 15),
+        ),
+        if (param == null || param == "")
+          Text(
+            "No assignat",
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w300,
+              fontStyle: FontStyle.italic,
+            ),
+          )
+        else
+          Row(
+            children: [
+              if (leading != null)
+                Row(
+                  children: [
+                    leading,
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              Text(
+                param,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        SizedBox(height: 20),
+      ],
+    );
   }
 }

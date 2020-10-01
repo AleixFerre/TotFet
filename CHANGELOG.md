@@ -7,6 +7,10 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 ## CHANGELOG - v0.4.9-beta
 
 - Ara es marquen els camps obligatoris amb un asterisc
+- Arreglat un petit bug al enviar el correu de recuperació de contrasenyes
+- S'ha millorat la estètica general de la vista de detalls de compra i tasca
+- Ara es poden veure les icones dels tipus estàtics als detalls
+- Ara es poden veure les fotos de perfil de la gent als detalls
 
 ## CHANGELOG - v0.4.8-beta
 

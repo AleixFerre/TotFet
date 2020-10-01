@@ -8,7 +8,6 @@ import 'package:totfet/pages/menu_principal.dart';
 import 'package:totfet/pages/tasques/carregar_BD_tasques.dart';
 import 'package:totfet/services/auth.dart';
 import 'package:totfet/services/database.dart';
-import 'package:totfet/services/versionControl.dart';
 import 'package:totfet/shared/ban_page.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
