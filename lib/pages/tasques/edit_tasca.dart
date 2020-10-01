@@ -126,8 +126,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra el nom de la tasca...',
+                    labelText: 'Nom de la tasca*',
                     counterText: "${model['nom']?.length ?? 0}/30",
+                    helperText: "*Requerit",
                   ),
                 ),
               ),
@@ -135,6 +136,8 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  minLines: 1,
+                  maxLines: 5,
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {
@@ -151,7 +154,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   },
                   decoration: InputDecoration(
                     counterText: "${model['descripcio']?.length ?? 0}/255",
-                    labelText: 'Entra la descripcio de la tasca',
+                    labelText: 'Descripció de la tasca',
                   ),
                 ),
               ),

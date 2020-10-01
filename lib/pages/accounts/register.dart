@@ -85,8 +85,9 @@ class _RegisterState extends State<Register> {
                     TextFormField(
                       // Email
                       decoration: InputDecoration(
-                        labelText: "Nom d'usuari.",
+                        labelText: "Nom d'usuari*",
                         hintText: "Introdueix el teu nom d'usuari",
+                        helperText: "*Requerit",
                       ),
                       validator: (value) {
                         value = value.trim();
@@ -107,8 +108,8 @@ class _RegisterState extends State<Register> {
                     TextFormField(
                       // Email
                       decoration: InputDecoration(
-                        hintText: "Adreça electrònica / email",
-                        labelText: 'Introdueix la teva adreça electrònica...',
+                        labelText: 'Adreça electrònica*',
+                        helperText: "*Requerit",
                       ),
                       validator: (val) => val.isEmpty
                           ? "Siusplau, entra un correu electrònic."
@@ -123,8 +124,8 @@ class _RegisterState extends State<Register> {
                     TextFormField(
                       // Password
                       decoration: InputDecoration(
-                        labelText: 'Contrasenya',
-                        hintText: "Introdueix la contrasenya...",
+                        labelText: 'Contrasenya*',
+                        helperText: "*Requerit",
                       ),
                       validator: (val) => val.length < 6
                           ? "Siusplau, entra una contrasenya amb 6+ caràcters."

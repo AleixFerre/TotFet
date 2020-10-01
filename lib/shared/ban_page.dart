@@ -9,6 +9,7 @@ import 'package:totfet/shared/some_error_page.dart';
 class BanPage extends StatelessWidget {
   final Ban ban;
   BanPage({this.ban});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -126,7 +127,7 @@ class BanPage extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Loading(esTaronja: false),
+          body: Loading(msg: "Carregant detalls...", esTaronja: false),
         );
       },
     );

@@ -33,7 +33,9 @@ class Welcome extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.elliptical(
-                      MediaQuery.of(context).size.width, 100.0),
+                    MediaQuery.of(context).size.width,
+                    100.0,
+                  ),
                 ),
               ),
               child: Center(

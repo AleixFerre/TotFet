@@ -64,7 +64,8 @@ class _EditarLlistaState extends State<EditarLlista> {
                   },
                   decoration: InputDecoration(
                     counterText: "${llista.nom?.length ?? 0}/15",
-                    labelText: 'Entra el nom de la llista',
+                    labelText: 'Nom de la llista*',
+                    helperText: "*Requerit",
                   ),
                 ),
               ),

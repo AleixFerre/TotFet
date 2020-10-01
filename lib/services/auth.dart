@@ -141,9 +141,10 @@ class AuthService {
     }
   }
 
-  Future<dynamic> sendPasswordResetEmail(String email) async {
+  Future<String> sendPasswordResetEmail(String email) async {
     try {
-      return await _auth.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
+      return "0";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print("No s'ha trobat cap usuari amb aquesta adreça");

@@ -4,6 +4,10 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.4.9-beta
+
+- Ara es marquen els camps obligatoris amb un asterisc
+
 ## CHANGELOG - v0.4.8-beta
 
 - Ara al panell d'ADMIN es poden veure els tres botons

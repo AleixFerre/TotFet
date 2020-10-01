@@ -57,9 +57,9 @@ class _EditPerfilState extends State<EditPerfil> {
                     });
                   },
                   decoration: InputDecoration(
-                    hintText: "Introdueix el teu nom",
-                    labelText: 'Introdueix el teu nom...',
+                    labelText: 'Nom d\'usuari*',
                     counterText: "${model.nom?.length ?? 0}/15",
+                    helperText: "*Requerit",
                   ),
                 ),
               ),
@@ -80,8 +80,7 @@ class _EditPerfilState extends State<EditPerfil> {
                     });
                   },
                   decoration: InputDecoration(
-                    hintText: "La meva biografia.",
-                    labelText: 'Introdueix una descripció del teu perfil...',
+                    labelText: "Bio del perfil",
                     counterText: "${model.bio?.length ?? 0}/255",
                   ),
                 ),

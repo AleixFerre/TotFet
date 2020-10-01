@@ -147,8 +147,9 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     });
                   },
                   decoration: InputDecoration(
-                    labelText: 'Entra el nom del producte',
+                    labelText: 'Nom del producte*',
                     counterText: "${compra.nom?.length ?? 0}/30",
+                    helperText: "*Requerit",
                   ),
                 ),
               ),

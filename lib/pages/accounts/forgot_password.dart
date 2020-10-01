@@ -81,7 +81,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 TextFormField(
                   // Email
                   decoration: InputDecoration(
-                    hintText: "Adreça electrònica",
+                    hintText: "Adreça electrònica*",
+                    helperText: "*Requerit",
                   ),
                   validator: (val) => val.isEmpty
                       ? "Siusplau, entra un correu electrònic."
@@ -98,10 +99,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   padding: EdgeInsets.all(8),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      error = await _auth.sendPasswordResetEmail(email) ?? "";
+                      String errorMsg =
+                          await _auth.sendPasswordResetEmail(email) ?? "";
 
-                      if (error != null) {
-                        return setState(() {});
+                      if (errorMsg != "0") {
+                        return setState(() {
+                          error = errorMsg;
+                        });
                       }
 
                       // Surt l'alerta de mirar el correu

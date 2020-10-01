@@ -8,6 +8,7 @@ import 'package:totfet/pages/menu_principal.dart';
 import 'package:totfet/pages/tasques/carregar_BD_tasques.dart';
 import 'package:totfet/services/auth.dart';
 import 'package:totfet/services/database.dart';
+import 'package:totfet/services/versionControl.dart';
 import 'package:totfet/shared/ban_page.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
@@ -41,10 +42,12 @@ class _WrapperState extends State<Wrapper> {
       // Si no hi ha un usuari autentificat, mostra la pagina
       return Authenticate();
     } else {
-      final Stream<DocumentSnapshot> futureSnapshot =
+      final Stream<DocumentSnapshot> banStream =
           DatabaseService(uid: AuthService().userId).getUserData();
+
+      // Mostrar el que calgui després (app / banPage)
       return StreamBuilder(
-        stream: futureSnapshot,
+        stream: banStream,
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {

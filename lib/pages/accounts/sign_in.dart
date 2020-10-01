@@ -90,7 +90,8 @@ class _SignInState extends State<SignIn> {
                     TextFormField(
                       // Email
                       decoration: InputDecoration(
-                        hintText: "Adreça electrònica",
+                        hintText: "Adreça electrònica*",
+                        helperText: "*Requerit",
                       ),
                       validator: (val) => val.isEmpty
                           ? "Siusplau, entra un correu electrònic."
@@ -103,7 +104,8 @@ class _SignInState extends State<SignIn> {
                     TextFormField(
                       // Password
                       decoration: InputDecoration(
-                        hintText: "Contrasenya",
+                        hintText: "Contrasenya*",
+                        helperText: "*Requerit",
                       ),
                       validator: (val) => val.length < 6
                           ? "Siusplau, entra una contrasenya amb 6+ caràcters."
