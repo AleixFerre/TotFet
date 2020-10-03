@@ -10,6 +10,10 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Afegida descripció a la Compra que es mostra al subtitol de la targeta
 - Modificada la durada estimada, ara pots escollir les hores i minuts
 - Ara el cap de la ID per unir-se a la llista només admet 20 caràcters fent que sigui molt més comode copiar el missatge del Share
+- Ara es comproven les actualitzacions al StartUp de la app i es canvia d'escena respectivament
+- Ara es pot clicar el botó enrere sense por a tancar la app (sobreescrivint la acció onWillPop)
+  - Dins del menu de Tasques o Compres o dins del Perfil, torna al Menu Principal
+  - Al menu principal surt una alerta per confirmar si vols tancar la app
 - Refactoritzat:
   - Ara el model Tipus i Prioritat perque les classes dependents heredin d'aquesta
   - Tot el codi en de les classes Compra i Tasca en Maps perque es passin les classes adients

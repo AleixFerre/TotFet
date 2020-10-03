@@ -24,53 +24,58 @@ class _CarregarBDState extends State<CarregarBD> {
   @override
   Widget build(BuildContext context) {
     // Carregar llistes de l'usuari actiu
-    return StreamBuilder(
-      stream: DatabaseService().getLlistesUsuarisActualData(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData) {
-          List<String> llistaDeReferencies = snapshot.data.docs
-              .map(
-                (doc) => doc.data()['llista'].toString(),
-              )
-              .toList();
+    return WillPopScope(
+      onWillPop: () {
+        return widget.canviarFinestra(Finestra.Menu);
+      },
+      child: StreamBuilder(
+        stream: DatabaseService().getLlistesUsuarisActualData(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            List<String> llistaDeReferencies = snapshot.data.docs
+                .map(
+                  (doc) => doc.data()['llista'].toString(),
+                )
+                .toList();
 
-          if (llistaDeReferencies.isEmpty) {
-            return MenuLlistes(
-              canviarFinestra: widget.canviarFinestra,
-              finestra: Finestra.Compres,
-            );
+            if (llistaDeReferencies.isEmpty) {
+              return MenuLlistes(
+                canviarFinestra: widget.canviarFinestra,
+                finestra: Finestra.Compres,
+              );
+            }
+
+            return StreamBuilder(
+                stream: DatabaseService().getInfoLlistesIn(llistaDeReferencies),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot2) {
+                  if (snapshot2.hasData) {
+                    List<Llista> llistaInfo = snapshot2.data.docs
+                        .map((QueryDocumentSnapshot doc) => Llista.fromDB(doc))
+                        .toList();
+
+                    return BuildStreamCompres(
+                      llistes: llistaInfo,
+                      canviarFinestra: widget.canviarFinestra,
+                    );
+                  }
+                  return Scaffold(
+                    body: Loading(
+                      msg: "Carregant informacio de les llistes...",
+                      esTaronja: false,
+                    ),
+                  );
+                });
           }
 
-          return StreamBuilder(
-              stream: DatabaseService().getInfoLlistesIn(llistaDeReferencies),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot2) {
-                if (snapshot2.hasData) {
-                  List<Llista> llistaInfo = snapshot2.data.docs
-                      .map((QueryDocumentSnapshot doc) => Llista.fromDB(doc))
-                      .toList();
-
-                  return BuildStreamCompres(
-                    llistes: llistaInfo,
-                    canviarFinestra: widget.canviarFinestra,
-                  );
-                }
-                return Scaffold(
-                  body: Loading(
-                    msg: "Carregant informacio de les llistes...",
-                    esTaronja: false,
-                  ),
-                );
-              });
-        }
-
-        return Scaffold(
-          body: Loading(
-            msg: "Carregant llistes...",
-            esTaronja: false,
-          ),
-        );
-      },
+          return Scaffold(
+            body: Loading(
+              msg: "Carregant llistes...",
+              esTaronja: false,
+            ),
+          );
+        },
+      ),
     );
   }
 }
