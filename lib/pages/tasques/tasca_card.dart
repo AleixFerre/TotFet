@@ -19,8 +19,8 @@ class TascaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String nom = tasca.nom;
-    if (tasca.tempsEstimat != null) {
-      nom += " · " + tasca.tempsEstimat.toString() + "h";
+    if (tasca.tempsEstimat != null && !tasca.tempsEstimat.esZero()) {
+      nom += " · " + tasca.tempsEstimat?.toString();
     }
 
     return tasca.id != null // En quant es pugui mostrar

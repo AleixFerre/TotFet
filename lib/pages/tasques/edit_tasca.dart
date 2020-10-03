@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:totfet/models/Duracio.dart';
 import 'package:totfet/models/Tasca.dart';
 
 import 'package:totfet/models/Usuari.dart';
@@ -296,16 +297,17 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un temps estimat"),
+                    Text("Selecciona una durada estimada"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model.tempsEstimat == null
-                                ? "Escolleix el temps estimat"
-                                : model.tempsEstimat.toString() + "h",
+                            model.tempsEstimat == null ||
+                                    model.tempsEstimat.esZero()
+                                ? "Escolleix la durada estimada"
+                                : model.tempsEstimat.toString(),
                           ),
                           SizedBox(
                             width: 10,
@@ -314,7 +316,8 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         ],
                       ),
                       onPressed: () async {
-                        final picked = await showDialog<int>(
+                        Duracio duracio = Duracio();
+                        duracio.hores = await showDialog<int>(
                           context: context,
                           builder: (BuildContext context) {
                             return Theme(
@@ -330,17 +333,56 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                                   "CANCEL·LAR",
                                   style: TextStyle(color: Colors.orange),
                                 ),
-                                title: Text("Temps estimat en h"),
-                                minValue: 1,
-                                maxValue: 100,
-                                initialIntegerValue: model.tempsEstimat ?? 1,
+                                title: Text("Hores estimades"),
+                                minValue: 0,
+                                maxValue: 24,
+                                initialIntegerValue: model.tempsEstimat == null
+                                    ? 1
+                                    : model.tempsEstimat.hores,
                               ),
                             );
                           },
                         );
+                        if (duracio.hores == null) {
+                          setState(() {
+                            model.tempsEstimat = null;
+                          });
+                          return;
+                        } else {
+                          duracio.minuts = await showDialog<int>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Theme(
+                                data: ThemeData.light().copyWith(
+                                  accentColor: Colors.orange[900],
+                                ),
+                                child: NumberPickerDialog.integer(
+                                  confirmWidget: Text(
+                                    "CONFIRMAR",
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  cancelWidget: Text(
+                                    "CANCEL·LAR",
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  title: Text("Minuts estimats"),
+                                  minValue: 0,
+                                  maxValue: 60,
+                                  initialIntegerValue:
+                                      model.tempsEstimat == null
+                                          ? 1
+                                          : model.tempsEstimat.minuts,
+                                ),
+                              );
+                            },
+                          );
+                        }
 
                         setState(() {
-                          model.tempsEstimat = picked;
+                          if (duracio.minuts == null)
+                            duracio = null;
+                          else if (duracio.esZero()) duracio = null;
+                          model.tempsEstimat = duracio;
                         });
                       },
                     ),

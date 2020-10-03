@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:totfet/models/Duracio.dart';
 import 'package:totfet/models/Llista.dart';
 
 import 'package:totfet/models/Prioritat.dart';
@@ -136,7 +137,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     if (value == "") {
                       return "Siusplau, posa un nom";
                     } else if (value.length > 20) {
-                      return "Nom massa llarg. (max. 20 caràcters)";
+                      return "Nom massa llarg (max. 20 caràcters)";
                     }
                     return null;
                   },
@@ -163,7 +164,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {
-                      return "La descripció és massa llarga. (max. 255 caràcters)";
+                      return "Descripció massa llarga. (max. 255 caràcters)";
                     }
                     return null;
                   },
@@ -358,7 +359,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Selecciona un temps estimat"),
+                    Text("Selecciona una durada estimada"),
                     RaisedButton(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -366,8 +367,8 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                         children: [
                           Text(
                             tasca.tempsEstimat == null
-                                ? "Escolleix el temps estimat"
-                                : tasca.tempsEstimat.toString() + "h",
+                                ? "Escolleix la durada estimada"
+                                : tasca.tempsEstimat.toString(),
                           ),
                           SizedBox(
                             width: 10,
@@ -376,7 +377,8 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                         ],
                       ),
                       onPressed: () async {
-                        final picked = await showDialog<int>(
+                        Duracio duracio = Duracio();
+                        duracio.hores = await showDialog<int>(
                           context: context,
                           builder: (BuildContext context) {
                             return Theme(
@@ -392,17 +394,56 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                                   "CANCEL·LAR",
                                   style: TextStyle(color: Colors.orange),
                                 ),
-                                title: Text("Temps estimat en hores"),
-                                minValue: 1,
-                                maxValue: 100,
-                                initialIntegerValue: tasca.tempsEstimat ?? 1,
+                                title: Text("Hores estimades"),
+                                minValue: 0,
+                                maxValue: 24,
+                                initialIntegerValue: tasca.tempsEstimat == null
+                                    ? 1
+                                    : tasca.tempsEstimat.hores,
                               ),
                             );
                           },
                         );
+                        if (duracio.hores == null) {
+                          setState(() {
+                            tasca.tempsEstimat = null;
+                          });
+                          return;
+                        } else {
+                          duracio.minuts = await showDialog<int>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Theme(
+                                data: ThemeData.light().copyWith(
+                                  accentColor: Colors.orange[900],
+                                ),
+                                child: NumberPickerDialog.integer(
+                                  confirmWidget: Text(
+                                    "CONFIRMAR",
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  cancelWidget: Text(
+                                    "CANCEL·LAR",
+                                    style: TextStyle(color: Colors.orange),
+                                  ),
+                                  title: Text("Minuts estimats"),
+                                  minValue: 0,
+                                  maxValue: 60,
+                                  initialIntegerValue:
+                                      tasca.tempsEstimat == null
+                                          ? 1
+                                          : tasca.tempsEstimat.minuts,
+                                ),
+                              );
+                            },
+                          );
+                        }
 
                         setState(() {
-                          tasca.tempsEstimat = picked;
+                          if (duracio.minuts == null)
+                            duracio = null;
+                          else if (duracio.esZero()) duracio = null;
+                          tasca.tempsEstimat = duracio;
                         });
                       },
                     ),

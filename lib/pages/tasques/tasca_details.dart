@@ -249,10 +249,6 @@ class TascaDetails extends StatelessWidget {
                   }
                 }
 
-                String mostrarTemps(int temps) {
-                  return temps == null ? null : temps.toString() + "h";
-                }
-
                 List<Map<String, dynamic>> opcions = opcionsBase;
 
                 if (tasca.fet) {
@@ -323,8 +319,8 @@ class TascaDetails extends StatelessWidget {
                             prioritatIcon(tasca.prioritat),
                           ),
                           showParam(
-                            "Temps estimat",
-                            mostrarTemps(tasca.tempsEstimat),
+                            "Durada estimada",
+                            tasca.tempsEstimat?.toString(),
                             null,
                           ),
                           showParam(

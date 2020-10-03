@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Duracio.dart';
 import 'package:totfet/models/Prioritat.dart';
 
 class Tasca {
@@ -32,7 +33,7 @@ class Tasca {
   // Descripcio de la tasca
   String descripcio;
   // Temps en hores estimat
-  int tempsEstimat;
+  Duracio tempsEstimat;
   // Prioritat de tasca (enum Prioritat)
   Prioritat prioritat;
   // [dataCreacio] no pot ser mai null
@@ -65,7 +66,7 @@ class Tasca {
       nom: data['nom'],
       descripcio: data['descripcio'],
       prioritat: prioritatfromString(data['prioritat']),
-      tempsEstimat: data['tempsEstimat'],
+      tempsEstimat: Duracio.fromList(data['tempsEstimat']),
       dataPrevista: data['dataPrevista'],
       dataCreacio: data['dataCreacio'],
       dataTancament: data['dataTancament'],
@@ -87,7 +88,7 @@ class Tasca {
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
       'dataPrevista': dataPrevista,
-      'tempsEstimat': tempsEstimat,
+      'tempsEstimat': tempsEstimat.toList(),
       'dataCreacio': dataCreacio,
       'dataTancament': dataTancament,
       'idCreador': idCreador,
@@ -104,7 +105,7 @@ class Tasca {
       'id': id,
       'nom': nom,
       'descripcio': descripcio,
-      'tempsEstimat': tempsEstimat,
+      'tempsEstimat': tempsEstimat.toList(),
       'prioritat': prioritatToString(prioritat),
       'dataPrevista': dataPrevista,
       'dataCreacio': dataCreacio,

@@ -137,7 +137,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     if (value == "") {
                       return "Siusplau, posa un nom";
                     } else if (value.length > 30) {
-                      return "El nom de la compra és massa llarg (max. 30 caràcters)";
+                      return "Nom massa llarg (max. 30 caràcters)";
                     }
                     return null;
                   },
@@ -151,6 +151,33 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     labelText: 'Nom del producte*',
                     counterText: "${compra.nom?.length ?? 0}/30",
                     helperText: "*Requerit",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
+                child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
+                  initialValue: compra.descripcio,
+                  minLines: 1,
+                  maxLines: 5,
+                  validator: (value) {
+                    value = value.trim();
+                    if (value.length > 255) {
+                      return "Descripció massa llarga (max. 255 caràcters)";
+                    }
+                    return null;
+                  },
+                  onChanged: (str) {
+                    setState(() {
+                      compra.descripcio =
+                          (str.trim() == "") ? null : str.trim();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Descripció del producte',
+                    counterText: "${compra.descripcio?.length ?? 0}/255",
                   ),
                 ),
               ),

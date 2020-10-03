@@ -139,6 +139,32 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
               Container(
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
+                child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
+                  initialValue: model.descripcio,
+                  minLines: 1,
+                  maxLines: 5,
+                  validator: (value) {
+                    value = value.trim();
+                    if (value.length > 255) {
+                      return "Descripció massa llarga (max. 255 caràcters)";
+                    }
+                    return null;
+                  },
+                  onChanged: (str) {
+                    setState(() {
+                      model.descripcio = (str.trim() == "") ? null : str.trim();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Descripció del producte',
+                    counterText: "${model.descripcio?.length ?? 0}/255",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.topCenter,
                 child: Column(
                   children: [
                     Text("Selecciona un usuari de la llista"),
