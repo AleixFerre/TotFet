@@ -186,12 +186,7 @@ class TascaDetails extends StatelessWidget {
           return SomeErrorPage(error: snapshotDetails.error);
         }
         if (snapshotDetails.hasData) {
-          Tasca tasca = Tasca.fromDB(
-            snapshotDetails.data.data(),
-            snapshotDetails.data.id,
-          );
-
-          if (tasca.id == null) {
+          if (snapshotDetails.data.data() == null) {
             return Scaffold(
               body: Loading(
                 msg: "Esborrant tasca...",
@@ -199,6 +194,10 @@ class TascaDetails extends StatelessWidget {
               ),
             );
           }
+          Tasca tasca = Tasca.fromDB(
+            snapshotDetails.data.data(),
+            snapshotDetails.data.id,
+          );
 
           List<String> idUsuaris = [
             tasca.idCreador,

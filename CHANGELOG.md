@@ -12,6 +12,8 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - S'ha mogut el botó de buscar actualització manualment a dins del menu d'opcions
 - Al menu d'opcions també es poden veure les notes de l'actualització
 - Es pot configurar quin tipus de notificacions vols que t'arribin al menu d'opcions
+- S'ha canviat els camps multilinea per camps normals perque al papa no li agraden
+- S'ha tornat a deixar com estava el codi qr en pantalla perque quedava cutre :P
 
 ## CHANGELOG - v0.5.1-beta
 

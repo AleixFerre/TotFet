@@ -47,34 +47,9 @@ class OpcionsPage extends StatelessWidget {
                       ),
                       elevation: 1,
                       onPressed: () async {
-                        // Comprovar actualitzacions amb el nuvol
-                        List<dynamic> changes =
-                            await VersionControlService().getChanges();
-
-                        showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0),
-                            ),
-                          ),
-                          builder: (context) => ListView.builder(
-                            padding: EdgeInsets.all(15),
-                            itemCount: changes.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  Text(
-                                    " ► " + changes[index],
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Divider(),
-                                ],
-                              );
-                            },
-                          ),
-                        );
+                        // Mostrar notes
+                        await VersionControlService()
+                            .mostrarNotesActualitzacio(context);
                       },
                       child: Row(
                         children: [

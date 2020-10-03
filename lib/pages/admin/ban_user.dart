@@ -88,8 +88,6 @@ class _BanUserState extends State<BanUser> {
                         alignment: Alignment.topCenter,
                         child: TextFormField(
                           textCapitalization: TextCapitalization.sentences,
-                          minLines: 1,
-                          maxLines: 5,
                           validator: (value) {
                             value = value.trim();
                             if (value.length > 255) {

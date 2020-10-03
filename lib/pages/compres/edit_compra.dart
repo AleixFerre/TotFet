@@ -142,8 +142,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 child: TextFormField(
                   textCapitalization: TextCapitalization.sentences,
                   initialValue: model.descripcio,
-                  minLines: 1,
-                  maxLines: 5,
+                 
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {

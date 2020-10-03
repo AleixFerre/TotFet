@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:totfet/models/Actualitzacio.dart';
+import 'package:totfet/services/versionControl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NovaActualitzacio extends StatelessWidget {
@@ -48,32 +49,8 @@ class NovaActualitzacio extends StatelessWidget {
             RaisedButton(
               color: Colors.blueAccent,
               onPressed: () async {
-                List<dynamic> changes = actualitzacio.changes;
-
-                showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  builder: (context) => ListView.builder(
-                    padding: EdgeInsets.all(15),
-                    itemCount: changes.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Text(
-                            " ► " + changes[index],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Divider(),
-                        ],
-                      );
-                    },
-                  ),
-                );
+                await VersionControlService()
+                    .mostrarNotesActualitzacio(context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

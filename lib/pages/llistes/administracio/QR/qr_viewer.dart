@@ -68,8 +68,6 @@ class _QRViewerState extends State<QRViewer> {
                 child: QrImage(
                   data: widget.id,
                   size: 300,
-                  foregroundColor: Colors.blue,
-                  backgroundColor: Colors.blue[50],
                 ),
               ),
             ),

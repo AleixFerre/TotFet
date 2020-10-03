@@ -88,7 +88,7 @@ class Tasca {
       'prioritat':
           prioritat.toString().substring(prioritat.toString().indexOf('.') + 1),
       'dataPrevista': dataPrevista,
-      'tempsEstimat': tempsEstimat.toList(),
+      'tempsEstimat': tempsEstimat == null ? null : tempsEstimat.toList(),
       'dataCreacio': dataCreacio,
       'dataTancament': dataTancament,
       'idCreador': idCreador,

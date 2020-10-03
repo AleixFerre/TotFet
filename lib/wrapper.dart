@@ -110,7 +110,7 @@ class _WrapperState extends State<Wrapper> {
 
         return Scaffold(
           body: Loading(
-            msg: "Comprovant noves verions...",
+            msg: "Comprovant noves versions...",
             esTaronja: false,
           ),
         );

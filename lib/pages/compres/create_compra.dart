@@ -160,8 +160,6 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 child: TextFormField(
                   textCapitalization: TextCapitalization.sentences,
                   initialValue: compra.descripcio,
-                  minLines: 1,
-                  maxLines: 5,
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {
@@ -448,7 +446,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 color: Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, compra.toDBMap());
+                    Navigator.pop(context, compra);
                   }
                 },
                 child: Row(

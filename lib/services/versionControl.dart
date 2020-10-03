@@ -34,6 +34,41 @@ class VersionControlService {
     }
   }
 
+  Future<void> mostrarNotesActualitzacio(BuildContext context) async {
+    List<dynamic> changes = await getChanges();
+    changes.insert(0, "Notes de l'actualització");
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      builder: (context) => ListView.builder(
+        padding: EdgeInsets.all(15),
+        itemCount: changes.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            children: [
+              index == 0
+                  ? Text(
+                      changes[index],
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    )
+                  : Text(
+                      " ► " + changes[index],
+                      style: TextStyle(fontSize: 20),
+                    ),
+              Divider(),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   void showAlert(BuildContext context, Map info) {
     if (info != null) {
       showDialog(

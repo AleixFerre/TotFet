@@ -81,8 +81,6 @@ class _EditarLlistaState extends State<EditarLlista> {
                       return "La descripció és massa llarga (>255 caràcters)";
                     return null;
                   },
-                  minLines: 1,
-                  maxLines: 5,
                   initialValue: llista.descripcio ?? "",
                   onChanged: (str) {
                     setState(() {
