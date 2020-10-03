@@ -43,5 +43,6 @@ String tipusReportToString(TipusReport p) {
 
 TipusReport tipusReportfromString(String s) {
   return TipusReport.values.firstWhere(
-      (e) => e.toString().split('.')[1].toUpperCase() == s.toUpperCase());
+    (e) => e.toString().split('.')[1].toUpperCase() == s.toUpperCase(),
+  );
 }

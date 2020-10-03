@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/models/Tasca.dart';
 
 import 'package:totfet/pages/tasques/tasca_details.dart';
 import 'package:totfet/services/database.dart';
@@ -8,43 +10,32 @@ class TascaCard extends StatelessWidget {
   const TascaCard({
     Key key,
     @required this.tipus,
-    @required this.cardColor,
-    @required this.tipusIcon,
-    @required this.tascaKey,
     @required this.tasca,
-    @required this.prioritatString,
   }) : super(key: key);
 
-  final Color cardColor;
-  final Icon tipusIcon;
-  final dynamic tascaKey;
-  final Map<String, dynamic> tasca;
-  final List<Map<String, dynamic>> tipus;
-  final String prioritatString;
+  final Tasca tasca;
+  final List<Llista> tipus;
 
   @override
   Widget build(BuildContext context) {
-    String nom = tasca['nom'];
-    if (tasca['tempsEstimat'] != null) {
-      nom += " · " + tasca['tempsEstimat'].toString() + "h";
+    String nom = tasca.nom;
+    if (tasca.tempsEstimat != null) {
+      nom += " · " + tasca.tempsEstimat.toString() + "h";
     }
 
-    return tasca.isNotEmpty // En quant es pugui mostrar
+    return tasca.id != null // En quant es pugui mostrar
         ? Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             ),
-            color: cardColor,
             elevation: 3,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  // Icon segons el tipus
-                  leading: tipusIcon,
                   onLongPress: () {
                     Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("ID: $tascaKey"),
+                      content: Text("ID: ${tasca.id}"),
                       behavior: SnackBarBehavior.floating,
                     ));
                   },
@@ -53,7 +44,7 @@ class TascaCard extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => TascaDetails(
-                          id: tascaKey,
+                          id: tasca.id,
                           tipus: tipus,
                         ),
                       ),
@@ -73,11 +64,11 @@ class TascaCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  subtitle: prioritatString == ""
+                  subtitle: tasca.descripcio == "" || tasca.descripcio == null
                       ? Container()
                       : Center(
                           child: Text(
-                            prioritatString,
+                            tasca.descripcio ?? "",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -95,7 +86,7 @@ class TascaCard extends StatelessWidget {
                       );
                       if (resposta != null) {
                         resposta.remove('key');
-                        await DatabaseService().editarTasca(tascaKey, resposta);
+                        await DatabaseService().editarTasca(tasca.id, resposta);
                         print("Tasca editada correctament!");
                       }
                     },

@@ -7,8 +7,6 @@ import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/llista_buida.dart';
-import 'package:totfet/models/Prioritat/PrioritatColors.dart';
-import 'package:totfet/models/Tipus/TipusEmojis.dart';
 import 'package:totfet/models/Compra.dart';
 import 'package:totfet/pages/compres/create_compra.dart';
 import 'package:totfet/pages/compres/compra_card.dart';
@@ -31,8 +29,8 @@ class LlistaCompra extends StatelessWidget {
     this.canviarFinestra,
   });
 
-  final List<Map<String, dynamic>> llista;
-  final List<Map<String, String>> llistesUsuari;
+  final List<Compra> llista;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   final Function rebuildParentComprat;
   final Function rebuildParentFiltre;
@@ -44,7 +42,7 @@ class LlistaCompra extends StatelessWidget {
     AppBar appBar = AppBar(
       elevation: 10,
       title: Text(
-        "Compres de ${llistesUsuari[indexLlista]['nom']}",
+        "Compres de ${llistesUsuari[indexLlista].nom}",
         overflow: TextOverflow.fade,
       ),
       centerTitle: true,
@@ -64,7 +62,7 @@ class LlistaCompra extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () {
-            Llista infoLlista = Llista.fromMap(llistesUsuari[indexLlista]);
+            Llista infoLlista = llistesUsuari[indexLlista];
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -86,9 +84,9 @@ class LlistaCompra extends StatelessWidget {
           itemBuilder: (BuildContext context) {
             return llistesUsuari
                 .map(
-                  (Map<String, String> llista) => PopupMenuItem(
+                  (Llista llista) => PopupMenuItem(
                     value: llistesUsuari.indexOf(llista),
-                    child: Text(llista['nom']),
+                    child: Text(llista.nom),
                   ),
                 )
                 .toList();
@@ -100,25 +98,15 @@ class LlistaCompra extends StatelessWidget {
     ListView mostrarLlista = ListView.builder(
       itemCount: llista.length,
       itemBuilder: (context, index) {
-        final Map<String, dynamic> compra = llista[index];
-        final compraKey = compra['key'];
-        final Icon tipusIcon = TipusEmojis(tipus: compra['tipus']).toIcon();
-        final Color cardColor =
-            PrioritatColor(prioritat: compra['prioritat']).toColor();
-        final String prioritatString =
-            PrioritatColor(prioritat: compra['prioritat']).toString();
+        final Compra compra = llista[index];
 
         return comprat
             ? CompraCard(
-                cardColor: cardColor,
-                tipusIcon: tipusIcon,
-                compraKey: compraKey,
                 compra: compra,
-                prioritatString: prioritatString,
                 tipus: llistesUsuari,
               )
             : Dismissible(
-                key: Key("$compraKey"),
+                key: Key("${compra.id}"),
                 background: Container(
                   color: Colors.green,
                   child: Icon(
@@ -128,15 +116,11 @@ class LlistaCompra extends StatelessWidget {
                   ),
                 ),
                 onDismissed: (direction) async {
-                  await DatabaseService().comprarCompra(compraKey);
+                  await DatabaseService().comprarCompra(compra.id);
                   print("Compra realitzada correctament!");
                 },
                 child: CompraCard(
-                  cardColor: cardColor,
-                  tipusIcon: tipusIcon,
-                  compraKey: compraKey,
                   compra: compra,
-                  prioritatString: prioritatString,
                   tipus: llistesUsuari,
                 ),
               );

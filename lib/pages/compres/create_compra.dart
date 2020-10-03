@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:totfet/models/Tipus/TipusEmojis.dart';
+import 'package:totfet/models/Llista.dart';
 
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
 import 'package:totfet/models/Compra.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
-import 'package:totfet/models/Tipus/Tipus.dart';
+import 'package:totfet/models/Prioritat.dart';
+import 'package:totfet/models/Tipus.dart';
 import 'package:totfet/services/auth.dart';
 
 class CreateCompra extends StatefulWidget {
-  final List<Map<String, String>> llistesUsuari;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   CreateCompra({this.llistesUsuari, this.indexLlista});
 
@@ -32,7 +32,7 @@ class _CreateCompraState extends State<CreateCompra> {
 
   @override
   Widget build(BuildContext context) {
-    String llistaID = widget.llistesUsuari[indexLlista]['id'];
+    String llistaID = widget.llistesUsuari[indexLlista].id;
 
     void updateParent(int index) {
       if (index != indexLlista) {
@@ -78,7 +78,7 @@ class _CreateCompraState extends State<CreateCompra> {
 }
 
 class LlistarCompraCrear extends StatefulWidget {
-  final List<Map<String, String>> llistesUsuari;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   final List<Usuari> usuaris;
   final Function updateParent;
@@ -100,7 +100,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
   void initState() {
     super.initState();
     compra = Compra.nova(null, AuthService().userId,
-        widget.llistesUsuari[widget.indexLlista]['id']);
+        widget.llistesUsuari[widget.indexLlista].id);
   }
 
   @override
@@ -131,6 +131,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -162,19 +163,18 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     DropdownButton<String>(
                       hint: Text("Escolleix una llista"),
                       value: widget
-                              .llistesUsuari[indexLlista ?? widget.indexLlista]
-                          ['id'],
+                          .llistesUsuari[indexLlista ?? widget.indexLlista].id,
                       items: widget.llistesUsuari.map<DropdownMenuItem<String>>(
-                        (Map<String, String> value) {
+                        (Llista value) {
                           return DropdownMenuItem<String>(
-                            value: value['id'],
-                            child: Text(value['nom']),
+                            value: value.id,
+                            child: Text(value.nom),
                           );
                         },
                       ).toList(),
                       onChanged: (String newValue) {
                         indexLlista = widget.llistesUsuari.indexWhere(
-                          (element) => element['id'] == newValue,
+                          (element) => element.id == newValue,
                         );
                         compra.idAssignat = null;
                         widget.updateParent(indexLlista);
@@ -258,7 +258,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           value: value,
                           child: Row(
                             children: [
-                              TipusEmojis(tipus: tipusToString(value)).toIcon(),
+                              tipustoIcon(value),
                               SizedBox(
                                 width: 10,
                               ),
@@ -421,7 +421,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 color: Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, compra);
+                    Navigator.pop(context, compra.toDBMap());
                   }
                 },
                 child: Row(

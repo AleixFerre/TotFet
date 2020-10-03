@@ -1,4 +1,4 @@
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/TipusReport.dart';
 
 class Report {

@@ -48,6 +48,7 @@ class _CrearLlistaState extends State<CrearLlista> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -74,6 +75,7 @@ class _CrearLlistaState extends State<CrearLlista> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (String value) {
                     value = value.trim();
                     if (value.length > 255)

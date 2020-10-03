@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:totfet/models/Tipus/TipusEmojis.dart';
+import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Usuari.dart';
 
 import 'package:totfet/services/auth.dart';
@@ -11,18 +11,19 @@ import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/some_error_page.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/models/Compra.dart';
-import 'package:totfet/models/Tipus/Tipus.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Tipus.dart';
+import 'package:totfet/models/Prioritat.dart';
 
 class CompraDetails extends StatelessWidget {
   CompraDetails({this.id, this.tipus});
   final String id;
-  final List<Map<String, String>> tipus;
+  final List<Llista> tipus;
   String readTimestamp(Timestamp timestamp, bool showHour) {
     if (timestamp == null) return null;
 
-    DateTime date =
-        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(
+      timestamp.microsecondsSinceEpoch,
+    );
 
     String str = date.day.toString().padLeft(2, "0") +
         "/" +
@@ -46,9 +47,9 @@ class CompraDetails extends StatelessWidget {
         DatabaseService(id: id).getCompresData();
 
     String buscarNom(String id) {
-      for (Map<String, String> map in tipus) {
-        if (map['id'] == id) {
-          return map['nom'];
+      for (Llista map in tipus) {
+        if (map.id == id) {
+          return map.nom;
         }
       }
       return null;
@@ -58,11 +59,11 @@ class CompraDetails extends StatelessWidget {
       {
         "nom": "Editar",
         "icon": Icon(Icons.edit, color: Colors.black),
-        "function": (compra, context) async {
+        "function": (Compra compra, BuildContext context) async {
           Map<String, dynamic> resposta = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EditCompra(compra: compra.toMap()),
+              builder: (context) => EditCompra(compra: compra),
             ),
           );
           if (resposta != null) {
@@ -77,7 +78,7 @@ class CompraDetails extends StatelessWidget {
       {
         "nom": "Esborrar",
         "icon": Icon(Icons.delete, color: Colors.black),
-        "function": (compra, context) async {
+        "function": (Compra compra, BuildContext context) async {
           // Show alert box
           bool esborrar = await showDialog<bool>(
             context: context,
@@ -131,7 +132,7 @@ class CompraDetails extends StatelessWidget {
       {
         "nom": "Revertir compra",
         "icon": Icon(Icons.assignment_return, color: Colors.black),
-        "function": (compra, context) async {
+        "function": (Compra compra, BuildContext context) async {
           bool revertir = await showDialog<bool>(
             context: context,
             barrierDismissible: true,
@@ -230,7 +231,7 @@ class CompraDetails extends StatelessWidget {
                 info['nomAssignat'] = getNom(info['idAssignat']);
                 info['nomComprador'] = getNom(info['idComprador']);
 
-                Compra compra = Compra.fromDB(info);
+                Compra compra = Compra.fromDB(info, info['id']);
 
                 String mostrarNom(String id, String nom) {
                   if (id == null) return null;
@@ -303,9 +304,7 @@ class CompraDetails extends StatelessWidget {
                           showParam(
                             "Tipus",
                             tipusToString(compra.tipus),
-                            TipusEmojis(
-                              tipus: tipusToString(compra.tipus),
-                            ).toIcon(),
+                            tipustoIcon(compra.tipus),
                           ),
                           showParam(
                             "Quantitat",

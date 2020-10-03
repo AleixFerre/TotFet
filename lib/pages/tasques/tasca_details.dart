@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Llista.dart';
 
 import 'package:totfet/models/Tasca.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -9,17 +10,18 @@ import 'package:totfet/services/database.dart';
 import 'package:totfet/services/auth.dart';
 import 'package:totfet/shared/some_error_page.dart';
 import 'package:totfet/shared/loading.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 
 class TascaDetails extends StatelessWidget {
   TascaDetails({this.id, this.tipus});
   final String id;
-  final List<Map<String, String>> tipus;
+  final List<Llista> tipus;
   String readTimestamp(Timestamp timestamp, bool showHour) {
     if (timestamp == null) return null;
 
-    DateTime date =
-        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(
+      timestamp.microsecondsSinceEpoch,
+    );
 
     String str = date.day.toString().padLeft(2, "0") +
         "/" +
@@ -43,9 +45,9 @@ class TascaDetails extends StatelessWidget {
         DatabaseService(id: id).getTasquesData();
 
     String buscarNom(String id) {
-      for (Map<String, String> map in tipus) {
-        if (map['id'] == id) {
-          return map['nom'];
+      for (Llista map in tipus) {
+        if (map.id == id) {
+          return map.nom;
         }
       }
       return null;
@@ -55,11 +57,11 @@ class TascaDetails extends StatelessWidget {
       {
         "nom": "Editar",
         "icon": Icon(Icons.edit, color: Colors.black),
-        "function": (tasca, context) async {
+        "function": (Tasca tasca, BuildContext context) async {
           Map<String, dynamic> resposta = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EditTasca(tasca: tasca.toMap()),
+              builder: (context) => EditTasca(tasca: tasca),
             ),
           );
           if (resposta != null) {
@@ -74,7 +76,7 @@ class TascaDetails extends StatelessWidget {
       {
         "nom": "Esborrar",
         "icon": Icon(Icons.delete, color: Colors.black),
-        "function": (compra, context) async {
+        "function": (Tasca tasca, BuildContext context) async {
           // Show alert box
           bool esborrar = await showDialog<bool>(
             context: context,
@@ -117,7 +119,7 @@ class TascaDetails extends StatelessWidget {
 
           // Si esborrar és null o false, llavors no es fa res
           if (esborrar == true) {
-            DatabaseService().esborrarTasca(id);
+            DatabaseService().esborrarTasca(tasca.id);
             // Si no hi ha element, podem sortir d'aquesta pantalla
             Navigator.pop(context);
           }
@@ -184,8 +186,12 @@ class TascaDetails extends StatelessWidget {
           return SomeErrorPage(error: snapshotDetails.error);
         }
         if (snapshotDetails.hasData) {
-          Map<String, dynamic> info = snapshotDetails.data.data();
-          if (info == null) {
+          Tasca tasca = Tasca.fromDB(
+            snapshotDetails.data.data(),
+            snapshotDetails.data.id,
+          );
+
+          if (tasca.id == null) {
             return Scaffold(
               body: Loading(
                 msg: "Esborrant tasca...",
@@ -195,39 +201,43 @@ class TascaDetails extends StatelessWidget {
           }
 
           List<String> idUsuaris = [
-            info['idCreador'],
+            tasca.idCreador,
           ];
 
-          if (info['idUsuariFet'] != null) {
-            idUsuaris.add(info['idUsuariFet']);
+          if (tasca.idUsuariFet != null) {
+            idUsuaris.add(tasca.idUsuariFet);
           }
 
-          if (info['idAssignat'] != null) {
-            idUsuaris.add(info['idAssignat']);
+          if (tasca.idAssignat != null) {
+            idUsuaris.add(tasca.idAssignat);
           }
 
           return FutureBuilder<QuerySnapshot>(
             future: DatabaseService().getUsersData(idUsuaris),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (
+              BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot,
+            ) {
               if (snapshot.hasData) {
-                List<QueryDocumentSnapshot> llistaUsuaris = snapshot.data.docs;
+                List<Usuari> llistaUsuaris = snapshot.data.docs
+                    .map(
+                      (e) => Usuari.fromDB(e.id, null, e.data()),
+                    )
+                    .toList();
 
                 String getNom(String id) {
                   if (id == null) return null;
-                  for (QueryDocumentSnapshot doc in llistaUsuaris) {
-                    if (doc.id == id) {
-                      return doc.data()['nom'];
+                  for (Usuari usuari in llistaUsuaris) {
+                    if (usuari.uid == id) {
+                      return usuari.nom;
                     }
                   }
                   return null;
                 }
 
-                info['nomCreador'] = getNom(info['idCreador']);
-                info['nomAssignat'] = getNom(info['idAssignat']);
-                info['nomUsuariFet'] = getNom(info['idUsuariFet']);
-
-                Tasca tasca = Tasca.fromDB(info);
+                tasca.nomCreador = getNom(tasca.idCreador);
+                tasca.nomAssignat = getNom(tasca.idAssignat);
+                tasca.nomUsuariFet = getNom(tasca.idUsuariFet);
 
                 String mostrarNom(String id, String nom) {
                   if (id == null) return null;
@@ -244,6 +254,7 @@ class TascaDetails extends StatelessWidget {
                 }
 
                 List<Map<String, dynamic>> opcions = opcionsBase;
+
                 if (tasca.fet) {
                   opcions.addAll(opcionsExtra);
                 }

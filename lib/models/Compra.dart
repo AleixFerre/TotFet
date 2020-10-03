@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
-import 'package:totfet/models/Tipus/Tipus.dart';
+import 'package:totfet/models/Prioritat.dart';
+import 'package:totfet/models/Tipus.dart';
 
 class Compra {
   Compra({
     // basic
     @required this.id,
     @required this.nom,
+    this.descripcio,
     this.tipus,
     this.quantitat,
     this.prioritat,
@@ -31,6 +32,8 @@ class Compra {
   String id;
   // Nom de la compra
   String nom;
+  // Descripcio de la compra
+  String descripcio;
   // Tipus de compra (enum Tipus)
   Tipus tipus;
   // Quantitat de productes a comprar
@@ -61,10 +64,11 @@ class Compra {
   bool comprat;
 
   // S'espera que les dates estiguin en format DateTime
-  static Compra fromDB(Map<String, dynamic> data) {
+  static Compra fromDB(Map<String, dynamic> data, String _id) {
     return Compra(
-      id: data['id'],
+      id: _id,
       nom: data['nom'],
+      descripcio: data['descripcio'],
       tipus: tipusfromString(data['tipus']),
       quantitat: data['quantitat'],
       prioritat: prioritatfromString(data['prioritat']),
@@ -86,6 +90,7 @@ class Compra {
   Map<String, dynamic> toDBMap() {
     return {
       'nom': nom,
+      'descripcio': descripcio,
       'tipus': tipus.toString().substring(tipus.toString().indexOf('.') + 1),
       'quantitat': quantitat,
       'prioritat':
@@ -106,6 +111,7 @@ class Compra {
     return {
       'id': id,
       'nom': nom,
+      'descripcio': descripcio,
       'tipus': tipusToString(tipus),
       'quantitat': quantitat,
       'prioritat': prioritatToString(prioritat),
@@ -124,6 +130,7 @@ class Compra {
     return Compra(
       id: _id,
       nom: "",
+      descripcio: "",
       dataCreacio: Timestamp.fromDate(DateTime.now()),
       idCreador: _idCreador,
       prioritat: Prioritat.Normal,

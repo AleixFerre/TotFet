@@ -33,6 +33,15 @@ class Llista {
     );
   }
 
+  static Llista fromDBMap(Map<String, String> doc) {
+    return Llista(
+      id: doc['id'],
+      nom: doc['nom'] ?? "No disponible",
+      descripcio: doc['descripcio'] == "" ? null : doc['descripcio'],
+      idCreador: doc['idCreador'],
+    );
+  }
+
   static Llista fromMap(Map<String, dynamic> llista) {
     return Llista(
       id: llista['id'],
@@ -43,15 +52,17 @@ class Llista {
   }
 
   // Retorna un mapa de ID llista - Nom llista
-  static List<Map<String, String>> llistaPairs(List<Llista> list) {
-    List<Map<String, String>> llistaFinal = [];
+  static List<Llista> llistaPairs(List<Llista> list) {
+    List<Llista> llistaFinal = [];
     for (Llista l in list) {
-      llistaFinal.add({
-        "id": l.id,
-        "nom": l.nom,
-        "descripcio": l.descripcio,
-        "idCreador": l.idCreador,
-      });
+      llistaFinal.add(
+        Llista(
+          id: l.id,
+          nom: l.nom,
+          descripcio: l.descripcio,
+          idCreador: l.idCreador,
+        ),
+      );
     }
     return llistaFinal;
   }

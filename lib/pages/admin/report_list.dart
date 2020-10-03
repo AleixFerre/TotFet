@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/services/database.dart';

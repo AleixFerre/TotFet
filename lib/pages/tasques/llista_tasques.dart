@@ -10,8 +10,6 @@ import 'package:totfet/pages/tasques/tasca_card.dart';
 import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/llista_buida.dart';
-import 'package:totfet/models/Prioritat/PrioritatColors.dart';
-import 'package:totfet/models/Tipus/TipusEmojis.dart';
 
 class LlistaTasques extends StatelessWidget {
   LlistaTasques({
@@ -31,8 +29,8 @@ class LlistaTasques extends StatelessWidget {
     this.canviarFinestra,
   });
 
-  final List<Map<String, dynamic>> llista;
-  final List<Map<String, String>> llistesUsuari;
+  final List<Tasca> llista;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   final Function rebuildParentFet;
   final Function rebuildParentFiltre;
@@ -44,7 +42,7 @@ class LlistaTasques extends StatelessWidget {
     AppBar appBar = AppBar(
       elevation: 10,
       title: Text(
-        "Tasques de ${llistesUsuari[indexLlista]['nom']}",
+        "Tasques de ${llistesUsuari[indexLlista].nom}",
         overflow: TextOverflow.fade,
       ),
       centerTitle: true,
@@ -64,7 +62,7 @@ class LlistaTasques extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () {
-            Llista infoLlista = Llista.fromMap(llistesUsuari[indexLlista]);
+            Llista infoLlista = llistesUsuari[indexLlista];
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -86,9 +84,9 @@ class LlistaTasques extends StatelessWidget {
           itemBuilder: (BuildContext context) {
             return llistesUsuari
                 .map(
-                  (Map<String, String> llista) => PopupMenuItem(
+                  (Llista llista) => PopupMenuItem(
                     value: llistesUsuari.indexOf(llista),
-                    child: Text(llista['nom']),
+                    child: Text(llista.nom),
                   ),
                 )
                 .toList();
@@ -100,25 +98,15 @@ class LlistaTasques extends StatelessWidget {
     ListView mostrarLlista = ListView.builder(
       itemCount: llista.length,
       itemBuilder: (context, index) {
-        final Map<String, dynamic> tasca = llista[index];
-        final tascaKey = tasca['key'];
-        final Icon tipusIcon = TipusEmojis(tipus: tasca['tipus']).toIcon();
-        final Color cardColor =
-            PrioritatColor(prioritat: tasca['prioritat']).toColor();
-        final String prioritatString =
-            PrioritatColor(prioritat: tasca['prioritat']).toString();
+        final Tasca tasca = llista[index];
 
         return fet
             ? TascaCard(
-                cardColor: cardColor,
-                tipusIcon: tipusIcon,
-                tascaKey: tascaKey,
                 tasca: tasca,
-                prioritatString: prioritatString,
                 tipus: llistesUsuari,
               )
             : Dismissible(
-                key: Key("$tascaKey"),
+                key: Key("${tasca.id}"),
                 background: Container(
                   color: Colors.green,
                   child: Icon(
@@ -128,15 +116,11 @@ class LlistaTasques extends StatelessWidget {
                   ),
                 ),
                 onDismissed: (direction) async {
-                  await DatabaseService().completarTasca(tascaKey);
+                  await DatabaseService().completarTasca(tasca.id);
                   print("Tasca completada correctament!");
                 },
                 child: TascaCard(
-                  cardColor: cardColor,
-                  tipusIcon: tipusIcon,
-                  tascaKey: tascaKey,
                   tasca: tasca,
-                  prioritatString: prioritatString,
                   tipus: llistesUsuari,
                 ),
               );

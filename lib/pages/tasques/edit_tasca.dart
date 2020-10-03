@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:totfet/models/Tasca.dart';
 
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 
 class EditTasca extends StatelessWidget {
-  final Map tasca;
+  final Tasca tasca;
   EditTasca({this.tasca});
 
   @override
   Widget build(BuildContext context) {
-    String idLlista = tasca['idLlista'];
+    String idLlista = tasca.idLlista;
 
     return FutureBuilder<QuerySnapshot>(
       future: DatabaseService().getUsuarisLlista(idLlista),
@@ -50,7 +51,7 @@ class EditTasca extends StatelessWidget {
 }
 
 class LlistarCompraEdit extends StatefulWidget {
-  final Map tasca;
+  final Tasca tasca;
   final List<Usuari> usuaris;
   LlistarCompraEdit({this.tasca, this.usuaris});
 
@@ -59,7 +60,7 @@ class LlistarCompraEdit extends StatefulWidget {
 }
 
 class _LlistarCompraEditState extends State<LlistarCompraEdit> {
-  Map<String, dynamic> model;
+  Tasca model;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -110,6 +111,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -119,15 +121,15 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     }
                     return null;
                   },
-                  initialValue: model['nom'],
+                  initialValue: model.nom,
                   onChanged: (str) {
                     setState(() {
-                      model['nom'] = (str.trim() == "") ? null : str.trim();
+                      model.nom = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(
                     labelText: 'Nom de la tasca*',
-                    counterText: "${model['nom']?.length ?? 0}/30",
+                    counterText: "${model.nom?.length ?? 0}/30",
                     helperText: "*Requerit",
                   ),
                 ),
@@ -136,6 +138,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   minLines: 1,
                   maxLines: 5,
                   validator: (value) {
@@ -145,15 +148,14 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     }
                     return null;
                   },
-                  initialValue: model['descripcio'],
+                  initialValue: model.descripcio,
                   onChanged: (str) {
                     setState(() {
-                      model['descripcio'] =
-                          (str.trim() == "") ? null : str.trim();
+                      model.descripcio = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(
-                    counterText: "${model['descripcio']?.length ?? 0}/255",
+                    counterText: "${model.descripcio?.length ?? 0}/255",
                     labelText: 'Descripció de la tasca',
                   ),
                 ),
@@ -169,7 +171,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       children: [
                         DropdownButton<String>(
                           hint: Text("Assigna un usuari"),
-                          value: model['idAssignat'],
+                          value: model.idAssignat,
                           items: widget.usuaris
                               .map<DropdownMenuItem<String>>((Usuari value) {
                             return DropdownMenuItem<String>(
@@ -179,7 +181,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           }).toList(),
                           onChanged: (String newValue) {
                             setState(() {
-                              model['idAssignat'] = newValue;
+                              model.idAssignat = newValue;
                             });
                           },
                         ),
@@ -188,7 +190,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           icon: Icon(Icons.clear),
                           onPressed: () {
                             setState(() {
-                              model['idAssignat'] = null;
+                              model.idAssignat = null;
                             });
                           },
                         )
@@ -203,13 +205,13 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 child: Column(
                   children: [
                     Text("Selecciona una prioritat"),
-                    DropdownButton<String>(
+                    DropdownButton<Prioritat>(
                       hint: Text("Escolleix una prioritat"),
-                      value: model['prioritat'],
+                      value: model.prioritat,
                       items: Prioritat.values
-                          .map<DropdownMenuItem<String>>((Prioritat value) {
-                        return DropdownMenuItem<String>(
-                          value: prioritatToString(value),
+                          .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
+                        return DropdownMenuItem<Prioritat>(
+                          value: value,
                           child: Row(
                             children: [
                               prioritatIcon(value),
@@ -221,9 +223,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (String newValue) {
+                      onChanged: (Prioritat newValue) {
                         setState(() {
-                          model['prioritat'] = newValue;
+                          model.prioritat = newValue;
                         });
                       },
                     ),
@@ -242,9 +244,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model['dataPrevista'] == null
+                            model.dataPrevista == null
                                 ? "Escolleix la data"
-                                : readTimestamp(model['dataPrevista']),
+                                : readTimestamp(model.dataPrevista),
                           ),
                           SizedBox(
                             width: 10,
@@ -256,10 +258,10 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         final picked = await showDatePicker(
                           context: context,
                           helpText: "SELECCIONA UNA DATA",
-                          initialDate: model['dataPrevista'] == null
+                          initialDate: model.dataPrevista == null
                               ? DateTime.now()
                               : DateTime.fromMicrosecondsSinceEpoch(
-                                  model['dataPrevista'].microsecondsSinceEpoch),
+                                  model.dataPrevista.microsecondsSinceEpoch),
                           firstDate: DateTime(2020),
                           lastDate: DateTime(2100),
                           confirmText: "CONFIRMAR",
@@ -280,7 +282,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           },
                         );
                         setState(() {
-                          model['dataPrevista'] = picked == null
+                          model.dataPrevista = picked == null
                               ? null
                               : Timestamp.fromDate(picked);
                         });
@@ -301,9 +303,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model['tempsEstimat'] == null
+                            model.tempsEstimat == null
                                 ? "Escolleix el temps estimat"
-                                : model['tempsEstimat'].toString() + "h",
+                                : model.tempsEstimat.toString() + "h",
                           ),
                           SizedBox(
                             width: 10,
@@ -331,14 +333,14 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                                 title: Text("Temps estimat en h"),
                                 minValue: 1,
                                 maxValue: 100,
-                                initialIntegerValue: model['tempsEstimat'] ?? 1,
+                                initialIntegerValue: model.tempsEstimat ?? 1,
                               ),
                             );
                           },
                         );
 
                         setState(() {
-                          model['tempsEstimat'] = picked;
+                          model.tempsEstimat = picked;
                         });
                       },
                     ),
@@ -352,7 +354,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 color: Colors.orange[400],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, model);
+                    Navigator.pop(context, model.toDBMap());
                   }
                 },
                 child: Row(

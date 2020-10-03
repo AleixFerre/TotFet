@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 
 class Tasca {
   Tasca({
@@ -59,9 +59,9 @@ class Tasca {
   bool fet;
 
   // S'espera que les dates estiguin en format DateTime
-  static Tasca fromDB(Map<String, dynamic> data) {
+  static Tasca fromDB(Map<String, dynamic> data, String _id) {
     return Tasca(
-      id: data['id'],
+      id: _id,
       nom: data['nom'],
       descripcio: data['descripcio'],
       prioritat: prioritatfromString(data['prioritat']),

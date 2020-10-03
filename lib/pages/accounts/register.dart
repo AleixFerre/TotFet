@@ -84,6 +84,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 20),
                     TextFormField(
                       // Email
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
                         labelText: "Nom d'usuari*",
                         hintText: "Introdueix el teu nom d'usuari",

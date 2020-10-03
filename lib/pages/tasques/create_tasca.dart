@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:totfet/models/Llista.dart';
 
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Tasca.dart';
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
@@ -11,7 +12,7 @@ import 'package:totfet/shared/some_error_page.dart';
 import 'package:totfet/services/auth.dart';
 
 class CreateTasca extends StatefulWidget {
-  final List<Map<String, String>> llistesUsuari;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   CreateTasca({this.llistesUsuari, this.indexLlista});
 
@@ -30,7 +31,7 @@ class _CreateTascaState extends State<CreateTasca> {
 
   @override
   Widget build(BuildContext context) {
-    String llistaID = widget.llistesUsuari[indexLlista]['id'];
+    String llistaID = widget.llistesUsuari[indexLlista].id;
 
     void updateParent(int index) {
       if (index != indexLlista) {
@@ -76,7 +77,7 @@ class _CreateTascaState extends State<CreateTasca> {
 }
 
 class LlistarCompraCrear extends StatefulWidget {
-  final List<Map<String, String>> llistesUsuari;
+  final List<Llista> llistesUsuari;
   final int indexLlista;
   final List<Usuari> usuaris;
   final Function updateParent;
@@ -98,7 +99,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
   void initState() {
     super.initState();
     tasca = Tasca.nova(null, AuthService().userId,
-        widget.llistesUsuari[widget.indexLlista]['id']);
+        widget.llistesUsuari[widget.indexLlista].id);
   }
 
   @override
@@ -129,6 +130,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -155,6 +157,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   minLines: 1,
                   maxLines: 5,
                   validator: (value) {
@@ -185,19 +188,18 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     DropdownButton<String>(
                       hint: Text("Escolleix una llista"),
                       value: widget
-                              .llistesUsuari[indexLlista ?? widget.indexLlista]
-                          ['id'],
+                          .llistesUsuari[indexLlista ?? widget.indexLlista].id,
                       items: widget.llistesUsuari.map<DropdownMenuItem<String>>(
-                        (Map<String, String> value) {
+                        (Llista value) {
                           return DropdownMenuItem<String>(
-                            value: value['id'],
-                            child: Text(value['nom']),
+                            value: value.id,
+                            child: Text(value.nom),
                           );
                         },
                       ).toList(),
                       onChanged: (String newValue) {
                         indexLlista = widget.llistesUsuari.indexWhere(
-                          (element) => element['id'] == newValue,
+                          (element) => element.id == newValue,
                         );
                         tasca.idAssignat = null;
                         widget.updateParent(indexLlista);

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:totfet/models/Tipus/TipusEmojis.dart';
+import 'package:totfet/models/Compra.dart';
 
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
-import 'package:totfet/models/Tipus/Tipus.dart';
+import 'package:totfet/models/Prioritat.dart';
+import 'package:totfet/models/Tipus.dart';
 
 import 'package:numberpicker/numberpicker.dart';
 
 class EditCompra extends StatelessWidget {
-  final Map compra;
+  final Compra compra;
   EditCompra({this.compra});
 
   @override
   Widget build(BuildContext context) {
-    String idLlista = compra['idLlista'];
+    String idLlista = compra.idLlista;
 
     return FutureBuilder<QuerySnapshot>(
       future: DatabaseService().getUsuarisLlista(idLlista),
@@ -53,7 +53,7 @@ class EditCompra extends StatelessWidget {
 }
 
 class LlistarCompraEdit extends StatefulWidget {
-  final Map compra;
+  final Compra compra;
   final List<Usuari> usuaris;
   LlistarCompraEdit({this.compra, this.usuaris});
 
@@ -62,7 +62,7 @@ class LlistarCompraEdit extends StatefulWidget {
 }
 
 class _LlistarCompraEditState extends State<LlistarCompraEdit> {
-  Map<String, dynamic> model;
+  Compra model;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -113,6 +113,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -122,15 +123,15 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     }
                     return null;
                   },
-                  initialValue: model['nom'],
+                  initialValue: model.nom,
                   onChanged: (str) {
                     setState(() {
-                      model['nom'] = (str.trim() == "") ? null : str.trim();
+                      model.nom = (str.trim() == "") ? null : str.trim();
                     });
                   },
                   decoration: InputDecoration(
                     labelText: 'Nom del producte*',
-                    counterText: "${model['nom']?.length ?? 0}/30",
+                    counterText: "${model.nom?.length ?? 0}/30",
                     helperText: "*Requerit",
                   ),
                 ),
@@ -146,7 +147,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       children: [
                         DropdownButton<String>(
                           hint: Text("Assigna un usuari"),
-                          value: model['idAssignat'],
+                          value: model.idAssignat,
                           items: widget.usuaris
                               .map<DropdownMenuItem<String>>((Usuari value) {
                             return DropdownMenuItem<String>(
@@ -156,7 +157,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           }).toList(),
                           onChanged: (String newValue) {
                             setState(() {
-                              model['idAssignat'] = newValue;
+                              model.idAssignat = newValue;
                             });
                           },
                         ),
@@ -165,7 +166,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           icon: Icon(Icons.clear),
                           onPressed: () {
                             setState(() {
-                              model['idAssignat'] = null;
+                              model.idAssignat = null;
                             });
                           },
                         )
@@ -179,16 +180,16 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
-                    Text("Quantitat: ${model['quantitat'].toInt()}"),
+                    Text("Quantitat: ${model.quantitat.toInt()}"),
                     Slider(
-                      value: model['quantitat'].toDouble(),
+                      value: model.quantitat.toDouble(),
                       min: 1,
                       max: 30,
                       divisions: 29,
-                      label: "${model['quantitat'].toInt()}",
+                      label: "${model.quantitat.toInt()}",
                       onChanged: (value) {
                         setState(() {
-                          model['quantitat'] = value.toInt();
+                          model.quantitat = value.toInt();
                         });
                       },
                     ),
@@ -201,16 +202,16 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 child: Column(
                   children: [
                     Text("Selecciona un tipus de producte"),
-                    DropdownButton<String>(
+                    DropdownButton<Tipus>(
                       hint: Text("Escolleix un tipus"),
-                      value: model['tipus'],
+                      value: model.tipus,
                       items: Tipus.values
-                          .map<DropdownMenuItem<String>>((Tipus value) {
-                        return DropdownMenuItem<String>(
-                          value: tipusToString(value),
+                          .map<DropdownMenuItem<Tipus>>((Tipus value) {
+                        return DropdownMenuItem<Tipus>(
+                          value: value,
                           child: Row(
                             children: [
-                              TipusEmojis(tipus: tipusToString(value)).toIcon(),
+                              tipustoIcon(value),
                               SizedBox(
                                 width: 10,
                               ),
@@ -219,9 +220,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (String newValue) {
+                      onChanged: (Tipus newValue) {
                         setState(() {
-                          model['tipus'] = newValue;
+                          model.tipus = newValue;
                         });
                       },
                     ),
@@ -234,13 +235,13 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 child: Column(
                   children: [
                     Text("Selecciona una prioritat"),
-                    DropdownButton<String>(
+                    DropdownButton<Prioritat>(
                       hint: Text("Escolleix una prioritat"),
-                      value: model['prioritat'],
+                      value: model.prioritat,
                       items: Prioritat.values
-                          .map<DropdownMenuItem<String>>((Prioritat value) {
-                        return DropdownMenuItem<String>(
-                          value: prioritatToString(value),
+                          .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
+                        return DropdownMenuItem<Prioritat>(
+                          value: value,
                           child: Row(
                             children: [
                               prioritatIcon(value),
@@ -252,9 +253,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (String newValue) {
+                      onChanged: (Prioritat newValue) {
                         setState(() {
-                          model['prioritat'] = newValue;
+                          model.prioritat = newValue;
                         });
                       },
                     ),
@@ -273,9 +274,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model['dataPrevista'] == null
+                            model.dataPrevista == null
                                 ? "Escolleix la data"
-                                : readTimestamp(model['dataPrevista']),
+                                : readTimestamp(model.dataPrevista),
                           ),
                           SizedBox(
                             width: 10,
@@ -289,15 +290,15 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           helpText: "SELECCIONA UNA DATA",
                           confirmText: "CONFIRMAR",
                           cancelText: "CANCEL·LAR",
-                          initialDate: model['dataPrevista'] == null
+                          initialDate: model.dataPrevista == null
                               ? DateTime.now()
                               : DateTime.fromMicrosecondsSinceEpoch(
-                                  model['dataPrevista'].microsecondsSinceEpoch),
+                                  model.dataPrevista.microsecondsSinceEpoch),
                           firstDate: DateTime(2020),
                           lastDate: DateTime(2100),
                         );
                         setState(() {
-                          model['dataPrevista'] = picked == null
+                          model.dataPrevista = picked == null
                               ? null
                               : Timestamp.fromDate(picked);
                         });
@@ -318,9 +319,9 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            model['preuEstimat'] == null
+                            model.preuEstimat == null
                                 ? "Escolleix el preu estimat"
-                                : model['preuEstimat'].toString() + "€",
+                                : model.preuEstimat.toString() + "€",
                           ),
                           SizedBox(
                             width: 10,
@@ -336,13 +337,13 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                               title: Text("Preu estimat en €"),
                               minValue: 1,
                               maxValue: 100,
-                              initialIntegerValue: model['preuEstimat'] ?? 1,
+                              initialIntegerValue: model.preuEstimat ?? 1,
                             );
                           },
                         );
 
                         setState(() {
-                          model['preuEstimat'] = picked;
+                          model.preuEstimat = picked;
                         });
                       },
                     ),
@@ -356,7 +357,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 color: Colors.blueAccent,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, model);
+                    Navigator.pop(context, model.toDBMap());
                   }
                 },
                 child: Row(

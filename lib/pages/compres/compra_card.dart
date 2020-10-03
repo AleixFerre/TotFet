@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Compra.dart';
+import 'package:totfet/models/Llista.dart';
+import 'package:totfet/models/Prioritat.dart';
+import 'package:totfet/models/Tipus.dart';
 
 import 'package:totfet/pages/compres/compra_details.dart';
 import 'package:totfet/services/database.dart';
@@ -8,38 +12,30 @@ class CompraCard extends StatelessWidget {
   const CompraCard({
     Key key,
     @required this.tipus,
-    @required this.cardColor,
-    @required this.tipusIcon,
-    @required this.compraKey,
     @required this.compra,
-    @required this.prioritatString,
   }) : super(key: key);
 
-  final Color cardColor;
-  final Icon tipusIcon;
-  final dynamic compraKey;
-  final Map<String, dynamic> compra;
-  final List<Map<String, dynamic>> tipus;
-  final String prioritatString;
+  final Compra compra;
+  final List<Llista> tipus;
 
   @override
   Widget build(BuildContext context) {
-    return compra.isNotEmpty // En quant es pugui mostrar
+    return compra.id != null // En quant es pugui mostrar
         ? Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             ),
             elevation: 3,
-            color: cardColor,
+            color: prioritatColor(compra.prioritat),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
                   // Icon segons el tipus
-                  leading: tipusIcon,
+                  leading: tipustoIcon(compra.tipus),
                   onLongPress: () {
                     Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("ID: $compraKey"),
+                      content: Text("ID: ${compra.id}"),
                       behavior: SnackBarBehavior.floating,
                     ));
                   },
@@ -48,7 +44,7 @@ class CompraCard extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => CompraDetails(
-                          id: compraKey,
+                          id: compra.id,
                           tipus: tipus,
                         ),
                       ),
@@ -60,8 +56,7 @@ class CompraCard extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
-                        compra['nom'].toUpperCase() +
-                            " · ${compra['quantitat']}",
+                        compra.nom.toUpperCase() + " · ${compra.quantitat}",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -69,11 +64,11 @@ class CompraCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  subtitle: prioritatString == ""
+                  subtitle: compra.descripcio == "" || compra.descripcio == null
                       ? Container()
                       : Center(
                           child: Text(
-                            prioritatString,
+                            compra.descripcio ?? "",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -92,7 +87,7 @@ class CompraCard extends StatelessWidget {
                       if (resposta != null) {
                         resposta.remove('key');
                         await DatabaseService()
-                            .editarCompra(compraKey, resposta);
+                            .editarCompra(compra.id, resposta);
                         print("Compra editada correctament!");
                       }
                     },

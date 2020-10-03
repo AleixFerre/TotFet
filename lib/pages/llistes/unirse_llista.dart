@@ -139,6 +139,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                       padding: EdgeInsets.all(20),
                       alignment: Alignment.topCenter,
                       child: TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         controller: _textController,
                         validator: (value) {
                           if (value.length != 20) {

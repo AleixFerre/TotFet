@@ -47,6 +47,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -73,6 +74,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (String value) {
                     value = value.trim();
                     if (value.length > 255)

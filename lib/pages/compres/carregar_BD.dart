@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:totfet/models/Compra.dart';
 import 'package:totfet/models/Finestra.dart';
 
 import 'package:totfet/services/database.dart';
@@ -121,11 +122,10 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
 
         // APP CARREGADA CORECTAMENT
         if (snapshot.hasData) {
-          List<Map<String, dynamic>> infoLlistes =
+          List<Compra> infoLlistes =
               snapshot.data.docs.map((QueryDocumentSnapshot doc) {
-            Map<String, dynamic> d = doc.data();
-            d.putIfAbsent("key", () => doc.id);
-            return d;
+            Compra c = Compra.fromDB(doc.data(), doc.id);
+            return c;
           }).toList();
 
           return LlistaCompra(

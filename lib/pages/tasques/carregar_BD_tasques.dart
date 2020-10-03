@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/models/Tasca.dart';
 import 'package:totfet/pages/llistes/menu_llistes.dart';
 import 'package:totfet/pages/tasques/llista_tasques.dart';
 import 'package:totfet/services/database.dart';
@@ -120,11 +121,9 @@ class _BuildStreamTasquesState extends State<BuildStreamTasques> {
 
         // APP CARREGADA CORECTAMENT
         if (snapshot.hasData) {
-          List<Map<String, dynamic>> infoLlistes =
+          List<Tasca> infoLlistes =
               snapshot.data.docs.map((QueryDocumentSnapshot doc) {
-            Map<String, dynamic> d = doc.data();
-            d.putIfAbsent("key", () => doc.id);
-            return d;
+            return Tasca.fromDB(doc.data(), doc.id);
           }).toList();
 
           return LlistaTasques(

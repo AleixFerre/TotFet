@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:totfet/models/Prioritat/Prioritat.dart';
+import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/services/auth.dart';
@@ -42,6 +42,7 @@ class _ReportBugState extends State<ReportBug> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -67,6 +68,7 @@ class _ReportBugState extends State<ReportBug> {
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.topCenter,
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   minLines: 1,
                   maxLines: 5,
                   validator: (value) {

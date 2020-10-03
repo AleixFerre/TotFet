@@ -41,6 +41,7 @@ class _EditPerfilState extends State<EditPerfil> {
               Container(
                 padding: EdgeInsets.all(20),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value == "") {
@@ -66,6 +67,7 @@ class _EditPerfilState extends State<EditPerfil> {
               Container(
                 padding: EdgeInsets.all(20),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     value = value.trim();
                     if (value.length > 255) {

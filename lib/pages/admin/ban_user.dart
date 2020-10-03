@@ -60,6 +60,7 @@ class _BanUserState extends State<BanUser> {
                         padding: EdgeInsets.all(20),
                         alignment: Alignment.topCenter,
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           validator: (value) {
                             value = value.trim();
                             if (value == "") {
@@ -86,6 +87,7 @@ class _BanUserState extends State<BanUser> {
                         padding: EdgeInsets.all(20),
                         alignment: Alignment.topCenter,
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           minLines: 1,
                           maxLines: 5,
                           validator: (value) {
