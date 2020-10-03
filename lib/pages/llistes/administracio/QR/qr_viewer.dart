@@ -8,8 +8,11 @@ import 'package:totfet/models/Finestra.dart';
 
 class QRViewer extends StatefulWidget {
   final String id;
+  final String nom;
   final Finestra finestra;
-  const QRViewer({Key key, this.id, @required this.finestra}) : super(key: key);
+  const QRViewer(
+      {Key key, this.id, @required this.nom, @required this.finestra})
+      : super(key: key);
 
   @override
   _QRViewerState createState() => _QRViewerState();
@@ -46,7 +49,8 @@ class _QRViewerState extends State<QRViewer> {
             icon: Icon(Icons.share),
             onPressed: () async {
               Share.share(
-                "Uneix-te a la meva llista amb el codi: ${widget.id}\n" +
+                "${widget.id}\n" +
+                    "Copia aquest missatge a la app i entra a la llista de ${widget.nom}!\n" +
                     "Posa aquest codi a la pestanya d'unir-se de la app.\n" +
                     "-- Equip de TotFet --",
               );
@@ -64,6 +68,8 @@ class _QRViewerState extends State<QRViewer> {
                 child: QrImage(
                   data: widget.id,
                   size: 300,
+                  foregroundColor: Colors.blue,
+                  backgroundColor: Colors.blue[50],
                 ),
               ),
             ),

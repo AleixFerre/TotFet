@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
   Future scan() async {
     try {
       id = await scanner.scan() ?? "";
-      _textController.text = id;
+      _textController.text = id.substring(0, min(id.length, 20));
       await comprovarLlista();
     } catch (e) {
       setState(() => errorMsg = e.toString());
@@ -152,6 +153,8 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                             id = str;
                           });
                         },
+                        maxLength: 20,
+                        maxLengthEnforced: true,
                         decoration: InputDecoration(
                           counterText: "${id?.length ?? 0}/20",
                           labelText: 'ID de la Llista*',

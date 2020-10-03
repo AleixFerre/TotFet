@@ -312,6 +312,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                           MaterialPageRoute(
                             builder: (context) => QRViewer(
                               id: llista.id,
+                              nom: llista.nom,
                               finestra: Finestra.Perfil,
                             ),
                           ),

@@ -9,6 +9,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Ara el text d'entrada capitzalitza la primera lletra automàticament
 - Afegida descripció a la Compra que es mostra al subtitol de la targeta
 - Modificada la durada estimada, ara pots escollir les hores i minuts
+- Ara el cap de la ID per unir-se a la llista només admet 20 caràcters fent que sigui molt més comode copiar el missatge del Share
 - Refactoritzat:
   - Ara el model Tipus i Prioritat perque les classes dependents heredin d'aquesta
   - Tot el codi en de les classes Compra i Tasca en Maps perque es passin les classes adients

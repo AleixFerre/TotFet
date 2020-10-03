@@ -156,6 +156,7 @@ class LlistaDetalls extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => QRViewer(
                       id: llista.id,
+                      nom: llista.nom,
                       finestra: finestra,
                     ),
                   ),
