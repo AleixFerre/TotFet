@@ -51,6 +51,13 @@ class DatabaseService {
     );
   }
 
+  Future<void> actualitzarNotificacionsUsuari(
+      Map notificacions, String id) async {
+    return await usersCollection
+        .doc(id)
+        .update({"notificacions": notificacions});
+  }
+
   Future<void> desbanejarUsuari(String uid) async {
     return await usersCollection.doc(uid).update(
       {"ban": null},
@@ -243,6 +250,10 @@ class DatabaseService {
 
   Stream<DocumentSnapshot> getUserData() {
     return usersCollection.doc(uid).snapshots();
+  }
+
+  Future<DocumentSnapshot> getUserDataFuture() {
+    return usersCollection.doc(uid).get();
   }
 
   Future<List<QuerySnapshot>> getAllTablesInfo() {

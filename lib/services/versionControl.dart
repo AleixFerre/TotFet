@@ -18,6 +18,12 @@ class VersionControlService {
     return DatabaseService().getCurrentVersion();
   }
 
+  Future<List<dynamic>> getChanges() async {
+    // Just a wrapper of the function
+    DocumentSnapshot version = await DatabaseService().getCurrentVersion();
+    return version.data()['changes'];
+  }
+
   Map<String, dynamic> checkCurrentVersion(Map<String, dynamic> data) {
     if (data['index'] > versionIndex) {
       // Hi ha una versió nova

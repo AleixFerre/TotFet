@@ -5,8 +5,8 @@ import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/TipusReport.dart';
 import 'package:totfet/pages/admin/report_bug.dart';
 import 'package:totfet/services/database.dart';
-import 'package:totfet/services/versionControl.dart';
 import 'package:totfet/shared/constants.dart';
+import 'package:totfet/shared/opcions_page.dart';
 import 'package:totfet/shared/sortir_sessio.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -182,6 +182,30 @@ class MyDrawer extends StatelessWidget {
                   disabledTextColor: disabledTextColor,
                   disabledColor: disabledColor,
                   color: color,
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => OpcionsPage())),
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Configuració"),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Icon(Icons.arrow_right),
+                    ],
+                  ),
+                ),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 1,
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledColor,
+                  color: color,
                   onPressed: () async {
                     // Mostrar la pàgina de report que retorna un report o null
                     Report report = await Navigator.push(
@@ -215,36 +239,6 @@ class MyDrawer extends StatelessWidget {
                         width: 20,
                       ),
                       Text("Informa d'un error"),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Icon(Icons.arrow_right),
-                    ],
-                  ),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 1,
-                  disabledTextColor: disabledTextColor,
-                  disabledColor: disabledColor,
-                  color: color,
-                  onPressed: () async {
-                    // Comprovar actualitzacions amb el nuvol
-                    Map<String, dynamic> info =
-                        await VersionControlService().checkUpdates();
-
-                    // Confirmar si es vol anar a la pestanya del drive.
-                    VersionControlService().showAlert(context, info);
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.update),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Comprova actualitzacions"),
                       Expanded(
                         child: Container(),
                       ),

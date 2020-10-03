@@ -12,6 +12,7 @@ class Usuari {
   String bio;
   bool isAdmin;
   Timestamp dataCreacio;
+  Map<String, dynamic> notificacions;
 
   Usuari({
     @required this.uid,
@@ -21,6 +22,7 @@ class Usuari {
     this.token,
     this.bio,
     this.dataCreacio,
+    this.notificacions,
   });
 
   static Usuari fromDB(String id, String _email, Map<String, dynamic> data) {
@@ -32,6 +34,7 @@ class Usuari {
       token: data['token'],
       bio: data['bio'],
       dataCreacio: data['dataCreacio'],
+      notificacions: data['notificacions'],
     );
   }
 
@@ -42,15 +45,12 @@ class Usuari {
       "token": token,
       "dataCreacio": dataCreacio ?? DateTime.now(),
       "bio": bio,
+      "notificacions": notificacions,
     };
   }
 
   static List<String> fromRefDB(QuerySnapshot referencies) {
-    return referencies.docs
-        .map(
-          (e) => e.data()['usuari'].toString(),
-        )
-        .toList();
+    return referencies.docs.map((e) => e.data()['usuari'].toString()).toList();
   }
 
   static Usuari perDefecte(String _uid) {
@@ -59,6 +59,10 @@ class Usuari {
       nom: "Nou membre",
       token: "",
       isAdmin: false,
+      notificacions: {
+        "compres": true,
+        "tasques": true,
+      },
     );
   }
 

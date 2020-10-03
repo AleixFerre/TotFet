@@ -23,6 +23,11 @@ async function enviarNotificacioCompra(snapshot: functions.firestore.QueryDocume
 
   const usuari = await db.collection('usuaris').doc(compra.idAssignat).get();
 
+  if (usuari?.data()?.notificacions['compres'] === false) {
+    console.log("Té la configurat que no s'enviin notificacions de compres!");
+    return;
+  }
+
   tokens.push(usuari.data()?.token);
 
   const payload: admin.messaging.MessagingPayload = {
@@ -61,6 +66,11 @@ async function enviarNotificacioTasca(snapshot: functions.firestore.QueryDocumen
   }
 
   const usuari = await db.collection('usuaris').doc(tasca.idAssignat).get();
+
+  if (usuari?.data()?.notificacions['tasques'] === false) {
+    console.log("Té la configurat que no s'enviin notificacions de tasques!");
+    return;
+  }
 
   tokens.push(usuari.data()?.token);
 

@@ -52,6 +52,12 @@ class NovaActualitzacio extends StatelessWidget {
 
                 showModalBottomSheet(
                   context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                    ),
+                  ),
                   builder: (context) => ListView.builder(
                     padding: EdgeInsets.all(15),
                     itemCount: changes.length,
