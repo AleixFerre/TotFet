@@ -274,74 +274,72 @@ class _AdminLlistesState extends State<AdminLlistes> {
             );
           }
 
-          return Padding(
+          return ListView.builder(
             padding: EdgeInsets.all(8),
-            child: ListView.builder(
-              itemCount: llistes.length,
-              itemBuilder: (context, index) {
-                Llista llista = llistes[index];
-                bool isOwner = AuthService().userId == llista.idCreador;
-                return Card(
-                  child: ListTile(
-                    onLongPress: () => Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("ID: ${llista.id}"),
-                      ),
+            itemCount: llistes.length,
+            itemBuilder: (context, index) {
+              Llista llista = llistes[index];
+              bool isOwner = AuthService().userId == llista.idCreador;
+              return Card(
+                child: ListTile(
+                  onLongPress: () => Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("ID: ${llista.id}"),
                     ),
-                    onTap: () {
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => LlistaDetalls(
+                          llista: llista,
+                          isOwner: isOwner,
+                          finestra: Finestra.Perfil,
+                        ),
+                      ),
+                    );
+                  },
+                  leading: IconButton(
+                    tooltip:
+                        "Ensenya el codi QR als teus amics per poder convidar-los!",
+                    icon: Icon(
+                      Icons.qr_code,
+                      size: 32,
+                      semanticLabel: "Escaneja el codi QR de la llista",
+                    ),
+                    onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => LlistaDetalls(
-                            llista: llista,
-                            isOwner: isOwner,
+                          builder: (context) => QRViewer(
+                            id: llista.id,
+                            nom: llista.nom,
                             finestra: Finestra.Perfil,
                           ),
                         ),
                       );
                     },
-                    leading: IconButton(
-                      tooltip:
-                          "Ensenya el codi QR als teus amics per poder convidar-los!",
-                      icon: Icon(
-                        Icons.qr_code,
-                        size: 32,
-                        semanticLabel: "Escaneja el codi QR de la llista",
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => QRViewer(
-                              id: llista.id,
-                              nom: llista.nom,
-                              finestra: Finestra.Perfil,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    contentPadding: EdgeInsets.all(3),
-                    title: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            llista.nom,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ]),
-                    subtitle: (llista.descripcio != null)
-                        ? Center(
-                            child: Text(llista.descripcio),
-                          )
-                        : null,
-                    trailing: construirDesplegable(isOwner, llista),
                   ),
-                );
-              },
-            ),
+                  contentPadding: EdgeInsets.all(3),
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          llista.nom,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ]),
+                  subtitle: (llista.descripcio != null)
+                      ? Center(
+                          child: Text(llista.descripcio),
+                        )
+                      : null,
+                  trailing: construirDesplegable(isOwner, llista),
+                ),
+              );
+            },
           );
         }
 

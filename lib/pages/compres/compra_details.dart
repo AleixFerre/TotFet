@@ -302,6 +302,11 @@ class CompraDetails extends StatelessWidget {
                             null,
                           ),
                           showParam(
+                            "Descripció",
+                            compra.descripcio,
+                            null,
+                          ),
+                          showParam(
                             "Tipus",
                             tipusToString(compra.tipus),
                             tipustoIcon(compra.tipus),
