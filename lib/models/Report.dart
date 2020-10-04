@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/TipusReport.dart';
 
@@ -8,6 +9,7 @@ class Report {
   Prioritat prioritat;
   String autor;
   String id;
+  Timestamp dataCreacio;
 
   Report({
     this.titol,
@@ -16,6 +18,7 @@ class Report {
     this.tipus,
     this.id,
     this.autor,
+    this.dataCreacio,
   });
 
   static Report perDefecte(String autor) {
@@ -23,6 +26,7 @@ class Report {
       prioritat: Prioritat.Normal,
       tipus: TipusReport.Error,
       autor: autor,
+      dataCreacio: Timestamp.now(),
     );
   }
 
@@ -33,6 +37,7 @@ class Report {
       "tipus": tipusReportToString(tipus),
       "prioritat": prioritatToString(prioritat),
       "autor": autor,
+      "dataCreacio": dataCreacio,
     };
   }
 
@@ -47,6 +52,7 @@ class Report {
           ? null
           : prioritatfromString(data['prioritat']),
       autor: data['autor'],
+      dataCreacio: data['dataCreacio'],
     );
   }
 }

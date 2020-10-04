@@ -15,6 +15,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - S'ha canviat els camps multilinea per camps normals perque al papa no li agraden
 - S'ha tornat a deixar com estava el codi qr en pantalla perque quedava cutre :P
 - Ara al sortir de qualsevol formulari sense haber guardat t'avisa per si vols sortir realment
+- Al panell d'administrador ara els informes es poden clicar i mostren informació més detallada
 
 ## CHANGELOG - v0.5.1-beta
 
