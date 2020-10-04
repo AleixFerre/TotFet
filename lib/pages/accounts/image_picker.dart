@@ -24,6 +24,7 @@ class _ImageCaptureState extends State<ImageCapture> {
   bool mostrarInicials = false;
   StorageUploadTask _uploadTask;
   double progress = 0.0;
+  bool editat = false;
 
   @override
   void initState() {
@@ -66,6 +67,7 @@ class _ImageCaptureState extends State<ImageCapture> {
       _imageFile = compressed;
       _uploadTask = null;
       firstTime = false;
+      editat = true;
     });
   }
 
@@ -80,173 +82,200 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Editar foto de perfil"),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
+    return WillPopScope(
+      onWillPop: () async => editat
+          ? showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Tens canvis sense guardar!"),
+                content: Text("Vols sortir sense guardar?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel·lar"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Sortir"),
+                  ),
+                ],
+              ),
+            )
+          : true,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Editar foto de perfil" + (editat ? "*" : "")),
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.blue[400],
+                  Colors.blue[900],
+                ],
+              ),
             ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.add_photo_alternate),
+              onPressed: () async {
+                await _pickImage(ImageSource.gallery);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.add_a_photo),
+              onPressed: () async {
+                await _pickImage(ImageSource.camera);
+              },
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add_photo_alternate),
-            onPressed: () async {
-              await _pickImage(ImageSource.gallery);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.add_a_photo),
-            onPressed: () async {
-              await _pickImage(ImageSource.camera);
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (firstTime)
-              if (mostrarInicials)
-                Hero(
-                  tag: "ImgPerfil",
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    radius: 100,
-                    child: Text(
-                      Usuari.inicials(widget.nom),
-                      style: TextStyle(fontSize: 100),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (firstTime)
+                if (mostrarInicials)
+                  Hero(
+                    tag: "ImgPerfil",
+                    child: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      radius: 100,
+                      child: Text(
+                        Usuari.inicials(widget.nom),
+                        style: TextStyle(fontSize: 100),
+                      ),
                     ),
-                  ),
-                )
+                  )
+                else
+                  Hero(
+                    tag: "ImgPerfil",
+                    child: Image.network(
+                      _imageFile.path,
+                      height: 200,
+                    ),
+                  )
               else
                 Hero(
                   tag: "ImgPerfil",
-                  child: Image.network(
-                    _imageFile.path,
+                  child: Image.file(
+                    _imageFile,
                     height: 200,
                   ),
-                )
-            else
-              Hero(
-                tag: "ImgPerfil",
-                child: Image.file(
-                  _imageFile,
-                  height: 200,
                 ),
+              SizedBox(
+                height: 30,
               ),
-            SizedBox(
-              height: 30,
-            ),
-            if (_uploadTask != null)
-              StreamBuilder<StorageTaskEvent>(
-                stream: _uploadTask.events,
-                builder: (_, snapshot) {
-                  StorageTaskSnapshot event = snapshot?.data?.snapshot;
+              if (_uploadTask != null)
+                StreamBuilder<StorageTaskEvent>(
+                  stream: _uploadTask.events,
+                  builder: (_, snapshot) {
+                    StorageTaskSnapshot event = snapshot?.data?.snapshot;
 
-                  double progressPercent = event != null
-                      ? event.bytesTransferred / event.totalByteCount
-                      : 0;
+                    double progressPercent = event != null
+                        ? event.bytesTransferred / event.totalByteCount
+                        : 0;
 
-                  return Column(
+                    return Column(
+                      children: [
+                        if (_uploadTask.isComplete)
+                          Column(children: [
+                            Text(
+                              '🎉🎉🎉',
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Wow la imatge s'ha pujat perfectament!\nJa pots tancar la finestra.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ]),
+
+                        if (_uploadTask.isPaused)
+                          FlatButton(
+                            child: Icon(Icons.play_arrow),
+                            onPressed: _uploadTask.resume,
+                          ),
+
+                        if (_uploadTask.isInProgress)
+                          FlatButton(
+                            child: Icon(Icons.pause),
+                            onPressed: _uploadTask.pause,
+                          ),
+
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        // Progress bar
+                        LinearProgressIndicator(value: progressPercent),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          '${(progressPercent * 100).toStringAsFixed(2)} % ',
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                )
+              else
+                RaisedButton(
+                  elevation: 3,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  onPressed: firstTime
+                      ? null
+                      : () async {
+                          // PUJAR AL NUVOL
+                          if (firstTime) return;
+                          setState(() {
+                            _uploadTask =
+                                StorageService().uploadImage(_imageFile);
+                            editat = false;
+                          });
+                        },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (_uploadTask.isComplete)
-                        Column(children: [
-                          Text(
-                            '🎉🎉🎉',
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Wow la imatge s'ha pujat perfectament!\nJa pots tancar la finestra.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ]),
-
-                      if (_uploadTask.isPaused)
-                        FlatButton(
-                          child: Icon(Icons.play_arrow),
-                          onPressed: _uploadTask.resume,
-                        ),
-
-                      if (_uploadTask.isInProgress)
-                        FlatButton(
-                          child: Icon(Icons.pause),
-                          onPressed: _uploadTask.pause,
-                        ),
-
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      // Progress bar
-                      LinearProgressIndicator(value: progressPercent),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Text(
-                        '${(progressPercent * 100).toStringAsFixed(2)} % ',
+                        "Pujar al núvol",
                         style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 30, fontWeight: FontWeight.w300),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.cloud_upload,
+                        size: 30,
                       ),
                     ],
-                  );
-                },
-              )
-            else
-              RaisedButton(
-                elevation: 3,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 8,
+                  ),
                 ),
-                onPressed: firstTime
-                    ? null
-                    : () async {
-                        // PUJAR AL NUVOL
-                        if (firstTime) return;
-                        setState(() {
-                          _uploadTask =
-                              StorageService().uploadImage(_imageFile);
-                        });
-                      },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Pujar al núvol",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.cloud_upload,
-                      size: 30,
-                    ),
-                  ],
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -14,6 +14,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Es pot configurar quin tipus de notificacions vols que t'arribin al menu d'opcions
 - S'ha canviat els camps multilinea per camps normals perque al papa no li agraden
 - S'ha tornat a deixar com estava el codi qr en pantalla perque quedava cutre :P
+- Ara al sortir de qualsevol formulari sense haber guardat t'avisa per si vols sortir realment
 
 ## CHANGELOG - v0.5.1-beta
 

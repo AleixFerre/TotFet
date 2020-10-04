@@ -107,7 +107,7 @@ class OpcionsPage extends StatelessWidget {
                             ? Icons.notifications
                             : Icons.notifications_off),
                         Text(
-                          "Quan t'adjudiquen una compra",
+                          "Quan t'assignen una compra",
                           style: TextStyle(fontSize: 20),
                         ),
                         Expanded(child: Container()),
@@ -129,7 +129,7 @@ class OpcionsPage extends StatelessWidget {
                             ? Icons.notifications
                             : Icons.notifications_off),
                         Text(
-                          "Quan t'adjudiquen una tasca",
+                          "Quan t'assignen una tasca",
                           style: TextStyle(fontSize: 20),
                         ),
                         Expanded(child: Container()),

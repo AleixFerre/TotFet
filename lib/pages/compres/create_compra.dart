@@ -122,353 +122,382 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
           ),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  validator: (value) {
-                    value = value.trim();
-                    if (value == "") {
-                      return "Siusplau, posa un nom";
-                    } else if (value.length > 30) {
-                      return "Nom massa llarg (max. 30 caràcters)";
-                    }
-                    return null;
-                  },
-                  initialValue: compra.nom,
-                  onChanged: (str) {
-                    setState(() {
-                      compra.nom = (str.trim() == "") ? null : str.trim();
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Nom del producte*',
-                    counterText: "${compra.nom?.length ?? 0}/30",
-                    helperText: "*Requerit",
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  initialValue: compra.descripcio,
-                  validator: (value) {
-                    value = value.trim();
-                    if (value.length > 255) {
-                      return "Descripció massa llarga (max. 255 caràcters)";
-                    }
-                    return null;
-                  },
-                  onChanged: (str) {
-                    setState(() {
-                      compra.descripcio =
-                          (str.trim() == "") ? null : str.trim();
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Descripció del producte',
-                    counterText: "${compra.descripcio?.length ?? 0}/255",
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona una llista"),
-                    DropdownButton<String>(
-                      hint: Text("Escolleix una llista"),
-                      value: widget
-                          .llistesUsuari[indexLlista ?? widget.indexLlista].id,
-                      items: widget.llistesUsuari.map<DropdownMenuItem<String>>(
-                        (Llista value) {
-                          return DropdownMenuItem<String>(
-                            value: value.id,
-                            child: Text(value.nom),
-                          );
-                        },
-                      ).toList(),
-                      onChanged: (String newValue) {
-                        indexLlista = widget.llistesUsuari.indexWhere(
-                          (element) => element.id == newValue,
-                        );
-                        compra.idAssignat = null;
-                        widget.updateParent(indexLlista);
+      body: WillPopScope(
+        onWillPop: () async => compra.nom == null || compra.nom == ""
+            ? true
+            : showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text("Tens canvis sense guardar!"),
+                  content: Text("Vols sortir sense guardar?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
                       },
+                      child: Text("Cancel·lar"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Sortir"),
                     ),
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Assigna un usuari de la llista"),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DropdownButton<String>(
-                          hint: Text("Selecciona un usuari"),
-                          value: compra.idAssignat,
-                          items: widget.usuaris
-                              .map<DropdownMenuItem<String>>((Usuari value) {
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
+                    validator: (value) {
+                      value = value.trim();
+                      if (value == "") {
+                        return "Siusplau, posa un nom";
+                      } else if (value.length > 30) {
+                        return "Nom massa llarg (max. 30 caràcters)";
+                      }
+                      return null;
+                    },
+                    initialValue: compra.nom,
+                    onChanged: (str) {
+                      setState(() {
+                        compra.nom = (str.trim() == "") ? null : str.trim();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Nom del producte*',
+                      counterText: "${compra.nom?.length ?? 0}/30",
+                      helperText: "*Requerit",
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
+                    initialValue: compra.descripcio,
+                    validator: (value) {
+                      value = value.trim();
+                      if (value.length > 255) {
+                        return "Descripció massa llarga (max. 255 caràcters)";
+                      }
+                      return null;
+                    },
+                    onChanged: (str) {
+                      setState(() {
+                        compra.descripcio =
+                            (str.trim() == "") ? null : str.trim();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Descripció del producte',
+                      counterText: "${compra.descripcio?.length ?? 0}/255",
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Selecciona una llista"),
+                      DropdownButton<String>(
+                        hint: Text("Escolleix una llista"),
+                        value: widget
+                            .llistesUsuari[indexLlista ?? widget.indexLlista]
+                            .id,
+                        items:
+                            widget.llistesUsuari.map<DropdownMenuItem<String>>(
+                          (Llista value) {
                             return DropdownMenuItem<String>(
-                              value: value.uid,
+                              value: value.id,
                               child: Text(value.nom),
                             );
-                          }).toList(),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              compra.idAssignat = newValue;
-                            });
                           },
+                        ).toList(),
+                        onChanged: (String newValue) {
+                          indexLlista = widget.llistesUsuari.indexWhere(
+                            (element) => element.id == newValue,
+                          );
+                          compra.idAssignat = null;
+                          widget.updateParent(indexLlista);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Assigna un usuari de la llista"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DropdownButton<String>(
+                            hint: Text("Selecciona un usuari"),
+                            value: compra.idAssignat,
+                            items: widget.usuaris
+                                .map<DropdownMenuItem<String>>((Usuari value) {
+                              return DropdownMenuItem<String>(
+                                value: value.uid,
+                                child: Text(value.nom),
+                              );
+                            }).toList(),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                compra.idAssignat = newValue;
+                              });
+                            },
+                          ),
+                          IconButton(
+                            tooltip: "Desseleccionar assignat",
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                compra.idAssignat = null;
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Quantitat: ${compra.quantitat}"),
+                      Slider(
+                        value: compra.quantitat.toDouble(),
+                        min: 1,
+                        max: 30,
+                        divisions: 29,
+                        label: "${compra.quantitat}",
+                        onChanged: (value) {
+                          setState(() {
+                            compra.quantitat = value.toInt();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Selecciona un tipus de producte"),
+                      DropdownButton<Tipus>(
+                        hint: Text("Escolleix un tipus"),
+                        value: compra.tipus,
+                        items: Tipus.values
+                            .map<DropdownMenuItem<Tipus>>((Tipus value) {
+                          return DropdownMenuItem<Tipus>(
+                            value: value,
+                            child: Row(
+                              children: [
+                                tipustoIcon(value),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(tipusToString(value)),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (Tipus newValue) {
+                          setState(() {
+                            compra.tipus = newValue;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Selecciona una prioritat"),
+                      DropdownButton<Prioritat>(
+                        hint: Text("Escolleix una prioritat"),
+                        value: compra.prioritat,
+                        items: Prioritat.values
+                            .map<DropdownMenuItem<Prioritat>>(
+                                (Prioritat value) {
+                          return DropdownMenuItem<Prioritat>(
+                            value: value,
+                            child: Row(
+                              children: [
+                                prioritatIcon(value),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(prioritatToString(value)),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (Prioritat newValue) {
+                          setState(() {
+                            compra.prioritat = newValue;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Selecciona una data prevista de compra"),
+                      RaisedButton(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              compra.dataPrevista == null
+                                  ? "Escolleix la data"
+                                  : compra.dataPrevista
+                                          .toDate()
+                                          .day
+                                          .toString()
+                                          .padLeft(2, "0") +
+                                      "/" +
+                                      compra.dataPrevista
+                                          .toDate()
+                                          .month
+                                          .toString()
+                                          .padLeft(2, "0") +
+                                      "/" +
+                                      compra.dataPrevista
+                                          .toDate()
+                                          .year
+                                          .toString(),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.calendar_today),
+                          ],
                         ),
-                        IconButton(
-                          tooltip: "Desseleccionar assignat",
-                          icon: Icon(Icons.clear),
-                          onPressed: () {
-                            setState(() {
-                              compra.idAssignat = null;
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Quantitat: ${compra.quantitat}"),
-                    Slider(
-                      value: compra.quantitat.toDouble(),
-                      min: 1,
-                      max: 30,
-                      divisions: 29,
-                      label: "${compra.quantitat}",
-                      onChanged: (value) {
-                        setState(() {
-                          compra.quantitat = value.toInt();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona un tipus de producte"),
-                    DropdownButton<Tipus>(
-                      hint: Text("Escolleix un tipus"),
-                      value: compra.tipus,
-                      items: Tipus.values
-                          .map<DropdownMenuItem<Tipus>>((Tipus value) {
-                        return DropdownMenuItem<Tipus>(
-                          value: value,
-                          child: Row(
-                            children: [
-                              tipustoIcon(value),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(tipusToString(value)),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (Tipus newValue) {
-                        setState(() {
-                          compra.tipus = newValue;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona una prioritat"),
-                    DropdownButton<Prioritat>(
-                      hint: Text("Escolleix una prioritat"),
-                      value: compra.prioritat,
-                      items: Prioritat.values
-                          .map<DropdownMenuItem<Prioritat>>((Prioritat value) {
-                        return DropdownMenuItem<Prioritat>(
-                          value: value,
-                          child: Row(
-                            children: [
-                              prioritatIcon(value),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(prioritatToString(value)),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (Prioritat newValue) {
-                        setState(() {
-                          compra.prioritat = newValue;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona una data prevista de compra"),
-                    RaisedButton(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            compra.dataPrevista == null
-                                ? "Escolleix la data"
-                                : compra.dataPrevista
-                                        .toDate()
-                                        .day
-                                        .toString()
-                                        .padLeft(2, "0") +
-                                    "/" +
-                                    compra.dataPrevista
-                                        .toDate()
-                                        .month
-                                        .toString()
-                                        .padLeft(2, "0") +
-                                    "/" +
-                                    compra.dataPrevista
-                                        .toDate()
-                                        .year
-                                        .toString(),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(Icons.calendar_today),
-                        ],
+                        onPressed: () async {
+                          final picked = await showDatePicker(
+                            context: context,
+                            helpText: "SELECCIONA UNA DATA",
+                            confirmText: "CONFIRMAR",
+                            cancelText: "CANCEL·LAR",
+                            initialDate: compra.dataPrevista == null
+                                ? DateTime.now()
+                                : DateTime.fromMillisecondsSinceEpoch(
+                                    compra.dataPrevista.millisecondsSinceEpoch),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2100),
+                          );
+                          setState(() {
+                            if (picked == null) {
+                              compra.dataPrevista = null;
+                            } else {
+                              compra.dataPrevista = Timestamp.fromDate(picked);
+                            }
+                          });
+                        },
                       ),
-                      onPressed: () async {
-                        final picked = await showDatePicker(
-                          context: context,
-                          helpText: "SELECCIONA UNA DATA",
-                          confirmText: "CONFIRMAR",
-                          cancelText: "CANCEL·LAR",
-                          initialDate: compra.dataPrevista == null
-                              ? DateTime.now()
-                              : DateTime.fromMillisecondsSinceEpoch(
-                                  compra.dataPrevista.millisecondsSinceEpoch),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2100),
-                        );
-                        setState(() {
-                          if (picked == null) {
-                            compra.dataPrevista = null;
-                          } else {
-                            compra.dataPrevista = Timestamp.fromDate(picked);
-                          }
-                        });
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Text("Selecciona un preu estimat"),
-                    RaisedButton(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            compra.preuEstimat == null
-                                ? "Escolleix el preu estimat"
-                                : compra.preuEstimat.toString() + "€",
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(Icons.euro),
-                        ],
-                      ),
-                      onPressed: () async {
-                        final picked = await showDialog<int>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return new NumberPickerDialog.integer(
-                              title: Text("Preu estimat en €"),
-                              minValue: 1,
-                              maxValue: 100,
-                              initialIntegerValue: compra.preuEstimat ?? 1,
-                            );
-                          },
-                        );
+                Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Text("Selecciona un preu estimat"),
+                      RaisedButton(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              compra.preuEstimat == null
+                                  ? "Escolleix el preu estimat"
+                                  : compra.preuEstimat.toString() + "€",
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.euro),
+                          ],
+                        ),
+                        onPressed: () async {
+                          final picked = await showDialog<int>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return new NumberPickerDialog.integer(
+                                title: Text("Preu estimat en €"),
+                                minValue: 1,
+                                maxValue: 100,
+                                initialIntegerValue: compra.preuEstimat ?? 1,
+                              );
+                            },
+                          );
 
-                        setState(() {
-                          compra.preuEstimat = picked;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(
-                color: Colors.blueAccent,
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    Navigator.pop(context, compra);
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        'Afegir',
-                        style: TextStyle(color: Colors.white, fontSize: 40),
+                          setState(() {
+                            compra.preuEstimat = picked;
+                          });
+                        },
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Icon(
-                      Icons.add_circle,
-                      size: 40,
-                      color: Colors.white,
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  color: Colors.blueAccent,
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      Navigator.pop(context, compra);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Text(
+                          'Afegir',
+                          style: TextStyle(color: Colors.white, fontSize: 40),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.add_circle,
+                        size: 40,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
