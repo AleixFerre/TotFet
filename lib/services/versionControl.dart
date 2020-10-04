@@ -21,7 +21,10 @@ class VersionControlService {
   Future<List<dynamic>> getChanges() async {
     // Just a wrapper of the function
     DocumentSnapshot version = await DatabaseService().getCurrentVersion();
-    return version.data()['changes'];
+    List changes = version.data()['changes'];
+    changes.insert(0, version.data()['tag']);
+    changes.insert(0, "Notes de l'actualització");
+    return changes;
   }
 
   Map<String, dynamic> checkCurrentVersion(Map<String, dynamic> data) {
@@ -36,7 +39,7 @@ class VersionControlService {
 
   Future<void> mostrarNotesActualitzacio(BuildContext context) async {
     List<dynamic> changes = await getChanges();
-    changes.insert(0, "Notes de l'actualització");
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -51,16 +54,14 @@ class VersionControlService {
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
-              index == 0
-                  ? Text(
-                      changes[index],
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    )
-                  : Text(
-                      " ► " + changes[index],
-                      style: TextStyle(fontSize: 20),
-                    ),
+              if (index == 0)
+                Text(changes[index],
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+              else if (index == 1)
+                Text(changes[index],
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300))
+              else
+                Text(" ► " + changes[index], style: TextStyle(fontSize: 20)),
               Divider(),
             ],
           );
