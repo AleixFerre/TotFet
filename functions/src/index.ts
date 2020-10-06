@@ -94,6 +94,44 @@ async function enviarNotificacioTasca(snapshot: functions.firestore.QueryDocumen
 
 }
 
+
+async function enviarNotificacioInforme(snapshot: functions.firestore.QueryDocumentSnapshot) {
+  if (!snapshot.exists) {
+    console.log("No devices connected.");
+    return;
+  }
+
+  const informe = snapshot.data();
+
+  const admins = await db.collection('usuaris').where("isAdmin", "==", true).get();
+
+  if (admins.docs.length === 0) {
+    console.log("No hi ha cap admin per enviar la notificació!");
+    return;
+  }
+
+  const tokens = admins.docs.map(e=>e.data().token);
+
+  const payload: admin.messaging.MessagingPayload = {
+    notification: {
+      title: "Hi ha un nou informe!",
+      body: `${informe.titol}`,
+    },
+    data: {
+      clickAction: "FLUTTER_NOTIFICATION_CLICK",
+      view: "detalls_informe",
+      informeID: snapshot.id,
+    }
+  }
+
+  try {
+    await fcm.sendToDevice(tokens, payload);
+  } catch (e) {
+    console.log(e.toString());
+  }
+
+}
+
 // Retorna si hi ha hagut un canvi al camp idAssignat
 function comprovarCanviAssignat(snapshot: functions.Change<functions.firestore.QueryDocumentSnapshot>): boolean {
   return (snapshot.before.data()?.idAssignat !== snapshot.after.data()?.idAssignat);
@@ -123,3 +161,8 @@ export const alActualitzarTasca = functions.firestore
     if (comprovarCanviAssignat(snapshot))
       await enviarNotificacioTasca(snapshot.after);
   });
+
+//? -------- TASQUES --------
+  export const alCrearInforme = functions.firestore
+  .document('reports/{idInforme}')
+  .onCreate(async snapshot => await enviarNotificacioInforme(snapshot));

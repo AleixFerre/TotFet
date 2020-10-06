@@ -183,22 +183,23 @@ class _PerfilState extends State<Perfil> {
                       SizedBox(
                         height: 20,
                       ),
-                      usuari.bio == null || usuari.bio == ""
-                          ? Text(
-                              "No tens bio",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w300,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            )
-                          : Text(
-                              usuari.bio,
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
+                      if (usuari.bio == null || usuari.bio == "")
+                        Text(
+                          "No tens bio",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w300,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        )
+                      else
+                        Text(
+                          usuari.bio,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
                       Divider(),
                       Center(
                         child: Text(
