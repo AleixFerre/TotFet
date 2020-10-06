@@ -462,7 +462,8 @@ class CompraDetails extends StatelessWidget {
     );
   }
 
-  String mostrarPreu(int preu) {
-    return preu == null ? null : preu.toString() + "€";
+  String mostrarPreu(double preu) {
+    if (preu == null) return null;
+    return "$preu€";
   }
 }

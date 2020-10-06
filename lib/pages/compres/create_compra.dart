@@ -447,14 +447,15 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           ],
                         ),
                         onPressed: () async {
-                          final picked = await showDialog<int>(
+                          final picked = await showDialog<double>(
                             context: context,
                             builder: (BuildContext context) {
-                              return new NumberPickerDialog.integer(
+                              return new NumberPickerDialog.decimal(
                                 title: Text("Preu estimat en €"),
                                 minValue: 1,
                                 maxValue: 100,
-                                initialIntegerValue: compra.preuEstimat ?? 1,
+                                decimalPlaces: 2,
+                                initialDoubleValue: compra.preuEstimat ?? 1,
                               );
                             },
                           );

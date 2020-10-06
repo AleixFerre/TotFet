@@ -389,14 +389,15 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                           ],
                         ),
                         onPressed: () async {
-                          final picked = await showDialog<int>(
+                          final picked = await showDialog<double>(
                             context: context,
                             builder: (BuildContext context) {
-                              return new NumberPickerDialog.integer(
+                              return new NumberPickerDialog.decimal(
                                 title: Text("Preu estimat en €"),
                                 minValue: 1,
                                 maxValue: 100,
-                                initialIntegerValue: model.preuEstimat ?? 1,
+                                decimalPlaces: 2,
+                                initialDoubleValue: model.preuEstimat ?? 1,
                               );
                             },
                           );

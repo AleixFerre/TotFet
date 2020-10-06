@@ -38,7 +38,7 @@ class MessagingService {
     }
   }
 
-  Future getToken() async {
+  Future<String> getToken() async {
     return await _fcm.getToken();
   }
 }

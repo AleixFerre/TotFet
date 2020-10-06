@@ -49,6 +49,12 @@ class _ReportListState extends State<ReportList> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: informes.length == 0
           ? LlistaBuida(esTaronja: false)

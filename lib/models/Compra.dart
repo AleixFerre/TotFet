@@ -47,7 +47,7 @@ class Compra {
   // data de compra, si comprat es false, [dataCompra] és null
   Timestamp dataCompra;
   // Preu unitari estimat del producte en euros
-  int preuEstimat;
+  double preuEstimat;
   // [idCreador] no pot ser null mai
   String idCreador; // ID de qui ha creat la compra
   String nomCreador; // Només valid quan es fa la query
@@ -72,7 +72,7 @@ class Compra {
       tipus: tipusfromString(data['tipus']),
       quantitat: data['quantitat'],
       prioritat: prioritatfromString(data['prioritat']),
-      preuEstimat: data['preuEstimat'],
+      preuEstimat: data['preuEstimat']?.toDouble(),
       dataPrevista: data['dataPrevista'],
       dataCreacio: data['dataCreacio'],
       dataCompra: data['dataCompra'],

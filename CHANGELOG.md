@@ -11,6 +11,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Ara es mostra millor els detalls de l'informe al panell d'admin
 - Ara es mostra "Sense bio" a la gent que no té bio assignada
 - Ara cada nou informe envia una notificació als admins
+- Ara el preu estimat pot contenir decimals
 - Ara els informes es mostren cronologicament els mes recents primer
 
 ## CHANGELOG - v0.5.2-beta
