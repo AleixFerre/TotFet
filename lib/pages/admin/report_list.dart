@@ -24,6 +24,15 @@ class _ReportListState extends State<ReportList> {
 
   @override
   Widget build(BuildContext context) {
+    // S'orderna la taula informes pel parametre passat
+    // Els mes recents primer
+    informes.sort(
+      (a, b) {
+        return a.dataCreacio.microsecondsSinceEpoch
+                .compareTo(b.dataCreacio.microsecondsSinceEpoch) *
+            -1;
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Informes"),
