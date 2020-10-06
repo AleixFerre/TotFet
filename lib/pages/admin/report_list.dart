@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
-import 'package:totfet/models/TipusReport.dart';
+import 'package:totfet/models/Tipus_report.dart';
 import 'package:totfet/models/Usuari.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/llista_buida.dart';
@@ -24,29 +24,6 @@ class _ReportListState extends State<ReportList> {
 
   @override
   Widget build(BuildContext context) {
-    String readTimestamp(Timestamp timestamp, bool showHour) {
-      if (timestamp == null) return null;
-
-      DateTime date = DateTime.fromMicrosecondsSinceEpoch(
-        timestamp.microsecondsSinceEpoch,
-      );
-
-      String str = date.day.toString().padLeft(2, "0") +
-          "/" +
-          date.month.toString().padLeft(2, "0") +
-          "/" +
-          date.year.toString();
-
-      if (showHour) {
-        str += " " +
-            date.hour.toString().padLeft(2, "0") +
-            ":" +
-            date.minute.toString().padLeft(2, "0");
-      }
-
-      return str;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Informes"),
@@ -89,137 +66,7 @@ class _ReportListState extends State<ReportList> {
                     elevation: 3,
                     child: ListTile(
                       onTap: () async {
-                        DocumentSnapshot data =
-                            await DatabaseService(uid: informe.autor)
-                                .getUserDataFuture();
-                        Usuari autor = Usuari.fromDB(
-                          data.id,
-                          null,
-                          data.data(),
-                        );
-                        showModalBottomSheet(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0),
-                            ),
-                          ),
-                          context: context,
-                          builder: (context) => SingleChildScrollView(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    autor.avatar,
-                                    Expanded(child: Container()),
-                                    Text(
-                                      autor.nom,
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(child: Container()),
-                                  ],
-                                ),
-                                Divider(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Titol",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  informe.titol,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Divider(),
-                                Text(
-                                  "Descripció",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  informe.descripcio,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Divider(),
-                                Text(
-                                  "Tipus",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    tipusReportIcon(informe.tipus),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      tipusReportToString(informe.tipus),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Divider(),
-                                Text(
-                                  "Prioritat",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    prioritatIcon(informe.prioritat),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      prioritatToString(informe.prioritat),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Divider(),
-                                Text(
-                                  "Enviat el",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                informe.dataCreacio == null
-                                    ? Text(
-                                        "No assignat",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      )
-                                    : Text(
-                                        readTimestamp(
-                                            informe.dataCreacio, true),
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          ),
-                        );
+                        await mostrarInforme(context, informe);
                       },
                       title: Text(
                         informe.titol,
@@ -240,6 +87,130 @@ class _ReportListState extends State<ReportList> {
                   ),
                 );
               }),
+    );
+  }
+
+  Future mostrarInforme(BuildContext context, Report informe) async {
+    String readTimestamp(Timestamp timestamp, bool showHour) {
+      if (timestamp == null) return null;
+
+      DateTime date = DateTime.fromMicrosecondsSinceEpoch(
+        timestamp.microsecondsSinceEpoch,
+      );
+
+      String str = date.day.toString().padLeft(2, "0") +
+          "/" +
+          date.month.toString().padLeft(2, "0") +
+          "/" +
+          date.year.toString();
+
+      if (showHour) {
+        str += " " +
+            date.hour.toString().padLeft(2, "0") +
+            ":" +
+            date.minute.toString().padLeft(2, "0");
+      }
+
+      return str;
+    }
+
+    Column showParam(String nom, String param, Widget leading) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "$nom:",
+            style: TextStyle(fontSize: 15),
+          ),
+          if (param == null || param == "")
+            Text(
+              "No assignat",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w300,
+                fontStyle: FontStyle.italic,
+              ),
+            )
+          else
+            Row(
+              children: [
+                if (leading != null)
+                  Row(
+                    children: [
+                      leading,
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                Expanded(
+                  child: Text(
+                    param,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          SizedBox(height: 20),
+        ],
+      );
+    }
+
+    DocumentSnapshot data =
+        await DatabaseService(uid: informe.autor).getUserDataFuture();
+    Usuari autor = Usuari.fromDB(
+      data.id,
+      null,
+      data.data(),
+    );
+
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                autor.avatar,
+                Expanded(child: Container()),
+                Text(
+                  autor.nom,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
+            Divider(
+              height: 20,
+            ),
+            showParam("Titol", informe.titol, null),
+            showParam("Descripció", informe.descripcio, null),
+            showParam(
+              "Tipus",
+              tipusReportToString(informe.tipus),
+              tipusReportIcon(informe.tipus),
+            ),
+            showParam(
+              "Prioritat",
+              prioritatToString(informe.prioritat),
+              prioritatIcon(informe.prioritat),
+            ),
+            showParam(
+              "Enviat el",
+              readTimestamp(informe.dataCreacio, true),
+              null,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

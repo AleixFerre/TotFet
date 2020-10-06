@@ -443,9 +443,11 @@ class TascaDetails extends StatelessWidget {
                     ),
                   ],
                 ),
-              Text(
-                param,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              Expanded(
+                child: Text(
+                  param,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),

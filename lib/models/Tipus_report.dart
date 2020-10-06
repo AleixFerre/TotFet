@@ -10,7 +10,7 @@ enum TipusReport {
 
 Map<TipusReport, Icon> iconsTipusReport = {
   TipusReport.Error: Icon(Icons.error),
-  TipusReport.Millora: Icon(Icons.upgrade),
+  TipusReport.Millora: Icon(Icons.star),
   TipusReport.Idea: Icon(Icons.lightbulb),
   TipusReport.Ortografia: Icon(Icons.translate),
   TipusReport.Altres: Icon(Icons.help),

@@ -4,6 +4,13 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.5.3-beta
+
+- Ara la descripció de la tasca ja es mostra en multiples linies si cal
+- Canviada la icona de millora a ⭐
+- Ara es mostra millor els detalls de l'informe al panell d'admin
+- Ara es mostra "Sense bio" a la gent que no té bio assignada
+
 ## CHANGELOG - v0.5.2-beta
 
 - Ara es mostra la descripció de la compra a detalls de la compra

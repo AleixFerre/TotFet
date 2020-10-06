@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/models/Prioritat.dart';
-import 'package:totfet/models/TipusReport.dart';
+import 'package:totfet/models/Tipus_report.dart';
 
 class Report {
   String titol;

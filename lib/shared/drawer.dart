@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/models/Report.dart';
-import 'package:totfet/models/TipusReport.dart';
+import 'package:totfet/models/Tipus_report.dart';
 import 'package:totfet/pages/admin/report_bug.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/constants.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
-import 'package:totfet/models/TipusReport.dart';
+import 'package:totfet/models/Tipus_report.dart';
 import 'package:totfet/services/auth.dart';
 
 class ReportBug extends StatefulWidget {
@@ -73,7 +73,7 @@ class _ReportBugState extends State<ReportBug> {
                       if (value == "") {
                         return "Siusplau, posa un titol";
                       } else if (value.length > 30) {
-                        return "El titol de l'informe és massa llarg (max. 30 caràcters)";
+                        return "Titol massa llarg (max. 30 caràcters)";
                       }
                       return null;
                     },
@@ -84,7 +84,8 @@ class _ReportBugState extends State<ReportBug> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Entra el titol de l\'informe',
+                      labelText: 'Titol de l\'informe*',
+                      helperText: '*Requerit',
                       counterText: "${report.titol?.length ?? 0}/30",
                     ),
                   ),
@@ -97,7 +98,7 @@ class _ReportBugState extends State<ReportBug> {
                     validator: (value) {
                       value = value.trim();
                       if (value.length > 255) {
-                        return "La descripció de l'informe és massa llarga (max. 255 caràcters)";
+                        return "Descripció massa llarga (max. 255 caràcters)";
                       }
                       return null;
                     },
@@ -109,7 +110,7 @@ class _ReportBugState extends State<ReportBug> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Entra la descripció de l\'informe',
+                      labelText: 'Descripció de l\'informe',
                       counterText: "${report.descripcio?.length ?? 0}/255",
                     ),
                   ),
