@@ -72,8 +72,8 @@ class _ReportBugState extends State<ReportBug> {
                       value = value.trim();
                       if (value == "") {
                         return "Siusplau, posa un titol";
-                      } else if (value.length > 30) {
-                        return "Titol massa llarg (max. 30 caràcters)";
+                      } else if (value.length > 50) {
+                        return "Titol massa llarg (max. 50 caràcters)";
                       }
                       return null;
                     },
@@ -84,9 +84,9 @@ class _ReportBugState extends State<ReportBug> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Titol de l\'informe*',
+                      labelText: "Titol de l'informe*",
                       helperText: '*Requerit',
-                      counterText: "${report.titol?.length ?? 0}/30",
+                      counterText: "${report.titol?.length ?? 0}/50",
                     ),
                   ),
                 ),
@@ -110,7 +110,7 @@ class _ReportBugState extends State<ReportBug> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Descripció de l\'informe',
+                      labelText: "Descripció de l'informe",
                       counterText: "${report.descripcio?.length ?? 0}/255",
                     ),
                   ),

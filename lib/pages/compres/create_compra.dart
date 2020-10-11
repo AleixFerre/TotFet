@@ -161,8 +161,8 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                       value = value.trim();
                       if (value == "") {
                         return "Siusplau, posa un nom";
-                      } else if (value.length > 30) {
-                        return "Nom massa llarg (max. 30 caràcters)";
+                      } else if (value.length > 50) {
+                        return "Nom massa llarg (max. 50 caràcters)";
                       }
                       return null;
                     },
@@ -174,7 +174,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                     },
                     decoration: InputDecoration(
                       labelText: 'Nom del producte*',
-                      counterText: "${compra.nom?.length ?? 0}/30",
+                      counterText: "${compra.nom?.length ?? 0}/50",
                       helperText: "*Requerit",
                     ),
                   ),

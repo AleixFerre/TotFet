@@ -143,8 +143,8 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                       value = value.trim();
                       if (value == "") {
                         return "Siusplau, posa un nom a la tasca.";
-                      } else if (value.length > 30) {
-                        return "El nom de la tasca és massa llarg. (max. 30 caràcters)";
+                      } else if (value.length > 50) {
+                        return "El nom de la tasca és massa llarg. (max. 50 caràcters)";
                       }
                       return null;
                     },
@@ -157,7 +157,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                     },
                     decoration: InputDecoration(
                       labelText: 'Nom de la tasca*',
-                      counterText: "${model.nom?.length ?? 0}/30",
+                      counterText: "${model.nom?.length ?? 0}/50",
                       helperText: "*Requerit",
                     ),
                   ),

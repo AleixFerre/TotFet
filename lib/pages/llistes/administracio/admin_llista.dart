@@ -317,18 +317,15 @@ class _AdminLlistesState extends State<AdminLlistes> {
                     },
                   ),
                   contentPadding: EdgeInsets.all(3),
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          llista.nom,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ]),
+                  title: Center(
+                    child: Text(
+                      llista.nom,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   subtitle: (llista.descripcio != null)
                       ? Center(
                           child: Text(llista.descripcio),

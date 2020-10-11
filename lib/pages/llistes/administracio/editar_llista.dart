@@ -78,8 +78,8 @@ class _EditarLlistaState extends State<EditarLlista> {
                       value = value.trim();
                       if (value == "") {
                         return "La llista ha de tenir un nom.";
-                      } else if (value.length > 15) {
-                        return "El nom és massa llarg (1-15 caràcters)";
+                      } else if (value.length > 30) {
+                        return "El nom és massa llarg (1-30 caràcters)";
                       }
                       return null;
                     },
@@ -91,7 +91,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                       });
                     },
                     decoration: InputDecoration(
-                      counterText: "${llista.nom?.length ?? 0}/15",
+                      counterText: "${llista.nom?.length ?? 0}/30",
                       labelText: 'Nom de la llista*',
                       helperText: "*Requerit",
                     ),

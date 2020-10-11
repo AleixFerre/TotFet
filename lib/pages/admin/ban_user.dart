@@ -65,8 +65,8 @@ class _BanUserState extends State<BanUser> {
                             value = value.trim();
                             if (value == "") {
                               return "El ban ha de tenir un titol.";
-                            } else if (value.length > 15) {
-                              return "El nom és massa llarg (1-15 caràcters)";
+                            } else if (value.length > 50) {
+                              return "El nom és massa llarg (1-50 caràcters)";
                             }
                             return null;
                           },
@@ -78,7 +78,7 @@ class _BanUserState extends State<BanUser> {
                             });
                           },
                           decoration: InputDecoration(
-                            counterText: "${ban.titol?.length ?? 0}/15",
+                            counterText: "${ban.titol?.length ?? 0}/50",
                             labelText: 'Entra el titol del ban',
                           ),
                         ),
@@ -91,7 +91,7 @@ class _BanUserState extends State<BanUser> {
                           validator: (value) {
                             value = value.trim();
                             if (value.length > 255) {
-                              return "La descripció és massa llarg (1-15 caràcters)";
+                              return "La descripció és massa llarg (1-255 caràcters)";
                             }
                             return null;
                           },
