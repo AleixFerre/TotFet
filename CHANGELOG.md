@@ -13,8 +13,9 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Ara cada nou informe envia una notificació als admins
 - Ara el preu estimat pot contenir decimals
 - Ara els informes es mostren cronologicament els mes recents primer
-- FENT-SE: Optimització a la hora de mostrar la foto de perfil d'usuaris que no en tenen
-- FENT-SE: Afegida la opció d'esborrar la foto de perfil
+- S'ha augmentat el numero de caràcters màxims pels camps obligatoris a 50 excepte el nom de les llistes a 30
+- Optimització a la hora de mostrar la foto de perfil d'usuaris que no en tenen
+- Afegida la opció d'esborrar la foto de perfil
 
 ## CHANGELOG - v0.5.2-beta
 

@@ -39,6 +39,12 @@ class DatabaseService {
     );
   }
 
+  Future<void> adjudicaTeFoto(String uid, bool _enTe) async {
+    return await usersCollection.doc(uid).update(
+      {"teFoto": _enTe},
+    );
+  }
+
   Future<void> revocarAdmin(String uid) async {
     return await usersCollection.doc(uid).update(
       {"isAdmin": false},

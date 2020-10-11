@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/services/auth.dart';
+import 'package:totfet/services/database.dart';
 import 'package:totfet/services/storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
@@ -250,6 +252,8 @@ class _ImageCaptureState extends State<ImageCapture> {
                       : () async {
                           // PUJAR AL NUVOL
                           if (firstTime) return;
+                          await DatabaseService()
+                              .adjudicaTeFoto(AuthService().userId, true);
                           setState(() {
                             _uploadTask =
                                 StorageService().uploadImage(_imageFile);
@@ -269,6 +273,72 @@ class _ImageCaptureState extends State<ImageCapture> {
                       ),
                       Icon(
                         Icons.cloud_upload,
+                        size: 30,
+                      ),
+                    ],
+                  ),
+                ),
+              SizedBox(height: 10),
+              if (_uploadTask == null)
+                RaisedButton(
+                  elevation: 3,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  onPressed: _imageFile != null && firstTime && !mostrarInicials
+                      ? () async {
+                          // PREGUNTAR SI DE VERTIAT ES VOL ESBORRAR
+                          bool result = await showDialog<bool>(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text("Vols esborrar la foto de perfil?"),
+                              content: Text("Aquesta acció no es pot desfer!"),
+                              actions: [
+                                TextButton(
+                                  child: Text("CANCEL·LAR"),
+                                  onPressed: () {
+                                    Navigator.pop(context, false);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    "ESBORRAR",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context, true);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                          if (result == true) {
+                            // Esborrar foto del nuvol
+                            await StorageService().deleteProfileImage();
+                            setState(() {
+                              editat = false;
+                              mostrarInicials = true;
+                            });
+                          }
+                        }
+                      : null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Esborrar foto",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w300),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.delete_forever,
                         size: 30,
                       ),
                     ],

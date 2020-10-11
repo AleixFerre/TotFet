@@ -84,6 +84,7 @@ class Usuari {
 
   Future<String> get avatarFile async {
     try {
+      if (!teFoto) return null;
       String link = await StorageService().getImageFromUser(uid);
       return link;
     } catch (e) {
