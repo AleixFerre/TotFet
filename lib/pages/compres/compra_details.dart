@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:totfet/models/Llista.dart';
@@ -227,9 +225,23 @@ class CompraDetails extends StatelessWidget {
                   return null;
                 }
 
+                bool getTeFoto(String id) {
+                  if (id == null) return null;
+                  for (QueryDocumentSnapshot doc in llistaUsuaris) {
+                    if (doc.id == id) {
+                      return doc.data()['teFoto'];
+                    }
+                  }
+                  return null;
+                }
+
                 info['nomCreador'] = getNom(info['idCreador']);
                 info['nomAssignat'] = getNom(info['idAssignat']);
                 info['nomComprador'] = getNom(info['idComprador']);
+
+                info['creadorTeFoto'] = getTeFoto(info['idCreador']);
+                info['assignatTeFoto'] = getTeFoto(info['idAssignat']);
+                info['compradorTeFoto'] = getTeFoto(info['idComprador']);
 
                 Compra compra = Compra.fromDB(info, info['id']);
 
@@ -344,15 +356,18 @@ class CompraDetails extends StatelessWidget {
                           showParam(
                             "Creador",
                             mostrarNom(compra.idCreador, compra.nomCreador),
-                            Usuari.getAvatar(
-                                compra.nomCreador, compra.idCreador, false),
+                            Usuari.getAvatar(compra.nomCreador,
+                                compra.idCreador, false, info['creadorTeFoto']),
                           ),
                           showParam(
                             "Assignat a",
                             mostrarNom(compra.idAssignat, compra.nomAssignat),
                             compra.idAssignat != null
-                                ? Usuari.getAvatar(compra.nomAssignat,
-                                    compra.idAssignat, false)
+                                ? Usuari.getAvatar(
+                                    compra.nomAssignat,
+                                    compra.idAssignat,
+                                    false,
+                                    info['assignatTeFoto'])
                                 : null,
                           ),
                           showParam(
@@ -377,7 +392,8 @@ class CompraDetails extends StatelessWidget {
                                           ? Usuari.getAvatar(
                                               compra.nomComprador,
                                               compra.idComprador,
-                                              false)
+                                              false,
+                                              info['compradorTeFoto'])
                                           : null,
                                     ),
                                   ],

@@ -264,7 +264,8 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
                           ),
                       ],
                     ),
-                    leading: Usuari.getAvatar(usuari.nom, usuari.uid, false),
+                    leading: Usuari.getAvatar(
+                        usuari.nom, usuari.uid, false, usuari.teFoto),
                     trailing: !usuari.isAdmin ? mostrarOpcions(usuari) : null,
                   ),
                 );

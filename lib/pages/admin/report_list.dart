@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:totfet/models/Filtre.dart';
 import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/Tipus_report.dart';
@@ -16,6 +17,8 @@ class ReportList extends StatefulWidget {
 
 class _ReportListState extends State<ReportList> {
   List<Report> informes;
+  Filtre filtre;
+
   @override
   void initState() {
     informes = widget.informes;
@@ -34,28 +37,7 @@ class _ReportListState extends State<ReportList> {
       },
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Informes"),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Colors.blue[400],
-                Colors.blue[900],
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      appBar: buildAppBar(),
       body: informes.length == 0
           ? LlistaBuida(esTaronja: false)
           : ListView.builder(
@@ -203,9 +185,7 @@ class _ReportListState extends State<ReportList> {
                 Expanded(child: Container()),
               ],
             ),
-            Divider(
-              height: 20,
-            ),
+            Divider(height: 20),
             showParam("Titol", informe.titol, null),
             showParam("Descripció", informe.descripcio, null),
             showParam(
@@ -226,6 +206,71 @@ class _ReportListState extends State<ReportList> {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text("Informes"),
+      centerTitle: true,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Colors.blue[400],
+              Colors.blue[900],
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          onPressed: () async {
+            Filtre nou = await _personalitzarFiltre(context, filtre);
+            if (nou != null)
+              setState(() {
+                filtre = nou;
+              });
+          },
+        ),
+      ],
+    );
+  }
+
+  Future _personalitzarFiltre(BuildContext context, Filtre ordenacio) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('APLICA UN FILTRE'),
+          content: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Titol',
+                    hintText: 'Hint...',
+                  ),
+                  onChanged: (value) {
+                    ordenacio = null;
+                  },
+                ),
+              )
+            ],
+          ),
+          actions: [
+            FlatButton(
+              child: Text('FILTRAR'),
+              onPressed: () {
+                Navigator.of(context).pop(ordenacio);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

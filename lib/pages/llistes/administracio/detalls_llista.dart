@@ -199,8 +199,11 @@ class LlistaDetalls extends StatelessWidget {
                           onPressed: () =>
                               _mostrarPerfilBottomSheet(llistaUsuaris[index]),
                           child: ListTile(
-                            leading: Usuari.getAvatar(llistaUsuaris[index].nom,
-                                llistaUsuaris[index].uid, false),
+                            leading: Usuari.getAvatar(
+                                llistaUsuaris[index].nom,
+                                llistaUsuaris[index].uid,
+                                false,
+                                llistaUsuaris[index].teFoto),
                             title: Text(
                               llistaUsuaris[index].nom +
                                   etsTu(llistaUsuaris[index].uid),

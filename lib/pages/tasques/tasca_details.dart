@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/models/Llista.dart';
@@ -234,6 +233,16 @@ class TascaDetails extends StatelessWidget {
                   return null;
                 }
 
+                bool getTeFoto(String id) {
+                  if (id == null) return null;
+                  for (Usuari usuari in llistaUsuaris) {
+                    if (usuari.uid == id) {
+                      return usuari.teFoto;
+                    }
+                  }
+                  return null;
+                }
+
                 tasca.nomCreador = getNom(tasca.idCreador);
                 tasca.nomAssignat = getNom(tasca.idAssignat);
                 tasca.nomUsuariFet = getNom(tasca.idUsuariFet);
@@ -341,14 +350,22 @@ class TascaDetails extends StatelessWidget {
                             "Creador",
                             mostrarNom(tasca.idCreador, tasca.nomCreador),
                             Usuari.getAvatar(
-                                tasca.nomCreador, tasca.idCreador, false),
+                              tasca.nomCreador,
+                              tasca.idCreador,
+                              false,
+                              getTeFoto(tasca.idCreador),
+                            ),
                           ),
                           showParam(
                             "Assignat a",
                             mostrarNom(tasca.idAssignat, tasca.nomAssignat),
                             tasca.idAssignat != null
                                 ? Usuari.getAvatar(
-                                    tasca.nomAssignat, tasca.idAssignat, false)
+                                    tasca.nomAssignat,
+                                    tasca.idAssignat,
+                                    false,
+                                    getTeFoto(tasca.idAssignat),
+                                  )
                                 : null,
                           ),
                           showParam(
@@ -370,8 +387,12 @@ class TascaDetails extends StatelessWidget {
                                       mostrarNom(tasca.idUsuariFet,
                                           tasca.nomUsuariFet),
                                       tasca.idUsuariFet != null
-                                          ? Usuari.getAvatar(tasca.nomUsuariFet,
-                                              tasca.idUsuariFet, false)
+                                          ? Usuari.getAvatar(
+                                              tasca.nomUsuariFet,
+                                              tasca.idUsuariFet,
+                                              false,
+                                              getTeFoto(tasca.idUsuariFet),
+                                            )
                                           : null,
                                     ),
                                   ],

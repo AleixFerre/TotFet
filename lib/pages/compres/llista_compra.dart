@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/pages/llistes/administracio/detalls_llista.dart';

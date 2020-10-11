@@ -1,7 +1,5 @@
-import 'dart:ui';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:totfet/services/storage.dart';
 
 class Usuari {
@@ -12,6 +10,7 @@ class Usuari {
   String bio;
   bool isAdmin;
   Timestamp dataCreacio;
+  bool teFoto;
   Map<String, dynamic> notificacions;
 
   Usuari({
@@ -22,6 +21,7 @@ class Usuari {
     this.token,
     this.bio,
     this.dataCreacio,
+    this.teFoto,
     this.notificacions,
   });
 
@@ -35,6 +35,7 @@ class Usuari {
       bio: data['bio'],
       dataCreacio: data['dataCreacio'],
       notificacions: data['notificacions'],
+      teFoto: data['teFoto'],
     );
   }
 
@@ -45,6 +46,7 @@ class Usuari {
       "token": token,
       "dataCreacio": dataCreacio ?? DateTime.now(),
       "bio": bio,
+      "teFoto": teFoto,
       "notificacions": notificacions,
     };
   }
@@ -59,6 +61,7 @@ class Usuari {
       nom: "Nou membre",
       token: "",
       isAdmin: false,
+      teFoto: false,
       notificacions: {
         "compres": true,
         "tasques": true,
@@ -76,7 +79,7 @@ class Usuari {
   }
 
   CircleAvatar get avatar {
-    return getAvatar(nom, uid, true);
+    return getAvatar(nom, uid, true, teFoto);
   }
 
   Future<String> get avatarFile async {
@@ -88,39 +91,46 @@ class Usuari {
     }
   }
 
-  static CircleAvatar getAvatar(String nom, String id, bool esGran) {
+  static CircleAvatar getAvatar(
+      String nom, String id, bool esGran, bool teFoto) {
+    double mida = esGran ? 50 : 20;
+
     return CircleAvatar(
       backgroundColor: Colors.blue,
-      child: FutureBuilder<String>(
-        future: StorageService().getImageFromUser(id),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(
+      child: teFoto
+          ? FutureBuilder<String>(
+              future: StorageService().getImageFromUser(id),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                    inicials(nom),
+                    style: TextStyle(fontSize: mida),
+                  );
+                }
+
+                if (snapshot.hasData) {
+                  // MOSTRAR LA IMATGE
+                  String src = snapshot.data;
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(src),
+                  );
+                }
+
+                return SizedBox(
+                  height: mida,
+                  width: mida,
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                  ),
+                );
+              },
+            )
+          : Text(
               inicials(nom),
-              style: TextStyle(fontSize: esGran ? 50 : 20),
-            );
-          }
-
-          if (snapshot.hasData) {
-            // MOSTRAR LA IMATGE
-            String src = snapshot.data;
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.network(src),
-            );
-          }
-
-          double mida = esGran ? 50 : 20;
-          return SizedBox(
-            height: mida,
-            width: mida,
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
+              style: TextStyle(fontSize: mida),
             ),
-          );
-        },
-      ),
-      radius: esGran ? 50 : 20,
+      radius: mida,
     );
   }
 }

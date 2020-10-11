@@ -162,7 +162,7 @@ export const alActualitzarTasca = functions.firestore
       await enviarNotificacioTasca(snapshot.after);
   });
 
-//? -------- TASQUES --------
+//? -------- INFORMES --------
   export const alCrearInforme = functions.firestore
   .document('reports/{idInforme}')
   .onCreate(async snapshot => await enviarNotificacioInforme(snapshot));
