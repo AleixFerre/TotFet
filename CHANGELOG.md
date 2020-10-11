@@ -16,6 +16,8 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - S'ha augmentat el numero de caràcters màxims pels camps obligatoris a 50 excepte el nom de les llistes a 30
 - Optimització a la hora de mostrar la foto de perfil d'usuaris que no en tenen
 - Afegida la opció d'esborrar la foto de perfil
+- Ara es mostren les imatges de perfil als desplegables d'usuaris
+- Ara s'alerta abans de confirmar el traspàs de host i expulsió
 
 ## CHANGELOG - v0.5.2-beta
 

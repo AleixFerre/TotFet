@@ -33,6 +33,13 @@ class _CanviarHostState extends State<CanviarHost> {
                   Usuari.fromDB(e.id, null, e.data()))
               .toList();
 
+          String getNom(String id) {
+            return llistaUsuaris
+                .where((element) => element.uid == id)
+                .first
+                .nom;
+          }
+
           llistaUsuaris.removeWhere(
               (Usuari element) => element.uid == AuthService().userId);
 
@@ -64,7 +71,8 @@ class _CanviarHostState extends State<CanviarHost> {
             );
           }
 
-          idSeleccionat = llistaUsuaris[0].uid;
+          // idSeleccionat = llistaUsuaris[0].uid;
+
           return Scaffold(
             appBar: AppBar(
               title: Text("Canviar de host"),
@@ -105,7 +113,18 @@ class _CanviarHostState extends State<CanviarHost> {
                             .map<DropdownMenuItem<String>>((Usuari user) {
                           return DropdownMenuItem<String>(
                             value: user.uid,
-                            child: Text(user.nom),
+                            child: Row(
+                              children: [
+                                Usuari.getAvatar(
+                                  user.nom,
+                                  user.uid,
+                                  false,
+                                  user.teFoto,
+                                ),
+                                SizedBox(width: 10),
+                                Text(user.nom),
+                              ],
+                            ),
                           );
                         }).toList(),
                         onChanged: (String newValue) {
@@ -122,8 +141,38 @@ class _CanviarHostState extends State<CanviarHost> {
                 ),
                 RaisedButton(
                   color: Colors.blueAccent,
-                  onPressed: () {
-                    return Navigator.pop(context, idSeleccionat);
+                  onPressed: () async {
+                    if (idSeleccionat == null) return Navigator.pop(context);
+
+                    bool res = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                            "Segur que vols transferir el host a ${getNom(idSeleccionat)}?"),
+                        content: Text("Aquesta acció et rebocarà els permisos" +
+                            "d'administrador de la llista i els transferirà" +
+                            " al nou host."),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            child: Text("CANCEL·LAR"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                            child: Text(
+                              "TRANSFERIR",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (res == true)
+                      return Navigator.pop(context, idSeleccionat);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

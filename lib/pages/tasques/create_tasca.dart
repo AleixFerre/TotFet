@@ -251,7 +251,18 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                                 .map<DropdownMenuItem<String>>((Usuari value) {
                               return DropdownMenuItem<String>(
                                 value: value.uid,
-                                child: Text(value.nom),
+                                child: Row(
+                                  children: [
+                                    Usuari.getAvatar(
+                                      value.nom,
+                                      value.uid,
+                                      false,
+                                      value.teFoto,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(value.nom),
+                                  ],
+                                ),
                               );
                             }).toList(),
                             onChanged: (String newValue) {

@@ -194,18 +194,29 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: [
-                      Text("Selecciona un usuari de la llista"),
+                      Text("Assigna un usuari de la llista"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           DropdownButton<String>(
-                            hint: Text("Assigna un usuari"),
+                            hint: Text("Sel·lecciona un usuari"),
                             value: model.idAssignat,
                             items: widget.usuaris
                                 .map<DropdownMenuItem<String>>((Usuari value) {
                               return DropdownMenuItem<String>(
                                 value: value.uid,
-                                child: Text(value.nom),
+                                child: Row(
+                                  children: [
+                                    Usuari.getAvatar(
+                                      value.nom,
+                                      value.uid,
+                                      false,
+                                      value.teFoto,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(value.nom),
+                                  ],
+                                ),
                               );
                             }).toList(),
                             onChanged: (String newValue) {
