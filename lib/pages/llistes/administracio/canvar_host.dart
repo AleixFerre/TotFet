@@ -149,9 +149,9 @@ class _CanviarHostState extends State<CanviarHost> {
                       builder: (context) => AlertDialog(
                         title: Text(
                             "Segur que vols transferir el host a ${getNom(idSeleccionat)}?"),
-                        content: Text("Aquesta acció et rebocarà els permisos" +
-                            "d'administrador de la llista i els transferirà" +
-                            " al nou host."),
+                        content: Text("Aquesta acció et rebocarà els permisos " +
+                            "d'administrador de la llista i els transferirà " +
+                            "al nou host."),
                         actions: [
                           TextButton(
                             onPressed: () {

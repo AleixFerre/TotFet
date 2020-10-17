@@ -4,6 +4,11 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.5.4-beta
+
+- Arreglat el bug a l'assignar la llista al crear tasca i compra
+- Arreglat un petit error tipogràfic
+
 ## CHANGELOG - v0.5.3-beta
 
 - Ara la descripció de la tasca ja es mostra en multiples linies si cal
