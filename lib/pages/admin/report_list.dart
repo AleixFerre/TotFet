@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:totfet/models/Filtre.dart';
 import 'package:totfet/models/Prioritat.dart';
 import 'package:totfet/models/Report.dart';
 import 'package:totfet/models/Tipus_report.dart';
 import 'package:totfet/models/Usuari.dart';
+import 'package:totfet/services/auth.dart';
 import 'package:totfet/services/database.dart';
 import 'package:totfet/shared/llista_buida.dart';
 
@@ -17,7 +17,7 @@ class ReportList extends StatefulWidget {
 
 class _ReportListState extends State<ReportList> {
   List<Report> informes;
-  Filtre filtre;
+  bool mostrarOberts = true;
 
   @override
   void initState() {
@@ -29,61 +29,123 @@ class _ReportListState extends State<ReportList> {
   Widget build(BuildContext context) {
     // S'orderna la taula informes pel parametre passat
     // Els mes recents primer
-    informes.sort(
+
+    List<Report> informesMostra = informes.where((report) {
+      if (mostrarOberts)
+        return report.obert;
+      else
+        return !report.obert;
+    }).toList();
+
+    informesMostra.sort(
       (a, b) {
         return a.dataCreacio.microsecondsSinceEpoch
                 .compareTo(b.dataCreacio.microsecondsSinceEpoch) *
             -1;
       },
     );
+
     return Scaffold(
       appBar: buildAppBar(),
-      body: informes.length == 0
-          ? LlistaBuida(esTaronja: false)
+      body: informesMostra.length == 0
+          ? LlistaBuida(
+              missatge: mostrarOberts
+                  ? "No tens informes oberts"
+                  : "No tens informes tancats",
+              esTaronja: false,
+            )
           : ListView.builder(
               padding: EdgeInsets.all(8),
-              itemCount: informes.length,
+              itemCount: informesMostra.length,
               itemBuilder: (context, index) {
-                Report informe = informes[index];
-                return Dismissible(
-                  key: GlobalKey(),
-                  background: Container(
-                    color: Colors.red,
-                    child: Center(
-                      child: Icon(Icons.delete),
-                    ),
-                  ),
-                  onDismissed: (direction) {
-                    DatabaseService().esborrarInforme(informe.id);
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                    elevation: 3,
-                    child: ListTile(
-                      onTap: () async {
-                        await mostrarInforme(context, informe);
-                      },
-                      title: Text(
-                        informe.titol,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(fontSize: 20),
+                Report informe = informesMostra[index];
+                if (mostrarOberts) {
+                  return Dismissible(
+                    key: GlobalKey(),
+                    background: Container(
+                      color: Colors.red,
+                      child: Center(
+                        child: Icon(Icons.close),
                       ),
-                      subtitle:
-                          informe.descripcio == "" || informe.descripcio == null
-                              ? null
-                              : Text(
-                                  informe.descripcio,
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                      leading: tipusReportIcon(informe.tipus),
-                      trailing: prioritatIcon(informe.prioritat),
+                    ),
+                    onDismissed: (direction) {
+                      DatabaseService().tancarInforme(informe.id);
+                      setState(() {
+                        int index = informes.indexOf(informe);
+                        informes[index].obert = false;
+                      });
+                    },
+                    child: mostrarInformeCard(informe),
+                  );
+                } else {
+                  return mostrarInformeCard(informe);
+                }
+              },
+            ),
+    );
+  }
+
+  Card mostrarInformeCard(Report informe) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+      elevation: 3,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 16.0),
+        onTap: () async {
+          await mostrarInforme(context, informe);
+        },
+        title: Text(
+          informe.titol,
+          overflow: TextOverflow.fade,
+          style: TextStyle(fontSize: 20),
+        ),
+        subtitle: informe.descripcio == "" || informe.descripcio == null
+            ? null
+            : Text(
+                informe.descripcio,
+                overflow: TextOverflow.fade,
+                style: TextStyle(fontSize: 20),
+              ),
+        leading: tipusReportIcon(informe.tipus),
+        trailing: IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () async {
+            bool res = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Estas segur de que vols esborrar l'informe?"),
+                content: Text("Aquesta acción no es pot desfer! " +
+                    "Si l'esborres no el podràs recuperar, però si que podràs crear-ne un de nou exactament igual."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text("CANCEL·LAR"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text(
+                      "ESBORRAR",
+                      style: TextStyle(color: Colors.red),
                     ),
                   ),
-                );
-              }),
+                ],
+              ),
+            );
+            if (res == true) {
+              DatabaseService().esborrarInforme(informe.id);
+              setState(() {
+                informes.remove(informe);
+              });
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -143,14 +205,27 @@ class _ReportListState extends State<ReportList> {
                 Expanded(
                   child: Text(
                     param,
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
             ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
         ],
       );
+    }
+
+    String mostrarNom(String id, String nom) {
+      if (id == null) return null;
+
+      if (id == AuthService().userId) {
+        return "$nom (Tu)";
+      } else {
+        return nom;
+      }
     }
 
     DocumentSnapshot data =
@@ -161,6 +236,17 @@ class _ReportListState extends State<ReportList> {
       data.data(),
     );
 
+    Usuari tancatPer;
+
+    if (informe.tancatPer != null) {
+      data = await DatabaseService(uid: informe.tancatPer).getUserDataFuture();
+      tancatPer = Usuari.fromDB(
+        data.id,
+        null,
+        data.data(),
+      );
+    }
+
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -169,6 +255,7 @@ class _ReportListState extends State<ReportList> {
         ),
       ),
       context: context,
+      isScrollControlled: true,
       builder: (context) => SingleChildScrollView(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -203,6 +290,14 @@ class _ReportListState extends State<ReportList> {
               readTimestamp(informe.dataCreacio, true),
               null,
             ),
+            showParam("Obert", informe.obert ? "SI" : "NO", null),
+            if (!informe.obert)
+              showParam(
+                "Tancat Per",
+                mostrarNom(tancatPer.uid, tancatPer.nom),
+                Usuari.getAvatar(
+                    tancatPer.nom, tancatPer.uid, false, tancatPer.teFoto),
+              ),
           ],
         ),
       ),
@@ -211,7 +306,7 @@ class _ReportListState extends State<ReportList> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: Text("Informes"),
+      title: Text(mostrarOberts ? "Informes" : "Informes tancats"),
       centerTitle: true,
       flexibleSpace: Container(
         decoration: BoxDecoration(
@@ -227,50 +322,14 @@ class _ReportListState extends State<ReportList> {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.filter_list),
+          icon: Icon(mostrarOberts ? Icons.report : Icons.report_off),
           onPressed: () async {
-            Filtre nou = await _personalitzarFiltre(context, filtre);
-            if (nou != null)
-              setState(() {
-                filtre = nou;
-              });
+            setState(() {
+              mostrarOberts = !mostrarOberts;
+            });
           },
         ),
       ],
-    );
-  }
-
-  Future _personalitzarFiltre(BuildContext context, Filtre ordenacio) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('APLICA UN FILTRE'),
-          content: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Titol',
-                    hintText: 'Hint...',
-                  ),
-                  onChanged: (value) {
-                    ordenacio = null;
-                  },
-                ),
-              )
-            ],
-          ),
-          actions: [
-            FlatButton(
-              child: Text('FILTRAR'),
-              onPressed: () {
-                Navigator.of(context).pop(ordenacio);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

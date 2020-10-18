@@ -97,7 +97,9 @@ class _ReportBugState extends State<ReportBug> {
                     textCapitalization: TextCapitalization.sentences,
                     validator: (value) {
                       value = value.trim();
-                      if (value.length > 255) {
+                      if (value == "") {
+                        return "Siusplau, posa una descripció";
+                      } else if (value.length > 255) {
                         return "Descripció massa llarga (max. 255 caràcters)";
                       }
                       return null;
@@ -110,7 +112,8 @@ class _ReportBugState extends State<ReportBug> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: "Descripció de l'informe",
+                      labelText: "Descripció de l'informe*",
+                      helperText: '*Requerit',
                       counterText: "${report.descripcio?.length ?? 0}/255",
                     ),
                   ),

@@ -10,6 +10,8 @@ class Report {
   String autor;
   String id;
   Timestamp dataCreacio;
+  bool obert;
+  String tancatPer;
 
   Report({
     this.titol,
@@ -19,6 +21,8 @@ class Report {
     this.id,
     this.autor,
     this.dataCreacio,
+    this.obert,
+    this.tancatPer,
   });
 
   static Report perDefecte(String autor) {
@@ -27,6 +31,8 @@ class Report {
       tipus: TipusReport.Error,
       autor: autor,
       dataCreacio: Timestamp.now(),
+      obert: true,
+      tancatPer: null,
     );
   }
 
@@ -38,6 +44,8 @@ class Report {
       "prioritat": prioritatToString(prioritat),
       "autor": autor,
       "dataCreacio": dataCreacio,
+      "obert": obert,
+      "tancatPer": tancatPer,
     };
   }
 
@@ -53,6 +61,8 @@ class Report {
           : prioritatfromString(data['prioritat']),
       autor: data['autor'],
       dataCreacio: data['dataCreacio'],
+      obert: data['obert'],
+      tancatPer: data['tancatPer'],
     );
   }
 }

@@ -155,6 +155,13 @@ class DatabaseService {
     return await reportsCollection.doc(informeKey).delete();
   }
 
+  Future<void> tancarInforme(String informeKey) async {
+    return await reportsCollection.doc(informeKey).update({
+      "obert": false,
+      "tancatPer": AuthService().userId,
+    });
+  }
+
   Future<void> esborrarTasca(String tascaKey) async {
     return await tasquesCollection.doc(tascaKey).delete();
   }
@@ -256,6 +263,12 @@ class DatabaseService {
 
   Stream<DocumentSnapshot> getUserData() {
     return usersCollection.doc(uid).snapshots();
+  }
+
+  Future<QuerySnapshot> getReports() {
+    return reportsCollection
+        .where("autor", isEqualTo: AuthService().userId)
+        .get();
   }
 
   Future<DocumentSnapshot> getUserDataFuture() {

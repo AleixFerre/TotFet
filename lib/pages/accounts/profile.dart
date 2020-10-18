@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:totfet/models/Finestra.dart';
+import 'package:totfet/models/Report.dart';
 import 'package:totfet/pages/accounts/image_picker.dart';
 import 'package:totfet/pages/admin/admin_panel.dart';
+import 'package:totfet/pages/admin/report_list.dart';
 import 'package:totfet/pages/compres/stats_compres.dart';
 import 'package:totfet/pages/tasques/stats_tasques.dart';
 import 'package:totfet/shared/drawer.dart';
@@ -449,6 +451,65 @@ class _PerfilState extends State<Perfil> {
                             height: 10,
                           ),
                         ],
+                      ),
+                      Divider(
+                        height: 40,
+                      ),
+                      Center(
+                        child: Text(
+                          "Els meus informes",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Tooltip(
+                        message: "Veure els meus informes.",
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          elevation: 3,
+                          onPressed: () async {
+                            QuerySnapshot snapshot =
+                                await DatabaseService().getReports();
+                            List list = snapshot.docs
+                                .map((e) => Report.fromDB(e.data(), e.id))
+                                .toList();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ReportList(
+                                  informes: list,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  "images/report.svg",
+                                  height: 100,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Informes",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

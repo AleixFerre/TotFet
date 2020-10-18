@@ -8,10 +8,10 @@ import 'package:totfet/shared/loading.dart';
 import 'package:totfet/shared/some_error_page.dart';
 
 class StatsCompres extends StatelessWidget {
-  bool totsSonZero(dataTasques) {
-    return dataTasques["creades"] == 0 &&
-        dataTasques["fetes"] == 0 &&
-        dataTasques["assignades"] == 0;
+  bool totsSonZero(dataCompres) {
+    return dataCompres["creades"] == 0 &&
+        dataCompres["fetes"] == 0 &&
+        dataCompres["assignades"] == 0;
   }
 
   Column showParam(String nom, double param) {
@@ -60,7 +60,7 @@ class StatsCompres extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          final Map<String, double> dataTasques = {
+          final Map<String, double> dataCompres = {
             "creades": 0,
             "fetes": 0,
             "assignades": 0,
@@ -68,13 +68,13 @@ class StatsCompres extends StatelessWidget {
           final String uid = AuthService().userId;
           snapshot.data.docs.forEach((element) {
             if (element.data()["idCreador"] == uid) {
-              dataTasques["creades"]++;
+              dataCompres["creades"]++;
             }
             if (element.data()["idAssignat"] == uid) {
-              dataTasques["assignades"]++;
+              dataCompres["assignades"]++;
             }
             if (element.data()["idComprador"] == uid) {
-              dataTasques["fetes"]++;
+              dataCompres["fetes"]++;
             }
           });
 
@@ -99,10 +99,10 @@ class StatsCompres extends StatelessWidget {
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  showParam("Has creat", dataTasques["creades"]),
-                  showParam("Has fet", dataTasques["fetes"]),
-                  showParam("Estàs assignat a", dataTasques["assignades"]),
-                  if (!totsSonZero(dataTasques)) PieChartTasques(dataTasques),
+                  showParam("Has creat", dataCompres["creades"]),
+                  showParam("Has fet", dataCompres["fetes"]),
+                  showParam("Estàs assignat a", dataCompres["assignades"]),
+                  if (!totsSonZero(dataCompres)) PieChartCompres(dataCompres),
                 ],
               ),
             ),
@@ -117,14 +117,14 @@ class StatsCompres extends StatelessWidget {
   }
 }
 
-class PieChartTasques extends StatefulWidget {
-  PieChartTasques(this.dataTasques);
-  final Map<String, double> dataTasques;
+class PieChartCompres extends StatefulWidget {
+  PieChartCompres(this.dataCompres);
+  final Map<String, double> dataCompres;
   @override
-  State<StatefulWidget> createState() => PieChartTasquesState();
+  State<StatefulWidget> createState() => PieChartCompresState();
 }
 
-class PieChartTasquesState extends State<PieChartTasques> {
+class PieChartCompresState extends State<PieChartCompres> {
   int touchedIndex;
   Map<String, double> data;
   double total;
@@ -132,7 +132,7 @@ class PieChartTasquesState extends State<PieChartTasques> {
   @override
   void initState() {
     super.initState();
-    data = widget.dataTasques;
+    data = widget.dataCompres;
     total = data["creades"] + data["fetes"] + data["assignades"];
   }
 
