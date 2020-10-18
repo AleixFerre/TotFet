@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:totfet/models/Finestra.dart';
 import 'package:totfet/pages/accounts/image_picker.dart';
 import 'package:totfet/pages/admin/admin_panel.dart';
+import 'package:totfet/pages/compres/stats_compres.dart';
+import 'package:totfet/pages/tasques/stats_tasques.dart';
 import 'package:totfet/shared/drawer.dart';
 import 'package:totfet/models/Llista.dart';
 import 'package:totfet/models/Usuari.dart';
@@ -107,7 +109,7 @@ class _PerfilState extends State<Perfil> {
               ),
               body: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -349,6 +351,104 @@ class _PerfilState extends State<Perfil> {
                       ),
                       Divider(
                         height: 40,
+                      ),
+                      Center(
+                        child: Text(
+                          "Les meves estadístiques",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Tooltip(
+                            message:
+                                "Veure estadístiques de les teves compres.",
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              elevation: 3,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => StatsCompres(),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "images/shop.svg",
+                                      height: 100,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Compres",
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Tooltip(
+                            message:
+                                "Veure estadístiques de les teves tasques.",
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              elevation: 3,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => StatsTasques(),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "images/todo.svg",
+                                      height: 100,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Tasques",
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
                     ],
                   ),

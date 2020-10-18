@@ -310,6 +310,14 @@ class DatabaseService {
     return tasquesCollection.doc(id).snapshots();
   }
 
+  Future<QuerySnapshot> getAllTasques() {
+    return tasquesCollection.get();
+  }
+
+  Future<QuerySnapshot> getAllCompres() {
+    return compresCollection.get();
+  }
+
   Stream<QuerySnapshot> getLlistesUsuarisActualData() {
     return llistesUsuarisCollection
         .where("usuari", isEqualTo: AuthService().userId)

@@ -8,6 +8,9 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 
 - Arreglat el bug a l'assignar la llista al crear tasca i compra
 - Arreglat un petit error tipogràfic
+- S'ha optimizat tots els svg
+- S'ha creat dos botons d'estadístiques (de compres i tasques) al perfil
+- Aquests botons mostren les dades en text i un gràfic de pastís comparant les dades
 
 ## CHANGELOG - v0.5.3-beta
 

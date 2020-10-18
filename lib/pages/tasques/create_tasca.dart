@@ -228,7 +228,8 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                           indexLlista = widget.llistesUsuari.indexWhere(
                             (element) => element.id == newValue,
                           );
-                          tasca.idLlista = null;
+                          tasca.idLlista = newValue;
+                          tasca.idAssignat = null;
                           widget.updateParent(indexLlista);
                         },
                       ),

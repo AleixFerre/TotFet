@@ -51,20 +51,14 @@ class OpcionsPage extends StatelessWidget {
                         await VersionControlService()
                             .mostrarNotesActualitzacio(context);
                       },
-                      child: Row(
-                        children: [
-                          Icon(Icons.receipt),
-                          SizedBox(
-                            width: 20,
+                      child: ListTile(
+                        leading: Icon(Icons.receipt),
+                        title: Text(
+                          "Notes de l'actualització",
+                          style: TextStyle(
+                            fontSize: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              "Notes de l'actualització",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -81,69 +75,57 @@ class OpcionsPage extends StatelessWidget {
                         // Confirmar si es vol anar a la pestanya del drive.
                         VersionControlService().showAlert(context, info);
                       },
-                      child: Row(
-                        children: [
-                          Icon(Icons.update),
-                          SizedBox(
-                            width: 20,
+                      child: ListTile(
+                        leading: Icon(Icons.update),
+                        title: Text(
+                          "Comprova actualitzacions",
+                          style: TextStyle(
+                            fontSize: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              "Comprova actualitzacions",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     Divider(
                       height: 20,
                     ),
                     Text("Notificacions"),
-                    Row(
-                      children: [
-                        Icon(notificacions['compres']
-                            ? Icons.notifications
-                            : Icons.notifications_off),
-                        Text(
-                          "Quan t'assignen una compra",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Expanded(child: Container()),
-                        Switch(
-                          value: notificacions['compres'],
-                          onChanged: (bool val) {
-                            notificacions['compres'] = val;
-                            DatabaseService().actualitzarNotificacionsUsuari(
-                              notificacions,
-                              AuthService().userId,
-                            );
-                          },
-                        ),
-                      ],
+                    ListTile(
+                      leading: Icon(notificacions['compres']
+                          ? Icons.notifications
+                          : Icons.notifications_off),
+                      title: Text(
+                        "Quan t'assignen una compra",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: Switch(
+                        value: notificacions['compres'],
+                        onChanged: (bool val) {
+                          notificacions['compres'] = val;
+                          DatabaseService().actualitzarNotificacionsUsuari(
+                            notificacions,
+                            AuthService().userId,
+                          );
+                        },
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Icon(notificacions['tasques']
-                            ? Icons.notifications
-                            : Icons.notifications_off),
-                        Text(
-                          "Quan t'assignen una tasca",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Expanded(child: Container()),
-                        Switch(
-                          value: notificacions['tasques'],
-                          onChanged: (bool val) {
-                            notificacions['tasques'] = val;
-                            DatabaseService().actualitzarNotificacionsUsuari(
-                              notificacions,
-                              AuthService().userId,
-                            );
-                          },
-                        ),
-                      ],
+                    ListTile(
+                      leading: Icon(notificacions['tasques']
+                          ? Icons.notifications
+                          : Icons.notifications_off),
+                      title: Text(
+                        "Quan t'assignen una tasca",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: Switch(
+                        value: notificacions['tasques'],
+                        onChanged: (bool val) {
+                          notificacions['tasques'] = val;
+                          DatabaseService().actualitzarNotificacionsUsuari(
+                            notificacions,
+                            AuthService().userId,
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
