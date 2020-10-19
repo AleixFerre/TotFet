@@ -17,7 +17,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Aquests botons mostren les dades en text i un gràfic de pastís comparant les dades
 - Nova opció de veure els informes enviats
 - Es poden tancar lliscant amb el dit
-- També es poden esborrar cliant al botó de la paperera
+- També es poden esborrar clicant al botó de la paperera
 - Cada cop que algun admin tanca un informe s'envia la notificació adient a l'usuari creador de l'informe
 - Es pot configurar si vols rebre aquestes notificacions
 - Arreglat error tipogràfic a la pantalla de nova actualització
