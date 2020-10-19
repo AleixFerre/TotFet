@@ -11,6 +11,10 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - S'ha optimizat tots els svg
 - S'ha creat dos botons d'estadístiques (de compres i tasques) al perfil
 - Aquests botons mostren les dades en text i un gràfic de pastís comparant les dades
+- Nova opció de veure els informes enviats
+- Es poden tancar deslliçant el dit
+- També es poden esborrar cliant al botó de la paperera
+- Cada cop que algun admin tanca un informe s'envia la notificació adient a l'usuari creador de l'informe
 
 ## CHANGELOG - v0.5.3-beta
 
