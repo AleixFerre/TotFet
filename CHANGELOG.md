@@ -6,7 +6,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 
 ## CHANGELOG - v0.5.5-beta
 
-- Arreglat error tipogràfic a la pantalla de nova actualització
+- ...
 
 ## CHANGELOG - v0.5.4-beta
 
@@ -19,6 +19,9 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - Es poden tancar lliscant amb el dit
 - També es poden esborrar cliant al botó de la paperera
 - Cada cop que algun admin tanca un informe s'envia la notificació adient a l'usuari creador de l'informe
+- Es pot configurar si vols rebre aquestes notificacions
+- Arreglat error tipogràfic a la pantalla de nova actualització
+- Ara es guarda la data de tancament de l'informe
 
 ## CHANGELOG - v0.5.3-beta
 

@@ -65,6 +65,7 @@ class Usuari {
       notificacions: {
         "compres": true,
         "tasques": true,
+        "tancar_informes": true,
       },
     );
   }

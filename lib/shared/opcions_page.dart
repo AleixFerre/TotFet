@@ -90,9 +90,11 @@ class OpcionsPage extends StatelessWidget {
                     ),
                     Text("Notificacions"),
                     ListTile(
-                      leading: Icon(notificacions['compres']
-                          ? Icons.notifications
-                          : Icons.notifications_off),
+                      leading: Icon(
+                        notificacions['compres']
+                            ? Icons.notifications
+                            : Icons.notifications_off,
+                      ),
                       title: Text(
                         "Quan t'assignen una compra",
                         style: TextStyle(fontSize: 20),
@@ -109,9 +111,11 @@ class OpcionsPage extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      leading: Icon(notificacions['tasques']
-                          ? Icons.notifications
-                          : Icons.notifications_off),
+                      leading: Icon(
+                        notificacions['tasques']
+                            ? Icons.notifications
+                            : Icons.notifications_off,
+                      ),
                       title: Text(
                         "Quan t'assignen una tasca",
                         style: TextStyle(fontSize: 20),
@@ -120,6 +124,27 @@ class OpcionsPage extends StatelessWidget {
                         value: notificacions['tasques'],
                         onChanged: (bool val) {
                           notificacions['tasques'] = val;
+                          DatabaseService().actualitzarNotificacionsUsuari(
+                            notificacions,
+                            AuthService().userId,
+                          );
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        notificacions['tancar_informes']
+                            ? Icons.notifications
+                            : Icons.notifications_off,
+                      ),
+                      title: Text(
+                        "Quan es tanca un informe creat per tu",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: Switch(
+                        value: notificacions['tancar_informes'],
+                        onChanged: (bool val) {
+                          notificacions['tancar_informes'] = val;
                           DatabaseService().actualitzarNotificacionsUsuari(
                             notificacions,
                             AuthService().userId,

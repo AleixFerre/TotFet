@@ -24,7 +24,7 @@ async function enviarNotificacioCompra(snapshot: functions.firestore.QueryDocume
   const usuari = await db.collection('usuaris').doc(compra.idAssignat).get();
 
   if (usuari?.data()?.notificacions['compres'] === false) {
-    console.log("Té la configurat que no s'enviin notificacions de compres!");
+    console.log("Té configurat que no s'enviin notificacions de compres!");
     return;
   }
 
@@ -68,7 +68,7 @@ async function enviarNotificacioTasca(snapshot: functions.firestore.QueryDocumen
   const usuari = await db.collection('usuaris').doc(tasca.idAssignat).get();
 
   if (usuari?.data()?.notificacions['tasques'] === false) {
-    console.log("Té la configurat que no s'enviin notificacions de tasques!");
+    console.log("Té configurat que no s'enviin notificacions de tasques!");
     return;
   }
 
@@ -145,6 +145,13 @@ async function enviarNotificacioInformeTancat(snapshot: functions.firestore.Quer
 
   if (admins.docs.length === 0) {
     console.log("No hi ha cap admin per enviar la notificació!");
+    return;
+  }
+
+  const usuari = await db.collection('usuaris').doc(informe.autor).get();
+
+  if (usuari?.data()?.notificacions['tancar_informes'] === false) {
+    console.log("Té configurat que no s'enviin notificacions de tancar informes!");
     return;
   }
 

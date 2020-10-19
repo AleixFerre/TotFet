@@ -73,6 +73,8 @@ class _ReportListState extends State<ReportList> {
                       setState(() {
                         int index = informes.indexOf(informe);
                         informes[index].obert = false;
+                        informes[index].tancatPer = AuthService().userId;
+                        informes[index].dataTancament = Timestamp.now();
                       });
                     },
                     child: mostrarInformeCard(informe),
@@ -315,25 +317,22 @@ class _ReportListState extends State<ReportList> {
             ),
             showParam("Obert", informe.obert ? "SI" : "NO", null),
             if (!informe.obert)
-              Row(
-                children: [
-                  showParam(
-                    "Tancat Per",
-                    mostrarNom(tancatPer.uid, tancatPer.nom),
-                    Usuari.getAvatar(
-                      tancatPer.nom,
-                      tancatPer.uid,
-                      false,
-                      tancatPer.teFoto,
-                    ),
-                  ),
-                  showParam(
-                    "Data de tancament",
-                    readTimestamp(informe.dataTancament, true),
-                    null,
-                  ),
-                ],
-              )
+              showParam(
+                "Tancat Per",
+                mostrarNom(tancatPer.uid, tancatPer.nom),
+                Usuari.getAvatar(
+                  tancatPer.nom,
+                  tancatPer.uid,
+                  false,
+                  tancatPer.teFoto,
+                ),
+              ),
+            if (!informe.obert)
+              showParam(
+                "Data de tancament",
+                readTimestamp(informe.dataTancament, true),
+                null,
+              ),
           ],
         ),
       ),

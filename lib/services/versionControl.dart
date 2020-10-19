@@ -53,6 +53,9 @@ class VersionControlService {
         itemCount: changes.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
+            crossAxisAlignment: index == 0 || index == 1
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
             children: [
               if (index == 0)
                 Text(changes[index],
