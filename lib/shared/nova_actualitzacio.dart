@@ -31,7 +31,7 @@ class NovaActualitzacio extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Nom de la actualitzacio",
+              "Nom de la actualització",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Text(actualitzacio.longName, style: TextStyle(fontSize: 20)),
@@ -39,7 +39,7 @@ class NovaActualitzacio extends StatelessWidget {
               height: 30,
             ),
             Text(
-              "Tag la actualitzacio",
+              "Tag la actualització",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Text(actualitzacio.tag, style: TextStyle(fontSize: 20)),

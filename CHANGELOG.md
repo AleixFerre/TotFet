@@ -4,6 +4,10 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.5.5-beta
+
+- Arreglat error tipogràfic a la pantalla de nova actualització
+
 ## CHANGELOG - v0.5.4-beta
 
 - Arreglat el bug a l'assignar la llista al crear tasca i compra
@@ -12,7 +16,7 @@ The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catal
 - S'ha creat dos botons d'estadístiques (de compres i tasques) al perfil
 - Aquests botons mostren les dades en text i un gràfic de pastís comparant les dades
 - Nova opció de veure els informes enviats
-- Es poden tancar deslliçant el dit
+- Es poden tancar lliscant amb el dit
 - També es poden esborrar cliant al botó de la paperera
 - Cada cop que algun admin tanca un informe s'envia la notificació adient a l'usuari creador de l'informe
 
