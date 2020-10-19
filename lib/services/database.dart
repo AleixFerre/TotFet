@@ -159,6 +159,7 @@ class DatabaseService {
     return await reportsCollection.doc(informeKey).update({
       "obert": false,
       "tancatPer": AuthService().userId,
+      "dataTancament": Timestamp.now(),
     });
   }
 

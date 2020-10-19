@@ -85,6 +85,29 @@ class _ReportListState extends State<ReportList> {
     );
   }
 
+  String readTimestamp(Timestamp timestamp, bool showHour) {
+    if (timestamp == null) return null;
+
+    DateTime date = DateTime.fromMicrosecondsSinceEpoch(
+      timestamp.microsecondsSinceEpoch,
+    );
+
+    String str = date.day.toString().padLeft(2, "0") +
+        "/" +
+        date.month.toString().padLeft(2, "0") +
+        "/" +
+        date.year.toString();
+
+    if (showHour) {
+      str += " " +
+          date.hour.toString().padLeft(2, "0") +
+          ":" +
+          date.minute.toString().padLeft(2, "0");
+    }
+
+    return str;
+  }
+
   Card mostrarInformeCard(Report informe) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -292,12 +315,25 @@ class _ReportListState extends State<ReportList> {
             ),
             showParam("Obert", informe.obert ? "SI" : "NO", null),
             if (!informe.obert)
-              showParam(
-                "Tancat Per",
-                mostrarNom(tancatPer.uid, tancatPer.nom),
-                Usuari.getAvatar(
-                    tancatPer.nom, tancatPer.uid, false, tancatPer.teFoto),
-              ),
+              Row(
+                children: [
+                  showParam(
+                    "Tancat Per",
+                    mostrarNom(tancatPer.uid, tancatPer.nom),
+                    Usuari.getAvatar(
+                      tancatPer.nom,
+                      tancatPer.uid,
+                      false,
+                      tancatPer.teFoto,
+                    ),
+                  ),
+                  showParam(
+                    "Data de tancament",
+                    readTimestamp(informe.dataTancament, true),
+                    null,
+                  ),
+                ],
+              )
           ],
         ),
       ),
@@ -306,7 +342,7 @@ class _ReportListState extends State<ReportList> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: Text(mostrarOberts ? "Informes" : "Informes tancats"),
+      title: Text(mostrarOberts ? "Informes Oberts" : "Informes Tancats"),
       centerTitle: true,
       flexibleSpace: Container(
         decoration: BoxDecoration(

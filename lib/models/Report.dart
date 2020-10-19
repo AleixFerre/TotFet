@@ -10,6 +10,7 @@ class Report {
   String autor;
   String id;
   Timestamp dataCreacio;
+  Timestamp dataTancament;
   bool obert;
   String tancatPer;
 
@@ -23,6 +24,7 @@ class Report {
     this.dataCreacio,
     this.obert,
     this.tancatPer,
+    this.dataTancament,
   });
 
   static Report perDefecte(String autor) {
@@ -33,6 +35,7 @@ class Report {
       dataCreacio: Timestamp.now(),
       obert: true,
       tancatPer: null,
+      dataTancament: null,
     );
   }
 
@@ -46,6 +49,7 @@ class Report {
       "dataCreacio": dataCreacio,
       "obert": obert,
       "tancatPer": tancatPer,
+      "dataTancament": dataTancament,
     };
   }
 
@@ -63,6 +67,7 @@ class Report {
       dataCreacio: data['dataCreacio'],
       obert: data['obert'],
       tancatPer: data['tancatPer'],
+      dataTancament: data['dataTancament'],
     );
   }
 }
