@@ -34,7 +34,7 @@ class CompraCard extends StatelessWidget {
                   // Icon segons el tipus
                   leading: tipustoIcon(compra.tipus),
                   onLongPress: () {
-                    Scaffold.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("ID: ${compra.id}"),
                       behavior: SnackBarBehavior.floating,
                     ));

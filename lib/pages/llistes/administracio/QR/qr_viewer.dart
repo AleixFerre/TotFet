@@ -85,9 +85,10 @@ class _QRViewerState extends State<QRViewer> {
                   onPressed: () {
                     // Copia la ID al porta-retalls
                     Clipboard.setData(ClipboardData(text: widget.id));
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("Codi copiat correctament!"),
+                        behavior: SnackBarBehavior.floating,
                       ),
                     );
                     setState(() {

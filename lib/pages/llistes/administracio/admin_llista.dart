@@ -99,6 +99,12 @@ class _AdminLlistesState extends State<AdminLlistes> {
                   // Actualitzar la llista a la BD
                   if (resultat != null) {
                     await DatabaseService().updateLlista(resultat);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Has editat la llista correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                     print("Llista editada correctament!");
                   }
                 },
@@ -116,6 +122,13 @@ class _AdminLlistesState extends State<AdminLlistes> {
                   );
                   if (resultat != null) {
                     await DatabaseService().setHost(llista.id, resultat);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "S'ha cambiat el host de la llista correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                     print("S'ha canviat de host correctament!");
                   }
                 },
@@ -134,6 +147,13 @@ class _AdminLlistesState extends State<AdminLlistes> {
                   if (resultat != null) {
                     await DatabaseService()
                         .sortirUsuarideLlista(llista.id, resultat);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "Has expulsat a l'usuari de la llista correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                     print("Usuari Expulsat correctament");
                   }
                 },
@@ -183,7 +203,70 @@ class _AdminLlistesState extends State<AdminLlistes> {
 
                   if (esborrar == true) {
                     await DatabaseService().esborrarLlista(llista.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Has esborrat la llista correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                     print("Llista esborrada correctament");
+                  }
+                },
+              },
+              {
+                "nom": "Esborrar Comprats",
+                "icon": Icon(Icons.remove_shopping_cart),
+                "function": () async {
+                  bool esborrar = await showDialog<bool>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                            'Vols esborrar totes les compres completades de la llista?'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(
+                                'Aquesta acció esborrarà totes les compres completades d\'aquesta llista.\nAQUESTA ACCIÓ NO ES POT DESFER!',
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              'Cancel·lar',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'ESBORRAR',
+                              style: TextStyle(fontSize: 20, color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (esborrar == true) {
+                    await DatabaseService().esborrarCompratsLlista(llista.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text("S'han esborrat les compres correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                    print("Compres completades esborrades correctament");
                   }
                 },
               },
@@ -237,8 +320,15 @@ class _AdminLlistesState extends State<AdminLlistes> {
                   if (sortir == true) {
                     await DatabaseService()
                         .sortirUsuarideLlista(llista.id, AuthService().userId);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Has sortit de la llista correctament!"),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                     return print(
-                        "L'usuari ha sortit correctament de la llista!");
+                      "L'usuari ha sortit correctament de la llista!",
+                    );
                   }
                 },
               },
@@ -280,9 +370,10 @@ class _AdminLlistesState extends State<AdminLlistes> {
               bool isOwner = AuthService().userId == llista.idCreador;
               return Card(
                 child: ListTile(
-                  onLongPress: () => Scaffold.of(context).showSnackBar(
+                  onLongPress: () => ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("ID: ${llista.id}"),
+                      behavior: SnackBarBehavior.floating,
                     ),
                   ),
                   onTap: () {

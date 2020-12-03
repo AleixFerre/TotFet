@@ -34,7 +34,7 @@ class TascaCard extends StatelessWidget {
               children: [
                 ListTile(
                   onLongPress: () {
-                    Scaffold.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("ID: ${tasca.id}"),
                       behavior: SnackBarBehavior.floating,
                     ));

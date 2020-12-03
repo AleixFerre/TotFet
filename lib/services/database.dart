@@ -151,6 +151,16 @@ class DatabaseService {
     return await compresCollection.doc(compraKey).delete();
   }
 
+  Future<void> esborrarCompratsLlista(String id) async {
+    QuerySnapshot compres = await compresCollection
+        .where("idLlista", isEqualTo: id)
+        .where("comprat", isEqualTo: true)
+        .get();
+    compres.docs.forEach((element) async {
+      await esborrarCompra(element.id);
+    });
+  }
+
   Future<void> esborrarInforme(String informeKey) async {
     return await reportsCollection.doc(informeKey).delete();
   }
