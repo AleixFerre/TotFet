@@ -4,9 +4,14 @@ This document displays the upgrades, new features and bugfixes of all the releas
 
 The content of this document is in [Catalan](https://en.wikipedia.org/wiki/Catalan_language).
 
+## CHANGELOG - v0.5.6-beta
+
+- Afegit una alerta de sortir de la app a la pantalla de nova actualització.
+
 ## CHANGELOG - v0.5.5-beta
 
-- ...
+- Afegit un botó a Administració de llistes (només per admins) que esborra totes les compres tancades de la llista.
+- S'ha aplicat el botó a totes les llistes de la BD per estalviar memòria.
 
 ## CHANGELOG - v0.5.4-beta
 
