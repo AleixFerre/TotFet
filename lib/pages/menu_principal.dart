@@ -58,7 +58,7 @@ class MenuPrincipal extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              RaisedButton(
+              ElevatedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ),
@@ -86,7 +86,7 @@ class MenuPrincipal extends StatelessWidget {
                 ),
               ),
               Divider(),
-              RaisedButton(
+              ElevatedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ),
@@ -114,7 +114,7 @@ class MenuPrincipal extends StatelessWidget {
                 ),
               ),
               Divider(),
-              RaisedButton(
+              ElevatedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ),

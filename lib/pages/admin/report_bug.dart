@@ -189,7 +189,7 @@ class _ReportBugState extends State<ReportBug> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.blueAccent,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {

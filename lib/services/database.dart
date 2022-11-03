@@ -222,7 +222,7 @@ class DatabaseService {
         .get();
 
     for (QueryDocumentSnapshot compra in compres.docs) {
-      Map<String, dynamic> actualitzada = compra.data();
+      Map<String, dynamic> actualitzada = compra;
       actualitzada['idAssignat'] = null;
       await compresCollection.doc(compra.id).update(actualitzada);
     }
@@ -235,7 +235,7 @@ class DatabaseService {
         .get();
 
     for (QueryDocumentSnapshot tasca in tasques.docs) {
-      Map<String, dynamic> actualitzada = tasca.data();
+      Map<String, dynamic> actualitzada = tasca;
       actualitzada['idAssignat'] = null;
       await tasquesCollection.doc(tasca.id).update(actualitzada);
     }

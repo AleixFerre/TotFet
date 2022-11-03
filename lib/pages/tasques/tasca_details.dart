@@ -93,7 +93,7 @@ class TascaDetails extends StatelessWidget {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -102,7 +102,7 @@ class TascaDetails extends StatelessWidget {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Esborrar',
                       style: TextStyle(fontSize: 20, color: Colors.red[400]),
@@ -146,7 +146,7 @@ class TascaDetails extends StatelessWidget {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -155,7 +155,7 @@ class TascaDetails extends StatelessWidget {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Revertir',
                       style: TextStyle(fontSize: 20, color: Colors.red[400]),
@@ -185,7 +185,7 @@ class TascaDetails extends StatelessWidget {
           return SomeErrorPage(error: snapshotDetails.error);
         }
         if (snapshotDetails.hasData) {
-          if (snapshotDetails.data.data() == null) {
+          if (snapshotDetails.data == null) {
             return Scaffold(
               body: Loading(
                 msg: "Esborrant tasca...",
@@ -194,7 +194,7 @@ class TascaDetails extends StatelessWidget {
             );
           }
           Tasca tasca = Tasca.fromDB(
-            snapshotDetails.data.data(),
+            snapshotDetails.data,
             snapshotDetails.data.id,
           );
 
@@ -219,7 +219,7 @@ class TascaDetails extends StatelessWidget {
               if (snapshot.hasData) {
                 List<Usuari> llistaUsuaris = snapshot.data.docs
                     .map(
-                      (e) => Usuari.fromDB(e.id, null, e.data()),
+                      (e) => Usuari.fromDB(e.id, null, e),
                     )
                     .toList();
 

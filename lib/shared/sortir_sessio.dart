@@ -5,7 +5,7 @@ class SortirSessio extends StatelessWidget {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -23,7 +23,7 @@ class SortirSessio extends StatelessWidget {
                 'Pots tornar a iniciar sessió quan vulguis!',
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Cancel·lar',
                     style: TextStyle(fontSize: 20),
@@ -32,7 +32,7 @@ class SortirSessio extends StatelessWidget {
                     Navigator.of(context).pop(false);
                   },
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Sortir',
                     style: TextStyle(fontSize: 20, color: Colors.red),

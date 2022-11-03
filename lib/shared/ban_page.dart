@@ -24,7 +24,7 @@ class BanPage extends StatelessWidget {
 
         if (snapshot.hasData) {
           Usuari banejador =
-              Usuari.fromDB(snapshot.data.id, null, snapshot.data.data());
+              Usuari.fromDB(snapshot.data.id, null, snapshot.data);
 
           return Scaffold(
             appBar: AppBar(
@@ -97,7 +97,7 @@ class BanPage extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     color: Colors.blueAccent,
                     onPressed: () {
                       AuthService().signOut();

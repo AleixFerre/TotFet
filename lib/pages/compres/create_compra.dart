@@ -59,7 +59,7 @@ class _CreateCompraState extends State<CreateCompra> {
                 .map((e) => Usuari.fromDB(
                       e.id,
                       null,
-                      e.data(),
+                      e,
                     ))
                 .toList(),
             updateParent: updateParent,
@@ -380,7 +380,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                   child: Column(
                     children: [
                       Text("Selecciona una data prevista de compra"),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -442,7 +442,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                   child: Column(
                     children: [
                       Text("Selecciona un preu estimat"),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -483,7 +483,7 @@ class _LlistarCompraCrearState extends State<LlistarCompraCrear> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.blueAccent,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {

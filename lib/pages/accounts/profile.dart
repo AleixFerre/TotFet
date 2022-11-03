@@ -53,7 +53,7 @@ class _PerfilState extends State<Perfil> {
             Usuari usuari = Usuari.fromDB(
               _auth.userId,
               _auth.userEmail,
-              doc.data(),
+              doc,
             );
 
             return Scaffold(
@@ -121,7 +121,7 @@ class _PerfilState extends State<Perfil> {
                             tag: "ImgPerfil",
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child: FlatButton(
+                              child: TextButton(
                                 onPressed: () async {
                                   String avatarFilePath =
                                       await usuari.avatarFile;
@@ -220,7 +220,7 @@ class _PerfilState extends State<Perfil> {
                         children: [
                           Tooltip(
                             message: "Crear una nova llista.",
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
@@ -267,7 +267,7 @@ class _PerfilState extends State<Perfil> {
                           ),
                           Tooltip(
                             message: "Unir-me a una llista.",
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
@@ -317,7 +317,7 @@ class _PerfilState extends State<Perfil> {
                       Tooltip(
                         message:
                             "Administrar les llistes a les que estic inscrit.",
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
@@ -372,7 +372,7 @@ class _PerfilState extends State<Perfil> {
                           Tooltip(
                             message:
                                 "Veure estadístiques de les teves compres.",
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
@@ -413,7 +413,7 @@ class _PerfilState extends State<Perfil> {
                           Tooltip(
                             message:
                                 "Veure estadístiques de les teves tasques.",
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
@@ -469,7 +469,7 @@ class _PerfilState extends State<Perfil> {
                       ),
                       Tooltip(
                         message: "Veure els meus informes.",
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
@@ -478,7 +478,7 @@ class _PerfilState extends State<Perfil> {
                             QuerySnapshot snapshot =
                                 await DatabaseService().getReports();
                             List list = snapshot.docs
-                                .map((e) => Report.fromDB(e.data(), e.id))
+                                .map((e) => Report.fromDB(e, e.id))
                                 .toList();
                             Navigator.of(context).push(
                               MaterialPageRoute(

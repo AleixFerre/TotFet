@@ -23,13 +23,13 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
   void initState() {
     super.initState();
     widget.usuaris.forEach((element) {
-      if (element.data()['ban'] == null) {
+      if (element['ban'] == null) {
         usuarisNoBan.add(
-          Usuari.fromDB(element.id, null, element.data()),
+          Usuari.fromDB(element.id, null, element),
         );
       } else {
         usuarisBan.add(
-          Usuari.fromDB(element.id, null, element.data()),
+          Usuari.fromDB(element.id, null, element),
         );
       }
     });
@@ -77,7 +77,7 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -86,7 +86,7 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Fer ADMIN',
                       style: TextStyle(fontSize: 20),
@@ -157,7 +157,7 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -166,7 +166,7 @@ class _LlistaUsuarisState extends State<LlistaUsuaris> {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Acceptar',
                       style: TextStyle(fontSize: 20),

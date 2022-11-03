@@ -67,13 +67,13 @@ class StatsTasques extends StatelessWidget {
           };
           final String uid = AuthService().userId;
           snapshot.data.docs.forEach((element) {
-            if (element.data()["idCreador"] == uid) {
+            if (element["idCreador"] == uid) {
               dataTasques["creades"]++;
             }
-            if (element.data()["idAssignat"] == uid) {
+            if (element["idAssignat"] == uid) {
               dataTasques["assignades"]++;
             }
-            if (element.data()["idUsuariFet"] == uid) {
+            if (element["idUsuariFet"] == uid) {
               dataTasques["fetes"]++;
             }
           });

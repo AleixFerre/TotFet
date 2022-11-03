@@ -258,7 +258,7 @@ class _ReportListState extends State<ReportList> {
     Usuari autor = Usuari.fromDB(
       data.id,
       null,
-      data.data(),
+      data,
     );
 
     Usuari tancatPer;
@@ -268,7 +268,7 @@ class _ReportListState extends State<ReportList> {
       tancatPer = Usuari.fromDB(
         data.id,
         null,
-        data.data(),
+        data,
       );
     }
 

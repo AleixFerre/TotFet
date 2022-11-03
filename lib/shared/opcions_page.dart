@@ -34,14 +34,14 @@ class OpcionsPage extends StatelessWidget {
             }
             if (snapshot.hasData) {
               Map<String, dynamic> notificacions =
-                  snapshot.data.data()['notificacions'];
+                  snapshot.data['notificacions'];
               return SingleChildScrollView(
                 padding: EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Actualitzacions"),
-                    RaisedButton(
+                    ElevatedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -62,7 +62,7 @@ class OpcionsPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10),
-                    RaisedButton(
+                    ElevatedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),

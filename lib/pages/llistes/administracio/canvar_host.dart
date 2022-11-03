@@ -29,8 +29,7 @@ class _CanviarHostState extends State<CanviarHost> {
 
         if (snapshot.hasData) {
           List<Usuari> llistaUsuaris = snapshot.data.docs
-              .map((QueryDocumentSnapshot e) =>
-                  Usuari.fromDB(e.id, null, e.data()))
+              .map((QueryDocumentSnapshot e) => Usuari.fromDB(e.id, null, e))
               .toList();
 
           String getNom(String id) {
@@ -139,7 +138,7 @@ class _CanviarHostState extends State<CanviarHost> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.blueAccent,
                   onPressed: () async {
                     if (idSeleccionat == null) return Navigator.pop(context);

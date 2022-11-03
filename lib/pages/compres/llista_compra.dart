@@ -139,7 +139,7 @@ class LlistaCompra extends StatelessWidget {
               child: Container(),
               flex: 1,
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 rebuildParentComprat(false);
               },
@@ -164,7 +164,7 @@ class LlistaCompra extends StatelessWidget {
               child: Container(),
               flex: 3,
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 rebuildParentComprat(true);
               },

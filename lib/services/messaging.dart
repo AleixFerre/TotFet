@@ -2,7 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MessagingService {
   // Stands for Firebase Cloud Messaging
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   void initialize() async {
     _fcm.configure(

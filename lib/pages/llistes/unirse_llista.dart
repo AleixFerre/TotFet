@@ -104,7 +104,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: scan,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
@@ -153,7 +153,6 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                           });
                         },
                         maxLength: 20,
-                        maxLengthEnforced: true,
                         decoration: InputDecoration(
                           counterText: "${id?.length ?? 0}/20",
                           labelText: 'ID de la Llista*',
@@ -164,7 +163,7 @@ class _UnirseLlistaState extends State<UnirseLlista> {
                     SizedBox(
                       height: 20,
                     ),
-                    RaisedButton(
+                    ElevatedButton(
                       color: widget.finestra == Finestra.Tasques
                           ? Colors.orange[400]
                           : Colors.blueAccent,

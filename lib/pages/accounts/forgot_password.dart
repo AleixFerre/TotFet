@@ -46,7 +46,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ),
         actions: [
-          FlatButton.icon(
+          TextButton.icon(
             onPressed: () {
               widget.canviarFinestra(FinestraAuth.SignIn);
             },
@@ -91,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   },
                 ),
                 SizedBox(height: 40),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),
@@ -123,7 +123,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               ),
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 child: Text(
                                   "D'acord",
                                   style: TextStyle(fontSize: 20),

@@ -26,10 +26,9 @@ class Llista {
   static Llista fromDB(QueryDocumentSnapshot doc) {
     return Llista(
       id: doc.id,
-      nom: doc.data()['nom'] ?? "No disponible",
-      descripcio:
-          doc.data()['descripcio'] == "" ? null : doc.data()['descripcio'],
-      idCreador: doc.data()['idCreador'],
+      nom: doc['nom'] ?? "No disponible",
+      descripcio: doc['descripcio'] == "" ? null : doc['descripcio'],
+      idCreador: doc['idCreador'],
     );
   }
 

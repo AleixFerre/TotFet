@@ -48,17 +48,20 @@ class _ImageCaptureState extends State<ImageCapture> {
   }
 
   Future<void> _cropImage(String path) async {
-    File cropped = await ImageCropper.cropImage(
+    final ImageCropper cropper = new ImageCropper();
+    CroppedFile cropped = await cropper.cropImage(
       sourcePath: path,
       aspectRatio: CropAspectRatio(
         ratioX: 1,
         ratioY: 1,
       ),
-      androidUiSettings: AndroidUiSettings(
-        toolbarColor: Colors.blue,
-        toolbarWidgetColor: Colors.white,
-        toolbarTitle: "Retalla la imatge",
-      ),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarColor: Colors.blue,
+          toolbarWidgetColor: Colors.white,
+          toolbarTitle: "Retalla la imatge",
+        ),
+      ],
     );
 
     if (cropped == null) return;
@@ -209,13 +212,13 @@ class _ImageCaptureState extends State<ImageCapture> {
                           ]),
 
                         if (_uploadTask.isPaused)
-                          FlatButton(
+                          TextButton(
                             child: Icon(Icons.play_arrow),
                             onPressed: _uploadTask.resume,
                           ),
 
                         if (_uploadTask.isInProgress)
-                          FlatButton(
+                          TextButton(
                             child: Icon(Icons.pause),
                             onPressed: _uploadTask.pause,
                           ),
@@ -241,11 +244,18 @@ class _ImageCaptureState extends State<ImageCapture> {
                   },
                 )
               else
-                RaisedButton(
-                  elevation: 3,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
+                ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.resolveWith<double>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed)) return 6;
+                        return 3;
+                      },
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
                   ),
                   onPressed: firstTime
                       ? null
@@ -280,7 +290,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                 ),
               SizedBox(height: 10),
               if (_uploadTask == null)
-                RaisedButton(
+                ElevatedButton(
                   elevation: 3,
                   padding: EdgeInsets.symmetric(
                     horizontal: 20,

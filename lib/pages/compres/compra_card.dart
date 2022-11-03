@@ -74,7 +74,7 @@ class CompraCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                  trailing: FlatButton(
+                  trailing: TextButton(
                     onPressed: () async {
                       Map<String, dynamic> resposta = await Navigator.push(
                         context,

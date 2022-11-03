@@ -52,7 +52,7 @@ class Usuari {
   }
 
   static List<String> fromRefDB(QuerySnapshot referencies) {
-    return referencies.docs.map((e) => e.data()['usuari'].toString()).toList();
+    return referencies.docs.map((e) => e['usuari'].toString()).toList();
   }
 
   static Usuari perDefecte(String _uid) {

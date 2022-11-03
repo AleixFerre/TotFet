@@ -8,7 +8,7 @@ class VersionControlService {
   Future<Map<String, dynamic>> checkUpdates() async {
     DocumentSnapshot version = await DatabaseService().getCurrentVersion();
 
-    Map<String, dynamic> data = version.data();
+    Map<String, dynamic> data = version;
 
     return checkCurrentVersion(data);
   }
@@ -21,8 +21,8 @@ class VersionControlService {
   Future<List<dynamic>> getChanges() async {
     // Just a wrapper of the function
     DocumentSnapshot version = await DatabaseService().getCurrentVersion();
-    List changes = version.data()['changes'];
-    changes.insert(0, version.data()['tag']);
+    List changes = version['changes'];
+    changes.insert(0, version['tag']);
     changes.insert(0, "Notes de l'actualització");
     return changes;
   }
@@ -87,7 +87,7 @@ class VersionControlService {
                   "Vols actualitzar a la nova versió?",
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Cancel·lar',
                   style: TextStyle(fontSize: 20),
@@ -96,7 +96,7 @@ class VersionControlService {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Actualitzar',
                   style: TextStyle(fontSize: 20),
