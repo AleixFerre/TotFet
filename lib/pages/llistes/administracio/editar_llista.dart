@@ -127,7 +127,7 @@ class _EditarLlistaState extends State<EditarLlista> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.blueAccent,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {

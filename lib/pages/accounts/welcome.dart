@@ -60,7 +60,7 @@ class Welcome extends StatelessWidget {
               flex: 1,
               child: Container(),
             ),
-            RaisedButton(
+            ElevatedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
@@ -98,7 +98,7 @@ class Welcome extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(
+            ElevatedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),

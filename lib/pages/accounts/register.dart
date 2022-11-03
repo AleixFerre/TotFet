@@ -55,7 +55,7 @@ class _RegisterState extends State<Register> {
             ),
           ),
           actions: [
-            FlatButton.icon(
+            TextButton.icon(
               onPressed: () {
                 widget.canviarFinestra(FinestraAuth.SignIn);
               },
@@ -138,7 +138,7 @@ class _RegisterState extends State<Register> {
                       },
                     ),
                     SizedBox(height: 40),
-                    RaisedButton(
+                    ElevatedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),

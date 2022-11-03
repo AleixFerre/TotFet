@@ -69,7 +69,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
       List<QueryDocumentSnapshot> idLlistes) {
     List<String> llistaIDs = idLlistes
         .map(
-          (e) => e.data()['llista'].toString(),
+          (e) => e['llista'].toString(),
         )
         .toList();
 
@@ -178,7 +178,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                           ),
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'Cancel·lar',
                               style: TextStyle(fontSize: 20),
@@ -187,7 +187,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                               Navigator.of(context).pop(false);
                             },
                           ),
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'ESBORRAR DEFINITIVAMENT',
                               style: TextStyle(fontSize: 20, color: Colors.red),
@@ -234,7 +234,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                           ),
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'Cancel·lar',
                               style: TextStyle(fontSize: 20),
@@ -243,7 +243,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                               Navigator.of(context).pop(false);
                             },
                           ),
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'ESBORRAR',
                               style: TextStyle(fontSize: 20, color: Colors.red),
@@ -293,7 +293,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                           ),
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'Cancel·lar',
                               style: TextStyle(fontSize: 20),
@@ -302,7 +302,7 @@ class _AdminLlistesState extends State<AdminLlistes> {
                               Navigator.of(context).pop(false);
                             },
                           ),
-                          FlatButton(
+                          TextButton(
                             child: Text(
                               'Sortir',
                               style: TextStyle(fontSize: 20),

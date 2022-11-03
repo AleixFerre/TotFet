@@ -63,7 +63,7 @@ class MyDrawer extends StatelessWidget {
             ),
             Column(
               children: [
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -90,7 +90,7 @@ class MyDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -117,7 +117,7 @@ class MyDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   elevation: 1,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -145,7 +145,7 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
                 Divider(),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -174,7 +174,7 @@ class MyDrawer extends StatelessWidget {
                 ),
                 SortirSessio(),
                 Divider(),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -198,7 +198,7 @@ class MyDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -246,7 +246,7 @@ class MyDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),

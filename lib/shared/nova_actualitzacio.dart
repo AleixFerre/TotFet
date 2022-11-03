@@ -46,7 +46,7 @@ class NovaActualitzacio extends StatelessWidget {
             SizedBox(
               height: 40,
             ),
-            RaisedButton(
+            ElevatedButton(
               color: Colors.blueAccent,
               onPressed: () async {
                 await VersionControlService()
@@ -73,7 +73,7 @@ class NovaActualitzacio extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            RaisedButton(
+            ElevatedButton(
               color: Colors.blueAccent,
               onPressed: () async {
                 String url = actualitzacio.url;

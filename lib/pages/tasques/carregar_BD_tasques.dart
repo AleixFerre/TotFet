@@ -34,7 +34,7 @@ class _TasquesState extends State<Tasques> {
           if (snapshot.hasData) {
             List<String> llistaDeReferencies = snapshot.data.docs
                 .map(
-                  (doc) => doc.data()['llista'].toString(),
+                  (doc) => doc['llista'].toString(),
                 )
                 .toList();
 
@@ -130,7 +130,7 @@ class _BuildStreamTasquesState extends State<BuildStreamTasques> {
         if (snapshot.hasData) {
           List<Tasca> infoLlistes =
               snapshot.data.docs.map((QueryDocumentSnapshot doc) {
-            return Tasca.fromDB(doc.data(), doc.id);
+            return Tasca.fromDB(doc, doc.id);
           }).toList();
 
           return LlistaTasques(

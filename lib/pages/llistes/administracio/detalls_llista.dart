@@ -195,7 +195,7 @@ class LlistaDetalls extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         ),
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () =>
                               _mostrarPerfilBottomSheet(llistaUsuaris[index]),
                           child: ListTile(
@@ -246,8 +246,7 @@ class LlistaDetalls extends StatelessWidget {
         if (snapshot.hasData) {
           // faig coses amb la data
           List<Usuari> llistaUsuaris = snapshot.data.docs
-              .map((QueryDocumentSnapshot e) =>
-                  Usuari.fromDB(e.id, null, e.data()))
+              .map((QueryDocumentSnapshot e) => Usuari.fromDB(e.id, null, e))
               .toList();
           return buildDetalls(llistaUsuaris);
         }

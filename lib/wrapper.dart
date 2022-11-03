@@ -66,7 +66,7 @@ class _WrapperState extends State<Wrapper> {
         }
 
         if (snapshot.hasData) {
-          final banData = snapshot.data.data()['ban'];
+          final banData = snapshot.data['ban'];
           if (banData != null) {
             Ban ban = Ban.fromDBMap(banData);
             return BanPage(ban: ban);
@@ -95,7 +95,7 @@ class _WrapperState extends State<Wrapper> {
 
         if (snapshot.hasData) {
           Map data = VersionControlService().checkCurrentVersion(
-            snapshot.data.data(),
+            snapshot.data,
           );
           if (data == null) {
             // No hi ha cap actualitzacio

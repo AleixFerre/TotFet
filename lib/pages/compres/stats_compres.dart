@@ -67,13 +67,13 @@ class StatsCompres extends StatelessWidget {
           };
           final String uid = AuthService().userId;
           snapshot.data.docs.forEach((element) {
-            if (element.data()["idCreador"] == uid) {
+            if (element["idCreador"] == uid) {
               dataCompres["creades"]++;
             }
-            if (element.data()["idAssignat"] == uid) {
+            if (element["idAssignat"] == uid) {
               dataCompres["assignades"]++;
             }
-            if (element.data()["idComprador"] == uid) {
+            if (element["idComprador"] == uid) {
               dataCompres["fetes"]++;
             }
           });

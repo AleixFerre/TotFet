@@ -139,7 +139,7 @@ class LlistaTasques extends StatelessWidget {
               child: Container(),
               flex: 1,
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 rebuildParentFet(false);
               },
@@ -164,7 +164,7 @@ class LlistaTasques extends StatelessWidget {
               child: Container(),
               flex: 3,
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 rebuildParentFet(true);
               },

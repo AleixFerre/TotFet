@@ -34,7 +34,7 @@ class _CarregarBDState extends State<CarregarBD> {
           if (snapshot.hasData) {
             List<String> llistaDeReferencies = snapshot.data.docs
                 .map(
-                  (doc) => doc.data()['llista'].toString(),
+                  (doc) => doc['llista'].toString(),
                 )
                 .toList();
 
@@ -129,7 +129,7 @@ class _BuildStreamCompresState extends State<BuildStreamCompres> {
         if (snapshot.hasData) {
           List<Compra> infoLlistes =
               snapshot.data.docs.map((QueryDocumentSnapshot doc) {
-            Compra c = Compra.fromDB(doc.data(), doc.id);
+            Compra c = Compra.fromDB(doc, doc.id);
             return c;
           }).toList();
 

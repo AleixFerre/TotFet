@@ -116,7 +116,7 @@ class _BanUserState extends State<BanUser> {
             SizedBox(
               height: 20,
             ),
-            RaisedButton(
+            ElevatedButton(
               color: Colors.blueAccent,
               onPressed: () {
                 if (_formKey.currentState.validate()) {

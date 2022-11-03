@@ -73,7 +73,7 @@ class _MenuLlistesState extends State<MenuLlistes> {
               Tooltip(
                 message: "Crea una llista nova i uneix-te a ella!",
                 preferBelow: true,
-                child: RaisedButton(
+                child: ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),
@@ -116,7 +116,7 @@ class _MenuLlistesState extends State<MenuLlistes> {
               Tooltip(
                 message: "Uneix-te a una llista existent!",
                 preferBelow: true,
-                child: RaisedButton(
+                child: ElevatedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                   ),

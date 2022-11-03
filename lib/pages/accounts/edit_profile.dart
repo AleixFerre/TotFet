@@ -118,7 +118,7 @@ class _EditPerfilState extends State<EditPerfil> {
                 SizedBox(
                   height: 30,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.blueAccent,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {

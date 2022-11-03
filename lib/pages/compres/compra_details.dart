@@ -94,7 +94,7 @@ class CompraDetails extends StatelessWidget {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -103,7 +103,7 @@ class CompraDetails extends StatelessWidget {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Esborrar',
                       style: TextStyle(fontSize: 20, color: Colors.red[400]),
@@ -147,7 +147,7 @@ class CompraDetails extends StatelessWidget {
                   ),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Cancel·lar',
                       style: TextStyle(fontSize: 20),
@@ -156,7 +156,7 @@ class CompraDetails extends StatelessWidget {
                       Navigator.of(context).pop(false);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       'Revertir',
                       style: TextStyle(fontSize: 20, color: Colors.red[400]),
@@ -186,7 +186,8 @@ class CompraDetails extends StatelessWidget {
           return SomeErrorPage(error: snapshotDetails.error);
         }
         if (snapshotDetails.hasData) {
-          Map<String, dynamic> info = snapshotDetails.data.data();
+          Map<String, dynamic> info =
+              snapshotDetails.data as Map<String, dynamic>;
           if (info == null) {
             return Scaffold(
               body: Loading(
@@ -219,7 +220,7 @@ class CompraDetails extends StatelessWidget {
                   if (id == null) return null;
                   for (QueryDocumentSnapshot doc in llistaUsuaris) {
                     if (doc.id == id) {
-                      return doc.data()['nom'];
+                      return doc['nom'];
                     }
                   }
                   return null;
@@ -229,7 +230,7 @@ class CompraDetails extends StatelessWidget {
                   if (id == null) return null;
                   for (QueryDocumentSnapshot doc in llistaUsuaris) {
                     if (doc.id == id) {
-                      return doc.data()['teFoto'];
+                      return doc['teFoto'];
                     }
                   }
                   return null;

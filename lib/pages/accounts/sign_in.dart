@@ -54,7 +54,7 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           actions: [
-            FlatButton.icon(
+            TextButton.icon(
               onPressed: () {
                 widget.canviarFinestra(FinestraAuth.Register);
               },
@@ -115,7 +115,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     SizedBox(height: 40),
-                    RaisedButton(
+                    ElevatedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),
@@ -146,7 +146,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       height: 12,
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("Has oblidat la contrasenya?"),
                       onPressed: () {
                         widget.canviarFinestra(FinestraAuth.ForgotPassword);

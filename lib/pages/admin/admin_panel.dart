@@ -79,16 +79,14 @@ class AdminPanelView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
+            ElevatedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
               elevation: 3,
               onPressed: () async {
-                List<Report> informes = data[4]
-                    .docs
-                    .map((e) => Report.fromDB(e.data(), e.id))
-                    .toList();
+                List<Report> informes =
+                    data[4].docs.map((e) => Report.fromDB(e, e.id)).toList();
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -120,7 +118,7 @@ class AdminPanelView extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            RaisedButton(
+            ElevatedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
@@ -160,7 +158,7 @@ class AdminPanelView extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        RaisedButton(
+        ElevatedButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
           ),

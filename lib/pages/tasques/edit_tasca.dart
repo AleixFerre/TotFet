@@ -34,7 +34,7 @@ class EditTasca extends StatelessWidget {
                 .map((e) => Usuari.fromDB(
                       e.id,
                       null,
-                      e.data(),
+                      e,
                     ))
                 .toList(),
           );
@@ -281,7 +281,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   child: Column(
                     children: [
                       Text("Selecciona una data prevista de tasca"),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +341,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                   child: Column(
                     children: [
                       Text("Selecciona una durada estimada"),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -438,7 +438,7 @@ class _LlistarCompraEditState extends State<LlistarCompraEdit> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: Colors.orange[400],
                   onPressed: () {
                     if (_formKey.currentState.validate()) {

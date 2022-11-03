@@ -125,7 +125,7 @@ class _CrearLlistaState extends State<CrearLlista> {
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   color: widget.finestra == Finestra.Tasques
                       ? Colors.orange[400]
                       : Colors.blueAccent,
